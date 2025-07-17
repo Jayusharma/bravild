@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
+  --background: #DFDFF2;
   --foreground: #171717;
 }
 
@@ -11,11 +11,16 @@
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
 }
+body {
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --background: #DFDFF2;
+    --foreground: #171717;
   }
 }
 
@@ -23,4 +28,37 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+html.lenis {
+  height: auto;
+}
+
+.lenis.lenis-smooth {
+  scroll-behavior: auto;
+}
+
+.lenis.lenis-smooth [data-lenis-prevent] {
+  overscroll-behavior: contain;
+}
+
+.lenis.lenis-stopped {
+  overflow: hidden;
+}
+
+.lenis.lenis-scrolling iframe {
+  pointer-events: none;
+}
+
+html {
+  scroll-behavior: auto !important;
+}
+@layer utilities {
+  .shadow-float {
+    box-shadow: 
+   2px 8px 8px 5px rgba(0, 0, 0, 0.4),
+
+  20px 20px 9px  rgba(0, 0, 0, 0.2);
+
+ transform: translateY(-1px);
+   }
 }
