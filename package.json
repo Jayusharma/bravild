@@ -9,11 +9,15 @@
     "lint": "next lint"
   },
   "dependencies": {
+    "@react-email/components": "^1.0.2",
+    "@react-email/render": "^2.0.0",
     "@studio-freight/lenis": "^1.0.42",
     "gsap": "^3.13.0",
+    "lucide-react": "^0.525.0",
     "next": "15.4.1",
     "react": "19.1.0",
-    "react-dom": "19.1.0"
+    "react-dom": "19.1.0",
+    "resend": "^6.6.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",

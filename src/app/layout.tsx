@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import LenisProvider from "@/provider/LenisProvider";
-import Myhead from "@/components/header";
-import { HeaderProvider } from "@/components/headerContext";
+import Header from "@/components/Header";
+
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
@@ -11,23 +11,27 @@ export const metadata: Metadata = {
   description: "Experience the future of interactive design",
 };
 
+import Preloader from "@/components/Preloader";
+
+import { LoaderProvider } from "@/provider/LoaderContext";
+
 export default function RootLayout({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
   return (
     <html lang="en">
       <body className={inter.className}>
-      <LenisProvider>
-          <div>
-          <HeaderProvider>
-         <Myhead />
-          {children}
-         </HeaderProvider>
-          </div>
-        </LenisProvider>
-       
+        <LoaderProvider>
+          <Preloader />
+          <LenisProvider>
+            <Header />
+            <main>
+              {children}
+            </main>
+          </LenisProvider>
+        </LoaderProvider>
       </body>
     </html>
   );

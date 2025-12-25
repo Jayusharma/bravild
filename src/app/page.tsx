@@ -1,13 +1,27 @@
+// app/page.tsx
+"use client";
+
 import About from "@/components/About";
 import Hero from "@/components/Hero";
+import Process from "@/components/Process";
 import Project from "@/components/Project";
+import Contact from "@/components/contact";
+import GlobalBackground from "@/components/GlobalBackground";
+import { ThemeProvider } from "@/provider/ThemeContext";
+import Zoom from "@/components/zoom";
 
 export default function Home() {
   return (
-    <div >
-    <Hero />
-    <About />
-    <Project />
-    </div>
+    <ThemeProvider>
+      <div>
+        <GlobalBackground />
+        <Hero />
+        <About />
+        
+        <Process />
+        <Project />
+        <Contact />
+      </div>
+    </ThemeProvider>
   );
 }

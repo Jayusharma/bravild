@@ -4,7 +4,28 @@
   --background: #DFDFF2;
   --foreground: #171717;
 }
-
+@font-face {
+  font-family: 'rayl';
+  src: url("/fonts/rayl.ttf") format("truetype");   
+}
+@font-face {
+  font-family: 'nort';
+  src: url("/fonts/nort.ttf") format("truetype");   
+}
+@font-face {
+  font-family: 'mont';
+  src: url("/fonts/mont.ttf") format("truetype");   
+}
+@font-face {
+  font-family: 'mont-ex';
+  src: url("/fonts/mont-ex.ttf") format("truetype");   
+}
+@theme{
+  --font-rayl: 'rayl', sans-serif;
+  --font-mont: 'mont', sans-serif;
+  --font-nort: 'nort', sans-serif;
+  --font-mont-ex: 'mont-ex', sans-serif;
+}
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -29,36 +50,46 @@ body {
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
 }
-html.lenis {
-  height: auto;
+
+/* Metal Text Effect */
+.metal-text {
+  background: linear-gradient(
+    110deg,
+    #727070 0%,
+    #6a6262 20%,
+    #6a6a6a 35%,
+    #8a8a8a 45%,
+    #ffffff 50%,
+    #8a8a8a 55%,
+    #6a6a6a 65%,
+    #4a4a4a 80%,
+    #6c6969 100%
+  );
+  background-size: 200% 100%;
+  background-position: left;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  color: transparent;
+  letter-spacing: 0.05em;
+  text-shadow: none;
+  filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.6));
+  animation: subtle-shine 16s ease-in-out infinite;
+  position: relative;
 }
 
-.lenis.lenis-smooth {
-  scroll-behavior: auto;
+.metal-text h1 {
+  cursor: default;
 }
 
-.lenis.lenis-smooth [data-lenis-prevent] {
-  overscroll-behavior: contain;
-}
-
-.lenis.lenis-stopped {
-  overflow: hidden;
-}
-
-.lenis.lenis-scrolling iframe {
-  pointer-events: none;
-}
-
-html {
-  scroll-behavior: auto !important;
-}
-@layer utilities {
-  .shadow-float {
-    box-shadow: 
-   2px 8px 8px 5px rgba(0, 0, 0, 0.4),
-
-  20px 20px 9px  rgba(0, 0, 0, 0.2);
-
- transform: translateY(-1px);
-   }
+@keyframes subtle-shine {
+  0% {
+    background-position: -20% 0;
+  }
+  50% {
+    background-position: 120% 0;
+  }
+  100% {
+    background-position: -20% 0;
+  }
 }
