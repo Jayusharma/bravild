@@ -8,7 +8,7 @@ import Project from "@/components/Project";
 import Contact from "@/components/contact";
 import GlobalBackground from "@/components/GlobalBackground";
 import { ThemeProvider } from "@/provider/ThemeContext";
-import Zoom from "@/components/zoom";
+
 
 export default function Home() {
   return (
@@ -17,7 +17,6 @@ export default function Home() {
         <GlobalBackground />
         <Hero />
         <About />
-        
         <Process />
         <Project />
         <Contact />
