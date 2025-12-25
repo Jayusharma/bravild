@@ -15,7 +15,7 @@ const navLinks = [
     { name: "Contact", href: "#contact" },
 ];
 
-export default function Header() {
+export default function SiteHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
     const [isMenuOpen, setIsMenuOpen] = useState(false);
