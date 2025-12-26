@@ -9,15 +9,21 @@ export default function Preloader() {
     const counterRef = useRef<HTMLDivElement>(null)
     const topTextRef = useRef<HTMLDivElement>(null)
     const bottomTextRef = useRef<HTMLDivElement>(null)
+    const textWrapperRef = useRef<HTMLDivElement>(null)
 
     const { setIsLoading } = useLoader()
     const [isComplete, setIsComplete] = useState(false)
 
     useEffect(() => {
+        // Lock body scroll to prevent scrollbars
+        document.body.style.overflow = 'hidden'
+
         const tl = gsap.timeline({
             onComplete: () => {
                 setIsLoading(false)
                 setIsComplete(true)
+                // Restore body scroll
+                document.body.style.overflow = ''
             }
         })
 
@@ -27,17 +33,33 @@ export default function Preloader() {
         // Counter Animation Object
         const progress = { value: 0 }
 
-        // 1. Count to 100
-        tl.to(progress, {
-            value: 100,
-            duration: 2.5,
-            ease: "power2.inOut",
-            onUpdate: () => {
-                if (counterRef.current) {
-                    counterRef.current.textContent = Math.round(progress.value).toString()
-                }
+        // Entrance Animation for Text
+        tl.fromTo(textWrapperRef.current,
+            {
+                y: 50,
+                x: 50,
+                opacity: 0
+            },
+            {
+                y: 0,
+                x: 0,
+                opacity: 1,
+                duration: 1,
+                ease: "power3.out"
             }
-        })
+        )
+
+            // 1. Count to 100
+            .to(progress, {
+                value: 100,
+                duration: 2.5,
+                ease: "power2.inOut",
+                onUpdate: () => {
+                    if (counterRef.current) {
+                        counterRef.current.textContent = Math.round(progress.value).toString()
+                    }
+                }
+            }, "-=0.5") // Start counting while text is entering
 
             // 2. The "Deconstruction" Animation
             // Move the bottom half of the text down
@@ -67,6 +89,7 @@ export default function Preloader() {
 
         return () => {
             tl.kill()
+            document.body.style.overflow = ''
         }
     }, [setIsLoading])
 
@@ -75,14 +98,14 @@ export default function Preloader() {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center text-white overflow-hidden"
+            className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center text-white overflow-hidden h-[100dvh] w-screen"
         >
             {/* Main Text Wrapper */}
-            <div className="relative">
+            <div ref={textWrapperRef} className="relative">
                 {/* Top Half - Stays longer */}
                 <div
                     ref={topTextRef}
-                    className="text-6xl md:text-9xl font-black font-mont tracking-widest relative z-10"
+                    className="text-4xl sm:text-6xl md:text-9xl font-black font-mont tracking-widest relative z-10"
                     style={{ clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%)" }}
                 >
                     BRAVILD
@@ -91,7 +114,7 @@ export default function Preloader() {
                 {/* Bottom Half - Falls away */}
                 <div
                     ref={bottomTextRef}
-                    className="text-6xl md:text-9xl font-black font-mont tracking-widest absolute top-0 left-0 w-full h-full text-white/90"
+                    className="text-4xl sm:text-6xl md:text-9xl font-black font-mont tracking-widest absolute top-0 left-0 w-full h-full text-white/90"
                     style={{ clipPath: "polygon(0 50%, 100% 50%, 100% 100%, 0 100%)" }}
                 >
                     BRAVILD

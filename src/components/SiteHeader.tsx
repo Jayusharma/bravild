@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useLoader } from "@/provider/LoaderContext";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -33,9 +34,28 @@ export default function SiteHeader() {
         setIsMenuOpen(false);
     }, [pathname]);
 
-    // Handle Active State on Scroll
+    const { isLoading } = useLoader();
+
+    // Handle Active State on Scroll and Initial Hash Scroll
     useEffect(() => {
-        if (pathname !== "/") return;
+        if (pathname !== "/" || isLoading) return;
+
+        // Handle initial hash scroll
+        if (window.location.hash) {
+            const targetId = window.location.hash.substring(1);
+            const element = document.getElementById(targetId);
+            if (element) {
+                // Small delay to ensure DOM is ready and preloader is fully gone
+                setTimeout(() => {
+                    if (window.lenis) {
+                        window.lenis.scrollTo(element);
+                    } else {
+                        element.scrollIntoView({ behavior: "smooth" });
+                    }
+                    setActiveSection(targetId);
+                }, 500);
+            }
+        }
 
         const handleScroll = () => {
             const scrollPosition = window.scrollY + window.innerHeight / 3;
@@ -60,7 +80,7 @@ export default function SiteHeader() {
         handleScroll(); // Check on mount
 
         return () => window.removeEventListener("scroll", handleScroll);
-    }, [pathname]);
+    }, [pathname, isLoading]);
 
     // Smooth Scroll Handler
     const handleNavClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {

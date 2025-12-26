@@ -28,16 +28,27 @@ const Hero = () => {
   const intervalRef = useRef<NodeJS.Timeout | null>(null)
   const animationsInitialized = useRef(false)
 
+  const [mounted, setMounted] = useState(false)
+
   // Memoized dimension update callback
   const updateDimensions = useCallback(() => {
     const newWidth = window.innerWidth
     const newHeight = window.innerHeight
 
-    // Only update if dimensions actually changed
     setDimensions(prev => {
-      if (prev.width !== newWidth || prev.height !== newHeight) {
+      // Always update if width changes (orientation change or desktop resize)
+      if (prev.width !== newWidth) {
         return { width: newWidth, height: newHeight }
       }
+
+      // If width hasn't changed, check if we're on desktop
+      // On mobile/tablet (<1024px), ignore height-only changes to prevent address bar jitter
+      if (newWidth >= 1024) {
+        if (prev.height !== newHeight) {
+          return { width: newWidth, height: newHeight }
+        }
+      }
+
       return prev
     })
   }, [])
@@ -53,6 +64,7 @@ const Hero = () => {
 
   useEffect(() => {
     updateDimensions()
+    setMounted(true)
     window.addEventListener('resize', debouncedUpdateDimensions, { passive: true })
     return () => {
       window.removeEventListener('resize', debouncedUpdateDimensions)
@@ -229,7 +241,7 @@ const Hero = () => {
 
   return (
     <div ref={containerRef} className="relative w-full h-[100vh]">
-      <div className="absolute inset-0 w-full h-full z-10">
+      <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         <svg
           ref={shapeRef}
           className="w-full h-full"
@@ -307,10 +319,10 @@ const Hero = () => {
 
       <div className="absolute left-6 top-24 md:left-[12%] md:top-[30%] tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
         <h1 ref={DisRef1} className="text-sm md:text-2xl">Disrupting the familiar</h1>
-        <VisualMixText ref={DisRef2} className="text-2xl md:text-4xl font-mont">Forward-Thinker</VisualMixText>
+        <VisualMixText key={isLoading ? 'loading' : 'loaded'} ref={DisRef2} className="text-[1.3rem] md:text-4xl font-mont">Forward-Thinker</VisualMixText>
       </div>
 
-      <div ref={BudRef} className="absolute right-5 top-95 md:left-[68%] md:top-[45%] text-right md:text-left text-sm md:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
+      <div ref={BudRef} className="absolute left-[73%] top-[41%] md:left-[68%] md:top-[45%] text-right md:text-left text-sm md:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
         Building the <br /> unseen
       </div>
 

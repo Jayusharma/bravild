@@ -269,10 +269,10 @@ export default function ProjectGallery() {
   }, [])
 
   const handleMobileClick = useCallback((index: number) => {
-    if (!isMobile || partners[index].isHeader) return
+    if (partners[index].isHeader) return
 
     const isCurrentlyExpanded = expandedMobileIndex === index
-    const contentRef = mobileContentRefs.current[index]
+    const contentRef = mobileContentRefs.current[index] || document.getElementById(`mobile-content-${index}`)
 
     if (!contentRef) return
 
@@ -286,7 +286,7 @@ export default function ProjectGallery() {
       })
     } else {
       if (expandedMobileIndex !== null) {
-        const prevContentRef = mobileContentRefs.current[expandedMobileIndex]
+        const prevContentRef = mobileContentRefs.current[expandedMobileIndex] || document.getElementById(`mobile-content-${expandedMobileIndex}`)
         if (prevContentRef) {
           gsap.to(prevContentRef, {
             height: 0,
@@ -311,7 +311,7 @@ export default function ProjectGallery() {
         delay: expandedMobileIndex !== null ? 0.3 : 0,
       })
     }
-  }, [isMobile, expandedMobileIndex])
+  }, [expandedMobileIndex])
 
   useEffect(() => {
     return () => {
@@ -478,7 +478,7 @@ export default function ProjectGallery() {
           {partners.map((partner, index) => (
             <div key={`mobile-${partner.name}-${index}`} style={{ borderBottom: `1px solid ${colors.border}` }} className="last:border-b-0">
               <div
-                className={`flex items-center py-5 px-2 transition-all duration-200 ${!partner.isHeader ? "cursor-pointer active:bg-opacity-5" : "py-6"
+                className={`flex items-center py-5 px-2 transition-all duration-200 relative z-10 ${!partner.isHeader ? "cursor-pointer active:bg-opacity-5" : "py-6"
                   }`}
                 style={{ backgroundColor: !partner.isHeader && expandedMobileIndex === index ? `${colors.text}0D` : 'transparent' }}
                 onClick={() => handleMobileClick(index)}
@@ -519,18 +519,19 @@ export default function ProjectGallery() {
 
               {!partner.isHeader && (
                 <div
+                  id={`mobile-content-${index}`}
                   ref={(el) => { mobileContentRefs.current[index] = el }}
                   className="overflow-hidden"
                   style={{ height: 0, opacity: 0 }}
                 >
-                  <div className="pb-6 px-2 space-y-4">
-                    <div className="aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-lg">
+                  <div className="pb-6 px-2 space-y-4 pt-4">
+                    <div className="relative w-full aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-lg">
                       <Image
                         src={partner.image || "/placeholder.svg"}
                         alt={partner.name}
                         fill
                         sizes="(max-width: 768px) 100vw, 50vw"
-                        className="object-contain bg-black/50"
+                        className="object-cover"
                         loading="lazy"
                       />
                     </div>

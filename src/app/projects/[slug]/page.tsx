@@ -719,7 +719,7 @@ export default function ProjectDetailPage() {
             </div>
 
             <div className="flex flex-col gap-6 items-start lg:items-end">
-              <Link href="/contact" className="w-full lg:w-auto">
+              <Link href="/#contact" className="w-full lg:w-auto">
                 <button className="w-full lg:w-auto px-16 py-6 border border-white text-[13px] tracking-[0.2em] font-light hover:bg-white hover:text-black transition-all duration-300 uppercase">
                   Start a Project
                 </button>

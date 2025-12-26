@@ -237,7 +237,7 @@ const AboutAndSkills = () => {
               </h2>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+            <div className="flex flex-wrap items-center justify-center gap-4 text-[0.94rem]  md:gap-8">
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
                 FRONTEND
               </h2>
