@@ -117,24 +117,34 @@ export default function SiteHeader() {
 
     // Header Animation on Scroll
     useEffect(() => {
-        const showAnim = gsap.from(headerRef.current, {
-            yPercent: -100,
-            paused: true,
-            duration: 0.4,
-            ease: "power2.out",
-        }).progress(1);
+        const ctx = gsap.context(() => {
+            const showAnim = gsap.from(headerRef.current, {
+                yPercent: -100,
+                paused: true,
+                duration: 0.4,
+                ease: "power2.out",
+            }).progress(1);
 
-        ScrollTrigger.create({
-            start: "top top",
-            end: 99999,
-            onUpdate: (self) => {
-                if (self.direction === -1) {
-                    showAnim.play();
-                } else {
-                    showAnim.reverse();
-                }
-            },
+            ScrollTrigger.create({
+                start: "top top",
+                end: "max",
+                onUpdate: (self) => {
+                    // Always show if near the top
+                    if (self.scroll() < 50) {
+                        showAnim.play();
+                        return;
+                    }
+
+                    if (self.direction === -1) {
+                        showAnim.play();
+                    } else {
+                        showAnim.reverse();
+                    }
+                },
+            });
         });
+
+        return () => ctx.revert();
     }, []);
 
     // Mobile Menu Animation
