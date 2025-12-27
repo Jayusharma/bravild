@@ -103,7 +103,7 @@ export default function Contact() {
 
                 <div className="grid lg:grid-cols-2 gap-20 lg:gap-32">
                     {/* Form Section */}
-                    <div className="w-full">
+                    <div className="w-full px-2">
                         <form ref={formRef} onSubmit={handleSubmit} className="space-y-12">
                             <div className="contact-anim group relative">
                                 <input
@@ -161,35 +161,35 @@ export default function Contact() {
                     <div ref={infoRef} className="space-y-16">
                         <div className="info-anim">
                             <p className="text-xl md:text-2xl text-gray-400 font-rayl leading-relaxed mb-12">
-                                I&apos;m currently available for freelance work. If you have a project that needs some creative injection, then that&apos;s where I come in!
+                                We&apos;re here to help you with your next project. If you have a project that needs some creative injection, then that&apos;s where I come in!
                             </p>
                         </div>
 
                         <div className="space-y-8">
                             <div className="info-anim group cursor-pointer">
-                                <h3 className="text-sm font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Email</h3>
-                                <a href="mailto:hello@example.com" className="text-2xl md:text-2xl font-mont text-white group-hover:text-gray-300 transition-colors flex items-center gap-3">
+                                <h3 className="text-xl font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Email</h3>
+                                <a href="mailto:hello@example.com" className="text-xl md:text-2xl font-mont text-white group-hover:text-gray-300 transition-colors flex items-center gap-3">
                                     connect@bravild.in
                                     <ArrowRight className="w-5 h-5 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                                 </a>
                             </div>
 
                             <div className="info-anim group cursor-pointer">
-                                <h3 className="text-sm font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Phone</h3>
-                                <a href="tel:+1234567890" className="text-2xl md:text-2xl font-mont  text-white group-hover:text-gray-300 transition-colors flex items-center gap-3">
+                                <h3 className="text-xl font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Phone</h3>
+                                <a href="tel:+1234567890" className="text-xl md:text-2xl font-mont  text-white group-hover:text-gray-300 transition-colors flex items-center gap-3">
                                     +91 9664086233
                                     <ArrowRight className="w-5 h-5 opacity-0 -translate-x-4 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300" />
                                 </a>
                             </div>
 
                             <div className="info-anim group cursor-pointer">
-                                <h3 className="text-sm font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Socials</h3>
+                                <h3 className="text-xl font-rayl tracking-[0.2em] text-gray-500 uppercase mb-2">Socials</h3>
                                 <div className="flex flex-wrap gap-6">
                                     {['LinkedIn', 'Twitter', 'Instagram', 'GitHub'].map((social) => (
                                         <a
                                             key={social}
                                             href="#"
-                                            className="text-lg font-mont font-bold text-white hover:text-gray-400 transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
+                                            className="text-md font-mont font-bold text-white hover:text-gray-400 transition-colors relative after:content-[''] after:absolute after:bottom-0 after:left-0 after:w-0 after:h-[1px] after:bg-white hover:after:w-full after:transition-all after:duration-300"
                                         >
                                             {social}
                                         </a>

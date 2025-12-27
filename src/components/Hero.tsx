@@ -257,7 +257,6 @@ const Hero = () => {
             </clipPath>
           </defs>
 
-          {/* Image background */}
           <foreignObject
             x="0"
             y="0"
@@ -265,21 +264,29 @@ const Hero = () => {
             height={dimensions.height}
             clipPath="url(#heroClip)"
           >
-            <video
-              ref={sideRef}
-              src="/last.mp4"
-              autoPlay={false}
-              preload="auto"
-              playsInline
-              muted
-              style={{
-                width: '100%',
-                height: dimensions.width < 768 ? '100%' : '120%',
-                objectFit: "cover",
-                willChange: "transform",
-                filter: "brightness(1.1) contrast(1.1) saturate(1)",
-              }}
-            />
+            <div className="relative w-full h-full bg-[#2D152B]">
+              <img
+                src="/girl.png"
+                alt="Hero Fallback"
+                className="absolute inset-0 w-full h-full object-contain z-0 scale-115 translate-y-11"
+              />
+              <video
+                ref={sideRef}
+                src="/last.mp4"
+                autoPlay={false}
+                preload="auto"
+                playsInline
+                muted
+                className="relative z-10"
+                style={{
+                  width: '100%',
+                  height: dimensions.width < 768 ? '100%' : '120%',
+                  objectFit: "cover",
+                  willChange: "transform",
+                  filter: "brightness(1.1) contrast(1.1) saturate(1)",
+                }}
+              />
+            </div>
           </foreignObject>
 
           <foreignObject

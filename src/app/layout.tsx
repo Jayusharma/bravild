@@ -9,6 +9,24 @@ const inter = Inter({ subsets: ["latin"] });
 export const metadata: Metadata = {
   title: "Bravild",
   description: "Experience the future of interactive design",
+  openGraph: {
+    title: "Bravild",
+    description: "Experience the future of interactive design",
+    images: [
+      {
+        url: "/ss.png",
+        width: 1200,
+        height: 630,
+        alt: "Bravild Preview",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "Bravild",
+    description: "Experience the future of interactive design",
+    images: ["/ss.png"],
+  },
 };
 
 import Preloader from "@/components/Preloader";
