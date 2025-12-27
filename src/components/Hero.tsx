@@ -290,7 +290,7 @@ const Hero = () => {
                 style={{ transform: "translate(-50%, -50%)" }}
               />
 
-              <div ref={textRef} className="absolute right-4 bottom-12  md:right-7 md:bottom-2 z-20 font-mont text-right md:text-right">
+              <div ref={textRef} className="absolute right-4 bottom-5  md:right-7 md:bottom-2 z-20 font-mont text-right md:text-right">
                 <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-white leading-tight md:leading-[0.8]">
                   BEYOND DESIGN
                 </h1>
@@ -316,7 +316,7 @@ const Hero = () => {
 
       <div ref={circleRef} className="size-4 md:size-6 bg-white/70 absolute top-[41%] right-[28%] md:top-[46%] md:left-[66.3%] rounded-full z-20" />
 
-      <div className="absolute right-4 bottom-12  md:right-7 md:bottom-2 z-0 font-mont text-right md:text-right">
+      <div className="absolute right-4 bottom-5  md:right-7 md:bottom-2 z-0 font-mont text-right md:text-right">
         <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-black leading-tight md:leading-[0.8]">
           BEYOND DESIGN
         </h1>
