@@ -261,7 +261,7 @@ const Hero = () => {
                 className="relative z-10"
                 style={{
                   width: '100%',
-                  height: dimensions.width < 768 ? '100%' : '120%',
+                  height: dimensions.width < 768 ? '110%' : '120%',
                   objectFit: "cover",
                   willChange: "transform",
                   filter: "brightness(1.1) contrast(1.1) saturate(1)",
