@@ -27,6 +27,9 @@ export const metadata: Metadata = {
     description: "Experience the future of interactive design",
     images: ["/ss.png"],
   },
+  icons: {
+    icon: "/icon.svg",
+  },
 };
 
 import Preloader from "@/components/Preloader";

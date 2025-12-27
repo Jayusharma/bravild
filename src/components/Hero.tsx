@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState, useCallback, useMemo } from "react"
+import { useEffect, useRef, useState , useMemo } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { VisualMixText } from "./ui/blur"
@@ -31,45 +31,26 @@ const Hero = () => {
   const [mounted, setMounted] = useState(false)
 
   // Memoized dimension update callback
-  const updateDimensions = useCallback(() => {
-    const newWidth = window.innerWidth
-    const newHeight = window.innerHeight
-
-    setDimensions(prev => {
-      // Always update if width changes (orientation change or desktop resize)
-      if (prev.width !== newWidth) {
-        return { width: newWidth, height: newHeight }
-      }
-
-      // If width hasn't changed, check if we're on desktop
-      // On mobile/tablet (<1024px), ignore height-only changes to prevent address bar jitter
-      if (newWidth >= 1024) {
-        if (prev.height !== newHeight) {
-          return { width: newWidth, height: newHeight }
-        }
-      }
-
-      return prev
-    })
-  }, [])
-
-  // Debounced resize handler
-  const debouncedUpdateDimensions = useMemo(() => {
-    let timeoutId: NodeJS.Timeout
-    return () => {
-      clearTimeout(timeoutId)
-      timeoutId = setTimeout(updateDimensions, 100)
-    }
-  }, [updateDimensions])
-
   useEffect(() => {
-    updateDimensions()
+    if (!containerRef.current) return
+
+    const resizeObserver = new ResizeObserver((entries) => {
+      if (!Array.isArray(entries) || !entries.length) return
+      const entry = entries[0]
+      const { width, height } = entry.contentRect
+      setDimensions(prev => {
+        if (prev.width === width && prev.height === height) return prev
+        return { width, height }
+      })
+    })
+
+    resizeObserver.observe(containerRef.current)
     setMounted(true)
-    window.addEventListener('resize', debouncedUpdateDimensions, { passive: true })
+
     return () => {
-      window.removeEventListener('resize', debouncedUpdateDimensions)
+      resizeObserver.disconnect()
     }
-  }, [debouncedUpdateDimensions, updateDimensions])
+  }, [])
 
   // Control Video Playback
   useEffect(() => {
@@ -240,7 +221,7 @@ const Hero = () => {
   const initialPoints = useMemo(() => `0,0 ${dimensions.width},0 ${dimensions.width},${dimensions.height} 0,${dimensions.height}`, [dimensions.width, dimensions.height])
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100vh]" style={{ height: mounted ? dimensions.height : undefined }}>
+    <div ref={containerRef} className="relative w-full h-[100vh] supports-[height:100svh]:h-[100svh]">
       <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         <svg
           ref={shapeRef}
@@ -329,7 +310,7 @@ const Hero = () => {
         <VisualMixText key={isLoading ? 'loading' : 'loaded'} ref={DisRef2} className="text-[1.3rem] md:text-4xl font-mont">Forward-Thinker</VisualMixText>
       </div>
 
-      <div ref={BudRef} className="absolute left-[73%] top-[41%] md:left-[68%] md:top-[45%] text-right md:text-left text-sm md:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
+      <div ref={BudRef} className="absolute left-[73%] top-[41%] md:left-[68.5%] md:top-[45%] text-right md:text-left text-sm md:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
         Building the <br /> unseen
       </div>
 

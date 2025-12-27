@@ -200,7 +200,7 @@ export default function Contact() {
 
                         <div className="info-anim pt-12 border-t border-white/10">
                             <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 text-sm text-gray-600 font-rayl">
-                                <p>© 2024 BraWeb Agency. All rights reserved.</p>
+                                <p>© 2024 Bravild Agency. All rights reserved.</p>
                                 <div className="flex gap-6">
                                     <a href="#" className="hover:text-white transition-colors">Privacy Policy</a>
                                     <a href="#" className="hover:text-white transition-colors">Terms of Service</a>
