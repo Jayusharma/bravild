@@ -240,7 +240,7 @@ const Hero = () => {
   const initialPoints = useMemo(() => `0,0 ${dimensions.width},0 ${dimensions.width},${dimensions.height} 0,${dimensions.height}`, [dimensions.width, dimensions.height])
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100vh]">
+    <div ref={containerRef} className="relative w-full h-[100vh]" style={{ height: mounted ? dimensions.height : undefined }}>
       <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         <svg
           ref={shapeRef}

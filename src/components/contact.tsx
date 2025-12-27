@@ -136,7 +136,7 @@ export default function Contact() {
                                     placeholder="Tell me about your project"
                                     value={formData.message}
                                     onChange={(e) => setFormData({ ...formData, message: e.target.value })}
-                                    className="w-full bg-transparent border-b border-white/20 py-6 text-xl md:text-2xl font-mont text-white placeholder:text-gray-600 focus:outline-none focus:border-white transition-colors duration-300"
+                                    className="w-full bg-transparent border-b border-white/20 py-6 text-md md:text-2xl font-mont text-white placeholder:text-gray-600 focus:outline-none focus:border-white transition-colors duration-300"
                                 />
                                 <div className="absolute bottom-0 left-0 w-0 h-[1px] bg-white transition-all duration-500 group-hover:w-full group-focus-within:w-full" />
                             </div>
