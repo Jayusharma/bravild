@@ -122,8 +122,8 @@ const projectsData = {
       }
     ],
     images: [
-      "/port1.png",
       "/port2.png",
+      "/port.png",
       "/port4.png",
       "/port5.png"
     ],
