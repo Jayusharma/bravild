@@ -542,7 +542,7 @@ export default function ProjectDetailPage() {
           </div>
 
           <div className="hero-anim mb-6">
-            <h1 className="text-5xl md:text-7xl lg:text-9xl font-black font-mont text-white leading-[0.9] tracking-tight">
+            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black font-mont text-white leading-[0.9] tracking-tight">
               {project.name}
             </h1>
           </div>
