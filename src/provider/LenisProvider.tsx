@@ -36,17 +36,14 @@ function LenisInner({ children }: { children: React.ReactNode }) {
       window.history.scrollRestoration = 'manual';
     }
 
-    function raf(time: number) {
-      lenis.raf(time);
-      requestAnimationFrame(raf);
-    }
-
-    requestAnimationFrame(raf);
-
     lenis.on('scroll', ScrollTrigger.update);
-    gsap.ticker.add((time) => {
+
+    // Drive Lenis from a single source (GSAP ticker) — running it from
+    // multiple rAF loops double-steps the smoothing and makes scroll feel rough
+    const tickerCallback = (time: number) => {
       lenis.raf(time * 1000);
-    });
+    };
+    gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
 
     // Save scroll position on scroll
@@ -58,10 +55,8 @@ function LenisInner({ children }: { children: React.ReactNode }) {
     lenis.on('scroll', handleScroll);
 
     return () => {
+      gsap.ticker.remove(tickerCallback);
       lenis.destroy();
-      gsap.ticker.remove((time) => {
-        lenis.raf(time * 1000);
-      });
     };
   }, []);
 

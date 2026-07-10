@@ -33,8 +33,9 @@ export const metadata: Metadata = {
 };
 
 import Preloader from "@/components/Preloader";
-
 import { LoaderProvider } from "@/provider/LoaderContext";
+import { ThemeProvider } from "@/provider/ThemeContext";
+import CustomCursor from "@/components/ui/CustomCursor";
 
 export default function RootLayout({
   children,
@@ -44,15 +45,18 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className}>
-        <LoaderProvider>
-          <Preloader />
-          <LenisProvider>
-            <Header />
-            <main>
-              {children}
-            </main>
-          </LenisProvider>
-        </LoaderProvider>
+        <ThemeProvider>
+          <LoaderProvider>
+            <Preloader />
+            <LenisProvider>
+              <CustomCursor />
+              <Header />
+              <main>
+                {children}
+              </main>
+            </LenisProvider>
+          </LoaderProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

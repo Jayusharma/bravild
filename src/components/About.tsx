@@ -49,23 +49,59 @@ const AboutAndSkills = () => {
   // Setup content animations
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // About section animations
-      const aboutElements = aboutContainerRef.current?.querySelectorAll('.reveal');
-      if (aboutElements) {
-        gsap.fromTo(aboutElements,
-          { opacity: 0, y: 60 },
-          {
-            opacity: 1,
-            y: 0,
-            duration: 1,
-            ease: "power3.out",
-            stagger: 0.15,
-            scrollTrigger: {
-              trigger: aboutContainerRef.current,
-              start: 'top 70%',
-            },
-          }
+      // About section animations - sequential word reveal line-by-line
+      const revealWords1 = aboutContainerRef.current?.querySelectorAll('.reveal-word-1');
+      const revealWords2 = aboutContainerRef.current?.querySelectorAll('.reveal-word-2');
+      const revealWords3 = aboutContainerRef.current?.querySelectorAll('.reveal-word-3');
+
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          trigger: aboutContainerRef.current,
+          start: 'top 88%',
+          end: 'bottom 60%',
+          scrub: 0.6,
+        }
+      });
+
+      // Section label rule draws in first
+      const rule = aboutContainerRef.current?.querySelector('.about-rule');
+      if (rule) {
+        tl.fromTo(rule,
+          { scaleX: 0 },
+          { scaleX: 1, duration: 0.25, ease: "none" },
+          0
         );
+      }
+
+      if (revealWords1 && revealWords1.length) {
+        tl.to(revealWords1, {
+          opacity: 1,
+          filter: "blur(0px)",
+          y: 0,
+          stagger: 0.03,
+          ease: "none",
+        }, 0.05);
+      }
+
+      if (revealWords2 && revealWords2.length) {
+        tl.to(revealWords2, {
+          opacity: 1,
+          filter: "blur(0px)",
+          y: 0,
+          stagger: 0.03,
+          ease: "none",
+        }, "+=0.04");
+      }
+
+      // Paragraph keeps its slower, gentle pace
+      if (revealWords3 && revealWords3.length) {
+        tl.to(revealWords3, {
+          opacity: 1,
+          filter: "blur(0px)",
+          y: 0,
+          stagger: 0.035,
+          ease: "none",
+        }, "+=0.04");
       }
 
       // Skills text animation
@@ -176,6 +212,24 @@ const AboutAndSkills = () => {
 
   const skillHeadingClass = "skill-word text-[2.6em] md:text-5xl lg:text-7xl font-bold font-nort transition-colors duration-0";
 
+  const splitTextToSpans = (text: string, baseClass: string, color?: string) => {
+    return text.split(" ").map((word, idx) => (
+      <span
+        key={idx}
+        className={`${baseClass} inline-block mr-[0.25em]`}
+        style={{
+          opacity: 0.12,
+          filter: "blur(4px)",
+          transform: "translateY(0.35em)",
+          color: color || undefined,
+          willChange: "transform, filter, opacity",
+        }}
+      >
+        {word}
+      </span>
+    ));
+  };
+
   return (
     <section
       id="about"
@@ -186,67 +240,61 @@ const AboutAndSkills = () => {
 
         <div ref={aboutContainerRef} className="pt-20 pb-12 md:pt-28 md:pb-20">
 
-          <div className="reveal mb-8 md:mb-10">
-            <h1
-              className="text-3xl md:text-4xl lg:text-6xl font-bold font-mont leading-[0.9] tracking-tight transition-colors duration-0"
-              style={{ color: colors.text }}
-            >
-              Bravild
-            </h1>
+          {/* Section Header / Label */}
+          <div className="reveal mb-10 md:mb-14 flex items-center gap-4">
+            <span
+              className="about-rule block h-px w-12 md:w-20 origin-left"
+              style={{ backgroundColor: colors.text, opacity: 0.4 }}
+            />
+            <span className="text-[11px] md:text-xs font-rayl tracking-[0.35em] uppercase text-gray-500">
+              The Problem
+            </span>
           </div>
 
-          <div className="reveal mb-12 md:mb-12">
-            <p
-              className="text-sm md:text-base lg:text-lg font-medium tracking-widest uppercase transition-colors duration-0"
-              style={{ color: colors.text, opacity: 0.5, letterSpacing: '0.2em' }}
-            >
-              Develop / Design / Build / dominate
-            </p>
+          {/* Headline 1 — the human statement */}
+          <div className="mb-3 md:mb-5">
+            <h2 className="text-3xl md:text-5xl lg:text-6xl font-bold font-mont tracking-tight leading-[1.08]">
+              {splitTextToSpans("Your business runs on people?", "reveal-word-1", colors.text)}
+            </h2>
           </div>
 
-          <div className="reveal max-w-[800px] mb-6 md:mb-8">
-            <p
-              className="text-2xl md:text-3xl lg:text-4xl font-light leading-[1.3] transition-colors duration-0"
-              style={{ color: colors.text, letterSpacing: '-0.015em' }}
-            >
-              Building intelligent systems where automation, AI, and design converge into seamless experiences.
-            </p>
+          {/* Headline 2 — the machine's correction, set as a code comment */}
+          <div className="mb-10 md:mb-14 pl-[4%] md:pl-[6%] opacity-75">
+            <h2 className="font-mono text-xl md:text-3xl lg:text-4xl font-medium tracking-tight leading-snug">
+              {splitTextToSpans("// it should run on systems.", "reveal-word-2", colors.text)}
+            </h2>
           </div>
 
-          <div className="reveal max-w-[600px]">
-            <p
-              className="text-base md:text-lg lg:text-xl font-serif leading-relaxed transition-colors duration-0"
-              style={{ color: colors.text, opacity: 0.6, fontWeight: 300 }}
-            >
-              Every project balances clarity with creativity—tools that work effortlessly and scale naturally.
+          {/* Paragraph Hook */}
+          <div
+            className="max-w-[720px] pl-5 md:pl-8 border-l"
+            style={{ borderColor: `${colors.text}2e` }}
+          >
+            <p className="text-base md:text-lg lg:text-xl font-light leading-relaxed md:leading-loose font-serif">
+              {splitTextToSpans(
+                "People sleep, forget, quit, and take Mondays off. Systems don't. We're the team that builds the systems — you keep the people for the work that needs a brain.",
+                "reveal-word-3",
+                colors.text
+              )}
             </p>
           </div>
 
         </div>
 
-        <div ref={skillsContainerRef} className="pt-20 md:pt-10 mb-20 md:mb-40 ">
+        <div ref={skillsContainerRef} className="pt-20 md:pt-10 mb-20 md:mb-40">
 
-          <div className="max-w-3xl mx-auto space-y-6 md:space-y-12">
+          <div className="max-w-4xl mx-auto space-y-4 md:space-y-8">
 
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-12">
+            {/* Line 1: AI [box] SYSTEMS */}
+            <div className="flex items-center justify-center gap-3 md:gap-6">
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
                 AI
               </h2>
-              <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                AUTOMATION
-              </h2>
-            </div>
-
-            <div className="flex flex-wrap items-center justify-center gap-4 text-[0.94rem]  md:gap-8">
-              <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                FRONTEND
-              </h2>
               <div
                 ref={(el) => { boxRefs.current[0] = el }}
-                className="skill-box relative w-[25px] h-[25px] md:w-[50px]  md:h-[50px] cursor-pointer flex-shrink-0 overflow-hidden rounded-md md:rounded-lg transition-colors duration-0"
+                className="skill-box relative w-[25px] h-[25px] md:w-[50px] md:h-[50px] cursor-pointer flex-shrink-0 overflow-hidden rounded-md md:rounded-lg"
                 style={{
                   backgroundColor: colors.box,
-
                   perspective: '1000px',
                   transformStyle: 'preserve-3d'
                 }}
@@ -257,7 +305,7 @@ const AboutAndSkills = () => {
                 {hoveredSkill === 0 && (
                   <Image
                     src={boxImages[0]}
-                    alt="Frontend"
+                    alt="AI"
                     fill
                     sizes="(max-width: 768px) 100px, 200px"
                     className="object-cover"
@@ -266,24 +314,28 @@ const AboutAndSkills = () => {
                 )}
               </div>
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                BACKEND
+                SYSTEMS
               </h2>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-12">
+            {/* Line 2: REVENUE ENGINES */}
+            <div className="flex items-center justify-center gap-3 md:gap-6">
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                API INTEGRATION
+                REVENUE
+              </h2>
+              <h2 className={skillHeadingClass} style={{ color: colors.text }}>
+                ENGINES
               </h2>
             </div>
 
-            <div ref={transitionTriggerRef} className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+            {/* Line 3: WORKFLOW [box] AUTOMATION */}
+            <div ref={transitionTriggerRef} className="flex items-center justify-center gap-3 md:gap-6">
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                WEB APPS
+                WORKFLOW
               </h2>
-
               <div
                 ref={(el) => { boxRefs.current[1] = el }}
-                className="skill-box relative  w-[25px] h-[25px] md:w-[50px]  md:h-[50px] cursor-pointer flex-shrink-0 overflow-hidden rounded-md  md:rounded-lg transition-colors duration-0"
+                className="skill-box relative w-[25px] h-[25px] md:w-[50px] md:h-[50px] cursor-pointer flex-shrink-0 overflow-hidden rounded-md md:rounded-lg"
                 style={{
                   backgroundColor: colors.box,
                   perspective: '1000px',
@@ -296,7 +348,7 @@ const AboutAndSkills = () => {
                 {hoveredSkill === 1 && (
                   <Image
                     src={boxImages[1]}
-                    alt="Web Apps"
+                    alt="Workflow"
                     fill
                     sizes="(max-width: 768px) 100px, 200px"
                     className="object-cover"
@@ -305,20 +357,30 @@ const AboutAndSkills = () => {
                 )}
               </div>
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                UI/UX
+                AUTOMATION
               </h2>
             </div>
 
-            <div className="flex flex-wrap items-center justify-center gap-4 md:gap-8">
+            {/* Line 4: CRM PIPELINES */}
+            <div className="flex items-center justify-center gap-3 md:gap-6">
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                AI
+                CRM
+              </h2>
+              <h2 className={skillHeadingClass} style={{ color: colors.text }}>
+                PIPELINES
+              </h2>
+            </div>
+
+            {/* Line 5: DATA [box] INTELLIGENCE */}
+            <div className="flex items-center justify-center gap-3 md:gap-6">
+              <h2 className={skillHeadingClass} style={{ color: colors.text }}>
+                DATA
               </h2>
               <div
                 ref={(el) => { boxRefs.current[2] = el }}
-                className="skill-box relative cursor-pointer  w-[25px] h-[25px] md:w-[50px]  md:h-[50px] flex-shrink-0 overflow-hidden rounded-md md:rounded-lg transition-colors duration-0"
+                className="skill-box relative w-[25px] h-[25px] md:w-[50px] md:h-[50px] cursor-pointer flex-shrink-0 overflow-hidden rounded-md md:rounded-lg"
                 style={{
                   backgroundColor: colors.box,
-
                   perspective: '1000px',
                   transformStyle: 'preserve-3d'
                 }}
@@ -329,7 +391,7 @@ const AboutAndSkills = () => {
                 {hoveredSkill === 2 && (
                   <Image
                     src={boxImages[2]}
-                    alt="AI"
+                    alt="Intelligence"
                     fill
                     sizes="(max-width: 768px) 100px, 200px"
                     className="object-cover"
@@ -338,11 +400,12 @@ const AboutAndSkills = () => {
                 )}
               </div>
               <h2 className={skillHeadingClass} style={{ color: colors.text }}>
-                INTEGRATION
+                INTELLIGENCE
               </h2>
             </div>
 
           </div>
+
 
         </div>
 
