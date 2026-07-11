@@ -1,7 +1,7 @@
 "use client"
 
-import { useState, useEffect, useRef } from 'react'
-import { ArrowLeft, ExternalLink, Github, Zap, Check } from 'lucide-react'
+import { useEffect, useRef, useState } from 'react'
+import { ArrowLeft, ArrowRight, ArrowUpRight } from 'lucide-react'
 import { useParams, useRouter } from 'next/navigation'
 import Image from 'next/image'
 import gsap from "gsap"
@@ -10,32 +10,128 @@ import Link from 'next/link'
 
 gsap.registerPlugin(ScrollTrigger)
 
+function renderFormattedText(text: string) {
+  if (!text) return null
+  return text.replace(/\*\*/g, '')
+}
+
+function parseImpact(item: string) {
+  const match = item.match(/^([\d%+-]+\b|Zero|Faster)\s*(.*)$/i)
+  if (match) {
+    return { num: match[1], desc: match[2] }
+  }
+  const spaceIndex = item.indexOf(' ')
+  if (spaceIndex > 0) {
+    return { num: item.substring(0, spaceIndex), desc: item.substring(spaceIndex + 1) }
+  }
+  return { num: '', desc: item }
+}
+
 // Project data - each project has its own details
 const projectsData = {
+  "bravi-ai": {
+    name: "Bravi-AI",
+    tagline: "AI Unified Inbox Platform",
+    category: "AI SAAS",
+    date: "January 2025",
+    duration: "10 weeks",
+    status: "Production Live",
+    description: "An **intelligent, unified communications inbox** connecting WhatsApp, Email, Instagram, and more, equipped with automated AI responses, chat, and smart data infrastructure.",
+    challenge: "Businesses struggled to manage customer messages across multiple platforms, causing delays and lost sales. They needed a **single unified dashboard** that could automate basic conversations while organizing multi-channel client inquiries.",
+    solution: "Built a **robust Next.js and Node.js central inbox** platform integrating OpenAI agents, Twilio APIs, and Meta Messenger APIs. The system features real-time agent routing, AI-generated suggestion replies, and visual messaging analytics.",
+    impact: [
+      "99% multi-channel message sync",
+      "70% automated AI answer rate",
+      "5x faster response execution",
+      "24/7 autonomous operations"
+    ],
+    technologies: ["Next.js", "Node.js", "OpenAI API", "Twilio Business", "PostgreSQL", "Socket.io"],
+    features: [
+      {
+        title: "Multi-channel Inbox",
+        description: "Unified stream for WhatsApp, Email, and Instagram"
+      },
+      {
+        title: "AI Response Agents",
+        description: "Autonomous agents that suggest and send replies"
+      },
+      {
+        title: "Real-time Routing",
+        description: "Seamlessly route complex queries to live team members"
+      },
+      {
+        title: "Custom Pipelines",
+        description: "Workflow automations triggered by client messages"
+      }
+    ],
+    images: [
+      "/ai.png",
+      "/wa1.png",
+      "/port.png"
+    ],
+    liveUrl: "https://bravi-ai.com",
+    githubUrl: null
+  },
+  "accurizon": {
+    name: "Accurizon",
+    tagline: "Automated Bookkeeping Platform",
+    category: "WEB APP",
+    date: "November 2024",
+    duration: "6 weeks",
+    status: "Live",
+    description: "A **premium bookkeeping and financial intelligence** platform designed for modern business operations. Features include automated expense tracking, balance sheets, and real-time tax accounting.",
+    challenge: "Traditional bookkeeping was slow, manual, and prone to error, leaving businesses without **real-time financial clarity**. Managing receipts, invoices, and ledgers required constant manual input.",
+    solution: "Designed a **secure financial app using Next.js** with Plaid and Stripe integrations. Implemented automated transaction categorization, real-time balance sheets, and automated receipt recognition.",
+    impact: [
+      "80% reduction in bookkeeping time",
+      "100% tax filing readiness",
+      "Real-time expense insights",
+      "Zero manual data entries"
+    ],
+    technologies: ["Next.js", "Plaid API", "Stripe API", "Supabase", "Tesseract.js", "Tailwind CSS"],
+    features: [
+      {
+        title: "Automated Categorization",
+        description: "Transactions auto-sorted using trained models"
+      },
+      {
+        title: "Plaid Connection",
+        description: "Real-time bank feed sync with enterprise security"
+      },
+      {
+        title: "Dynamic Invoicing",
+        description: "Billing and reconciliation in one interface"
+      },
+      {
+        title: "Tax Dashboard",
+        description: "Instantly export tax-ready financial sheets"
+      }
+    ],
+    images: [
+      "/website.png",
+      "/port2.png",
+      "/port5.png"
+    ],
+    liveUrl: "https://accurizon.com",
+    githubUrl: null
+  },
   "whatsapp-chatbot": {
     name: "WhatsApp Chatbot",
     tagline: "AI-Powered Customer Engagement",
     category: "AUTOMATION",
     date: "October 2024",
     duration: "3 weeks",
-    status: "Active ",
-    description: "An intelligent WhatsApp chatbot built with n8n automation platform that revolutionizes customer communication. This solution provides 24/7 automated responses, smart appointment scheduling, and seamless integration with business tools.",
-    challenge: "Businesses struggled with manual customer support on WhatsApp, leading to delayed responses and missed opportunities. The challenge was to create an intelligent system that could handle multiple conversations simultaneously while maintaining a personal touch.",
-    solution: "Developed a sophisticated n8n automation workflow that integrates with WhatsApp Business API, natural language processing, and a custom database. The bot intelligently routes queries, provides instant responses, and escalates complex issues to human agents.",
+    status: "Active",
+    description: "An **intelligent WhatsApp chatbot** built with n8n automation platform that **revolutionizes customer communication**. This solution provides **24/7 automated responses**, smart appointment scheduling, and **seamless integration** with business tools.",
+    challenge: "Businesses struggled with **manual customer support** on WhatsApp, leading to **delayed responses and missed opportunities**. The challenge was to create an intelligent system that could handle multiple conversations simultaneously while **maintaining a personal touch**.",
+    solution: "Developed a **sophisticated n8n automation workflow** that integrates with WhatsApp Business API, natural language processing, and a custom database. The bot **intelligently routes queries**, provides instant responses, and **escalates complex issues** to human agents.",
     impact: [
       "95% reduction in response time",
       "300+ conversations handled daily",
       "85% customer satisfaction rate",
       "60% decrease in support costs"
     ],
-    technologies: [
-      { name: "n8n", icon: "⚡" },
-      { name: "WhatsApp API", icon: "💬" },
-      { name: "Node.js", icon: "🟢" },
-      { name: "postgress", icon: "📥" },
-      { name: "OpenAI", icon: "🤖" },
-      { name: "Webhook", icon: "🔗" }
-    ],
+    technologies: ["n8n", "WhatsApp API", "Node.js", "PostgreSQL", "OpenAI", "Webhooks"],
     features: [
       {
         title: "Intelligent Response System",
@@ -66,7 +162,6 @@ const projectsData = {
       "/wa.png",
       "/wa1.png",
       "/wa2.png",
-
     ],
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/whatsapp-chatbot"
@@ -78,23 +173,16 @@ const projectsData = {
     date: "December 2024",
     duration: "8 weeks",
     status: "Live & Active",
-    description: "A comprehensive client onboarding and management portal designed to streamline agency operations. Features include secure file uploads, automated invoice generation, real-time project status updates, and centralized communication channels.",
-    challenge: "Managing client interactions via email and disparate tools led to communication gaps, lost files, and payment delays. The agency needed a centralized hub to manage the entire client lifecycle from onboarding to offboarding.",
-    solution: "Built a robust Next.js application with role-based access control. Implemented a secure file management system using AWS S3, automated invoicing with Stripe integration, and a real-time activity feed using WebSockets.",
+    description: "A **comprehensive client onboarding** and management portal designed to **streamline agency operations**. Features include secure file uploads, **automated invoice generation**, real-time project status updates, and centralized communication channels.",
+    challenge: "Managing client interactions via email and disparate tools led to **communication gaps, lost files, and payment delays**. The agency needed a **centralized hub** to manage the entire client lifecycle from onboarding to offboarding.",
+    solution: "Built a **robust Next.js application** with role-based access control. Implemented a secure file management system using AWS S3, **automated invoicing with Stripe integration**, and a real-time activity feed using WebSockets.",
     impact: [
       "40% reduction in admin time",
       "Zero lost files or missed invoices",
       "100% client onboarding satisfaction",
       "Faster payment processing"
     ],
-    technologies: [
-      { name: "Next.js", icon: "⚛️" },
-      { name: "Supabase", icon: "🔥" },
-      { name: "Tailwind", icon: "🎨" },
-      { name: "Stripe", icon: "💳" },
-      { name: "AWS S3", icon: "☁️" },
-      { name: "Resend", icon: "📧" }
-    ],
+    technologies: ["Next.js", "Supabase", "Tailwind", "Stripe", "AWS S3", "Resend"],
     features: [
       {
         title: "Secure File Sharing",
@@ -137,23 +225,16 @@ const projectsData = {
     date: "September 2024",
     duration: "4 weeks",
     status: "Live & Active",
-    description: "A modern, responsive website for a premium salon featuring online booking system, service gallery, stylist profiles, and customer reviews. Built with elegant animations and mobile-first approach for the best user experience.",
-    challenge: "The salon needed a digital presence that matched their premium brand while providing an easy booking experience. Traditional appointment systems were cumbersome and didn't showcase their services effectively.",
-    solution: "Created a stunning website with Next.js featuring real-time appointment booking, interactive service galleries, stylist profiles with expertise areas, and an integrated review system. The design emphasizes visual appeal while maintaining functionality.",
+    description: "A **modern, responsive website** for a premium salon featuring an online booking system, service gallery, stylist profiles, and customer reviews. Built with **elegant animations** and a **mobile-first approach** for the best user experience.",
+    challenge: "The salon needed a **digital presence** that matched their premium brand while providing an **easy booking experience**. Traditional appointment systems were cumbersome and didn't showcase their services effectively.",
+    solution: "Created a **stunning website with Next.js** featuring real-time appointment booking, interactive service galleries, stylist profiles with expertise areas, and an integrated review system. The design emphasizes **visual appeal** while maintaining functionality.",
     impact: [
       "200% increase in online bookings",
       "50% reduction in phone inquiries",
       "90% positive customer feedback",
       "300+ new clients in first month"
     ],
-    technologies: [
-      { name: "Next.js", icon: "⚛️" },
-      { name: "Tailwind CSS", icon: "🎨" },
-      { name: "TypeScript", icon: "📘" },
-      { name: "Framer Motion", icon: "✨" },
-      { name: "Stripe", icon: "💳" },
-      { name: "Vercel", icon: "▲" }
-    ],
+    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion", "Stripe", "Vercel"],
     features: [
       {
         title: "Online Booking System",
@@ -196,23 +277,16 @@ const projectsData = {
     date: "November 2024",
     duration: "3 weeks",
     status: "Live & Active",
-    description: "Professional car detailing service website with stunning before/after galleries, service packages, online booking, and pricing calculator. Features high-quality visuals and smooth user experience that converts visitors into customers.",
-    challenge: "Car detailing services needed to visually demonstrate their quality and make it easy for customers to understand packages and pricing. Most competitors had outdated websites that didn't showcase their work effectively.",
-    solution: "Designed a visually striking website with large before/after image sliders, interactive package comparisons, and a dynamic pricing calculator. Integrated booking system with vehicle type selection and service customization.",
+    description: "Professional car detailing service website with **stunning before/after galleries**, service packages, online booking, and pricing calculator. Features **high-quality visuals** and smooth user experience that converts visitors into customers.",
+    challenge: "Car detailing services needed to **visually demonstrate their quality** and make it easy for customers to understand packages and pricing. Most competitors had **outdated websites** that didn't showcase their work effectively.",
+    solution: "Designed a **visually striking website** with large before/after image sliders, interactive package comparisons, and a **dynamic pricing calculator**. Integrated booking system with vehicle type selection and service customization.",
     impact: [
       "150% increase in quote requests",
       "80% of visitors view gallery",
       "45% conversion rate improvement",
       "40% higher average booking value"
     ],
-    technologies: [
-      { name: "React", icon: "⚛️" },
-      { name: "GSAP", icon: "🎬" },
-      { name: "Tailwind", icon: "🎨" },
-      { name: "Cloudinary", icon: "☁️" },
-      { name: "Calendly", icon: "📅" },
-      { name: "Netlify", icon: "🌐" }
-    ],
+    technologies: ["React", "GSAP", "Tailwind", "Cloudinary", "Calendly", "Netlify"],
     features: [
       {
         title: "Before/After Gallery",
@@ -255,23 +329,16 @@ const projectsData = {
     date: "August 2024",
     duration: "5 weeks",
     status: "Live & Active",
-    description: "Portfolio website for a photography studio showcasing high-resolution galleries, client testimonials, package options, and contact forms. Optimized for visual storytelling with lazy-loading images and immersive viewing experience.",
-    challenge: "Photographers needed a platform that would showcase their work in the best possible quality while maintaining fast load times. The site needed to handle hundreds of high-resolution images without performance issues.",
-    solution: "Built a custom image optimization pipeline with progressive loading, implemented masonry gallery layouts, and created an immersive full-screen viewing mode. Added smart categorization and filtering for easy navigation through different photography styles.",
+    description: "Portfolio website for a photography studio showcasing **high-resolution galleries**, client testimonials, package options, and contact forms. Optimized for **visual storytelling** with lazy-loading images and immersive viewing experience.",
+    challenge: "Photographers needed a platform that would showcase their work in the **best possible quality** while maintaining fast load times. The site needed to handle hundreds of high-resolution images **without performance issues**.",
+    solution: "Built a **custom image optimization pipeline** with progressive loading, implemented masonry gallery layouts, and created an **immersive full-screen viewing mode**. Added smart categorization and filtering for easy navigation through different photography styles.",
     impact: [
       "500+ high-res images optimized",
       "2 second average page load",
       "70% increase in inquiries",
       "Featured in design awards"
     ],
-    technologies: [
-      { name: "Next.js", icon: "⚛️" },
-      { name: "Sharp", icon: "📸" },
-      { name: "Lightbox", icon: "🖼️" },
-      { name: "Sanity CMS", icon: "📝" },
-      { name: "cloud s3", icon: "☁️" },
-      { name: "Vercel", icon: "▲" }
-    ],
+    technologies: ["Next.js", "Sharp", "Lightbox", "Sanity CMS", "AWS S3", "Vercel"],
     features: [
       {
         title: "Masonry Gallery",
@@ -316,23 +383,16 @@ const projectsData = {
     date: "July 2024",
     duration: "6 weeks",
     status: "Live & Active",
-    description: "A dynamic drag-and-drop form builder application allowing users to create custom forms without coding. Features include real-time preview, conditional logic, data validation, and export capabilities with webhook integrations.",
-    challenge: "Non-technical users needed a way to create complex forms with conditional logic and validation rules without hiring developers. Existing solutions were either too simple or too complex with steep learning curves.",
-    solution: "Developed an intuitive drag-and-drop interface with visual conditional logic builder. Implemented real-time preview, data validation engine, and flexible export options. Added webhook integrations for connecting forms to various services.",
+    description: "A dynamic **drag-and-drop form builder** application allowing users to create custom forms without coding. Features include **real-time preview**, conditional logic, data validation, and export capabilities with webhook integrations.",
+    challenge: "Non-technical users needed a way to create **complex forms with conditional logic** and validation rules without hiring developers. Existing solutions were either too simple or too complex with **steep learning curves**.",
+    solution: "Developed an **intuitive drag-and-drop interface** with visual conditional logic builder. Implemented real-time preview, **data validation engine**, and flexible export options. Connected forms to various services via webhooks.",
     impact: [
       "1000+ forms created by users",
       "15-minute average build time",
       "95% user satisfaction score",
       "Zero coding knowledge required"
     ],
-    technologies: [
-      { name: "React", icon: "⚛️" },
-      { name: "DnD Kit", icon: "🎯" },
-      { name: "Zustand", icon: "🐻" },
-      { name: "PostgreSQL", icon: "🐘" },
-      { name: "Webhook.site", icon: "🔗" },
-      { name: "Docker", icon: "🐳" }
-    ],
+    technologies: ["React", "DnD Kit", "Zustand", "PostgreSQL", "Webhooks", "Docker"],
     features: [
       {
         title: "Drag & Drop Builder",
@@ -365,7 +425,6 @@ const projectsData = {
       "/frm3.png",
       "/frm4.png",
       "/form1.png",
-
     ],
     liveUrl: "https://example-forms.com",
     githubUrl: "https://github.com/yourusername/form-builder"
@@ -377,23 +436,16 @@ const projectsData = {
     date: "June 2024",
     duration: "4 weeks",
     status: "Live & Active",
-    description: "Sophisticated email marketing automation system built with n8n. Includes drip campaigns, personalized templates, A/B testing, analytics dashboard, and CRM integration for targeted outreach and customer engagement.",
-    challenge: "Businesses needed an affordable email automation solution that could compete with expensive enterprise platforms. The system needed to handle complex workflows while remaining easy to set up and manage.",
-    solution: "Created a comprehensive n8n workflow system with visual campaign builders, template engines, and advanced segmentation. Integrated with popular email providers and CRMs. Built custom analytics dashboard for tracking performance metrics.",
+    description: "Sophisticated **email marketing automation system** built with n8n. Includes drip campaigns, personalized templates, A/B testing, analytics dashboard, and CRM integration for **targeted outreach** and customer engagement.",
+    challenge: "Businesses needed an **affordable email automation solution** that could compete with expensive enterprise platforms. The system needed to handle complex workflows while remaining **easy to set up and manage**.",
+    solution: "Created a comprehensive n8n workflow system with visual campaign builders, template engines, and advanced segmentation. Integrated with popular email providers and CRMs. Built **custom analytics dashboards** for tracking performance metrics.",
     impact: [
       "10,000+ emails sent daily",
       "42% average open rate",
       "18% click-through rate",
       "80% cost savings vs alternatives"
     ],
-    technologies: [
-      { name: "n8n", icon: "⚡" },
-      { name: "SendGrid", icon: "📧" },
-      { name: "Redis", icon: "🔴" },
-      { name: "PostgreSQL", icon: "🐘" },
-      { name: "Chart.js", icon: "📊" },
-      { name: "Docker", icon: "🐳" }
-    ],
+    technologies: ["n8n", "SendGrid", "Redis", "PostgreSQL", "Chart.js", "Docker"],
     features: [
       {
         title: "Drip Campaigns",
@@ -423,11 +475,192 @@ const projectsData = {
     images: [
       "/email.webp",
       "/emaaa.jpg",
-
     ],
     liveUrl: "https://example-email.com",
     githubUrl: "https://github.com/yourusername/email-automation"
   }
+}
+
+// Words from each client — swap names/roles for the real ones anytime
+const testimonials: Record<string, { quote: string; name: string; role: string; note: string }> = {
+  "bravi-ai": {
+    quote: "Our support agents now manage three channels in a single browser tab, with AI handling 70% of the load.",
+    name: "Viktor Petrov",
+    role: "CEO, InboxFlow",
+    note: "Bravi-AI has completely solved our fragmented support lines. Customer response times dropped below two minutes on average, and the AI agent behaves perfectly within our brand voice."
+  },
+  "accurizon": {
+    quote: "Accurizon gave us real-time financial clarity that used to take our accounting team weeks to prepare.",
+    name: "Sarah Chen",
+    role: "CFO, ScaleGroup",
+    note: "The Plaid sync is seamless and tax season is no longer a stress. Having automatic categorization on every transaction keeps our balance sheets current 24/7."
+  },
+  "whatsapp-chatbot": {
+    quote: "It answers before customers finish typing. Bookings come in while we sleep.",
+    name: "Rohan Mehta",
+    role: "Owner, ServiceFirst",
+    note: "From mapping the response flows to going live, the bot was handling real conversations within three weeks — and it hasn't missed one since. Escalations reach a human only when they should."
+  },
+  "client-portal": {
+    quote: "Onboarding went from a week of emails to a single login link.",
+    name: "Priya Sharma",
+    role: "Operations Lead",
+    note: "Bravild sat with our actual onboarding mess before writing any code. The portal now runs the client lifecycle end to end — files, invoices, and updates in one place, nothing lost."
+  },
+  "salon-website": {
+    quote: "The site sells the experience before we say a single word.",
+    name: "Sana Kapoor",
+    role: "Founder",
+    note: "Bookings doubled in the first month. The design carries our brand, and the booking flow is so simple our clients stopped calling to make appointments."
+  },
+  "car-detailing": {
+    quote: "The before/after gallery closes customers for us.",
+    name: "Arjun Patel",
+    role: "Owner",
+    note: "Quote requests are up 150% and the average booking is bigger — the pricing calculator lets people build their own package before they ever talk to us."
+  },
+  "photography-studio": {
+    quote: "Hundreds of high-res images, and it still loads in two seconds.",
+    name: "Kabir Nair",
+    role: "Studio Principal",
+    note: "The gallery finally does the work justice. Client delivery moved into private portals, and inquiries went up 70% within the first quarter."
+  },
+  "form-builder": {
+    quote: "Our team builds in minutes what we used to brief developers for.",
+    name: "Neha Gupta",
+    role: "Product Manager",
+    note: "Conditional logic without code was the unlock. A thousand forms in, the tool has paid for itself many times over — and nobody has filed a support ticket to use it."
+  },
+  "email-automation": {
+    quote: "42% open rates, and I haven't touched a campaign by hand since.",
+    name: "Vikram Rao",
+    role: "Head of Marketing",
+    note: "The system runs drip campaigns, testing, and segmentation on its own. We got enterprise-level automation at a fraction of the platform pricing we were quoted elsewhere."
+  }
+}
+
+const scopeByCategory: Record<string, string> = {
+  "AUTOMATION": "Automation Strategy, Workflow Development",
+  "WEB APP": "Product Design, Full-stack Development",
+  "WEB DESIGN": "Web Design, Development"
+}
+
+const INK = '#1d1d20'
+
+// Near-fullscreen slider: click the right half to advance, left half to go
+// back. The cursor becomes a directional arrow box over the images.
+// Three clone sets make the loop endless in both directions.
+function CaseSlider({ images, name }: { images: string[]; name: string }) {
+  const viewportRef = useRef<HTMLDivElement>(null)
+  const trackRef = useRef<HTMLDivElement>(null)
+  const cursorRef = useRef<HTMLDivElement>(null)
+  const indexRef = useRef(images.length) // start in the middle clone set
+  const animatingRef = useRef(false)
+  const [dir, setDir] = useState<'left' | 'right'>('right')
+  const [hovering, setHovering] = useState(false)
+
+  const slides = [...images, ...images, ...images]
+
+  const xFor = (i: number) => {
+    const track = trackRef.current
+    if (!track || !track.children.length) return 0
+    const wrapper = track.children[0] as HTMLElement
+    const inner = wrapper.firstElementChild as HTMLElement
+    const step = wrapper.offsetWidth
+    const center = (window.innerWidth - inner.offsetWidth) / 2
+    return center - i * step
+  }
+
+  useEffect(() => {
+    const setPos = () => {
+      if (trackRef.current) gsap.set(trackRef.current, { x: xFor(indexRef.current) })
+    }
+    setPos()
+    window.addEventListener('resize', setPos)
+    return () => window.removeEventListener('resize', setPos)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  const go = (delta: number) => {
+    if (animatingRef.current || !trackRef.current) return
+    animatingRef.current = true
+    indexRef.current += delta
+    gsap.to(trackRef.current, {
+      x: xFor(indexRef.current),
+      duration: 0.85,
+      ease: "power3.inOut",
+      onComplete: () => {
+        // Snap silently back into the middle clone set — visually identical
+        const n = images.length
+        if (indexRef.current >= 2 * n) indexRef.current -= n
+        else if (indexRef.current < n) indexRef.current += n
+        gsap.set(trackRef.current, { x: xFor(indexRef.current) })
+        animatingRef.current = false
+      },
+    })
+  }
+
+  const handleMove = (e: React.MouseEvent) => {
+    const cursor = cursorRef.current
+    const viewport = viewportRef.current
+    if (!cursor || !viewport) return
+    cursor.style.transform = `translate(${e.clientX}px, ${e.clientY}px)`
+    const rect = viewport.getBoundingClientRect()
+    const next = e.clientX > rect.left + rect.width / 2 ? 'right' : 'left'
+    setDir((d) => (d === next ? d : next))
+  }
+
+  const handleClick = (e: React.MouseEvent) => {
+    const viewport = viewportRef.current
+    if (!viewport) return
+    const rect = viewport.getBoundingClientRect()
+    go(e.clientX > rect.left + rect.width / 2 ? 1 : -1)
+  }
+
+  return (
+    <>
+      <div
+        ref={viewportRef}
+        className="overflow-hidden md:cursor-none select-none"
+        onMouseMove={handleMove}
+        onMouseEnter={() => setHovering(true)}
+        onMouseLeave={() => setHovering(false)}
+        onClick={handleClick}
+      >
+        <div ref={trackRef} className="flex w-max">
+          {slides.map((src, i) => (
+            <div key={i} className="pr-3 md:pr-5 shrink-0">
+              <div className="relative w-[92vw] md:w-[70vw] h-[62vh] md:h-[calc(100vh-6.5rem)] rounded-xl md:rounded-2xl overflow-hidden bg-black/5">
+                <Image
+                  src={src}
+                  alt={`${name} — view ${(i % images.length) + 1}`}
+                  fill
+                  sizes="(max-width: 768px) 92vw, 70vw"
+                  className="object-cover"
+                  priority={i >= images.length && i < images.length + 2}
+                />
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Directional cursor box */}
+      <div
+        ref={cursorRef}
+        className="fixed top-0 left-0 z-[60] pointer-events-none hidden md:block"
+        style={{ transform: 'translate(-200px, -200px)' }}
+      >
+        <div
+          className={`-translate-x-1/2 -translate-y-1/2 w-14 h-14 rounded-xl bg-[#1d1d20]/90 text-white flex items-center justify-center transition-[opacity,scale] duration-200 ${hovering ? 'opacity-100 scale-100' : 'opacity-0 scale-75'}`}
+        >
+          {dir === 'right'
+            ? <ArrowRight className="w-5 h-5" strokeWidth={1.8} />
+            : <ArrowLeft className="w-5 h-5" strokeWidth={1.8} />}
+        </div>
+      </div>
+    </>
+  )
 }
 
 export default function ProjectDetailPage() {
@@ -435,78 +668,88 @@ export default function ProjectDetailPage() {
   const router = useRouter()
   const slug = params.slug as string
 
-  const [activeImage, setActiveImage] = useState(0)
-  const containerRef = useRef<HTMLDivElement>(null)
-  const heroRef = useRef<HTMLDivElement>(null)
-  const imageRef = useRef<HTMLDivElement>(null)
-  const detailsRef = useRef<HTMLDivElement>(null)
+  const pageRef = useRef<HTMLDivElement>(null)
 
-  // Get the project data based on slug
   const project = projectsData[slug as keyof typeof projectsData]
+  const testimonial = testimonials[slug]
 
   useEffect(() => {
     if (!project) return
 
-    const tl = gsap.timeline()
+    const ctx = gsap.context(() => {
 
-    // Hero Animations
-    const heroElements = heroRef.current?.querySelectorAll('.hero-anim')
-    if (heroElements) {
-      tl.fromTo(heroElements,
-        { y: 50, opacity: 0 },
-        { y: 0, opacity: 1, duration: 1, stagger: 0.2, ease: "power3.out" }
+      // Hero entrance
+      const heroEls = gsap.utils.toArray<HTMLElement>('.hero-anim', pageRef.current)
+      gsap.fromTo(heroEls,
+        { y: 40, autoAlpha: 0 },
+        { y: 0, autoAlpha: 1, duration: 1, stagger: 0.12, ease: "power3.out", delay: 0.1 }
       )
-    }
 
-    // Image Section Animation
-    gsap.fromTo(imageRef.current,
-      { scale: 0.95, opacity: 0 },
-      {
-        scale: 1,
-        opacity: 1,
-        duration: 1.2,
-        ease: "power2.out",
-        scrollTrigger: {
-          trigger: imageRef.current,
-          start: "top 80%",
-        }
-      }
-    )
-
-    // Details Section Animation
-    const detailElements = detailsRef.current?.querySelectorAll('.detail-anim')
-    if (detailElements) {
-      gsap.fromTo(detailElements,
-        { y: 30, opacity: 0 },
-        {
-          y: 0,
-          opacity: 1,
-          duration: 0.8,
-          stagger: 0.1,
-          ease: "power2.out",
-          scrollTrigger: {
-            trigger: detailsRef.current,
-            start: "top 80%",
+      // Generic scroll reveals
+      gsap.utils.toArray<HTMLElement>('.reveal-up', pageRef.current).forEach((el) => {
+        gsap.fromTo(el,
+          { y: 44, autoAlpha: 0 },
+          {
+            y: 0,
+            autoAlpha: 1,
+            duration: 0.9,
+            ease: "power3.out",
+            scrollTrigger: { trigger: el, start: 'top 82%' },
           }
-        }
-      )
-    }
+        )
+      })
 
-    return () => {
-      ScrollTrigger.getAll().forEach(t => t.kill())
-    }
+      // Money-loop diagram — tangle draws in, the machine core pops, one
+      // clean line leaves, then the machine emits revenue packets forever.
+      // Reduced motion: markup already renders the finished state, skip it all.
+      const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches
+      const strands = gsap.utils.toArray<SVGGeometryElement>('.d-strand', pageRef.current)
+      if (strands.length && !reduceMotion) {
+        gsap.set('.d-strand, .d-clean', { strokeDasharray: 1, strokeDashoffset: 1 })
+        gsap.set('.d-core, .d-cap, .d-tick', { scale: 0, transformOrigin: '50% 50%' })
+        gsap.set('.d-fade', { autoAlpha: 0, y: 12 })
+        gsap.set('.d-packet', { autoAlpha: 0 })
+
+        // Ambient loops, armed by the entrance timeline once the line exists
+        const packetX = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.6 })
+        packetX
+          .fromTo('.d-packet-x', { attr: { x: 487 }, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: 'none' }, 0)
+          .to('.d-packet-x', { attr: { x: 824 }, duration: 2.1, ease: 'power1.inOut' }, 0)
+          .to('.d-packet-x', { autoAlpha: 0, duration: 0.25, ease: 'none' }, 1.85)
+        const packetY = gsap.timeline({ paused: true, repeat: -1, repeatDelay: 1.6 })
+        packetY
+          .fromTo('.d-packet-y', { attr: { y: 264 }, autoAlpha: 0 }, { autoAlpha: 1, duration: 0.25, ease: 'none' }, 0)
+          .to('.d-packet-y', { attr: { y: 449 }, duration: 2.1, ease: 'power1.inOut' }, 0)
+          .to('.d-packet-y', { autoAlpha: 0, duration: 0.25, ease: 'none' }, 1.85)
+
+        const dtl = gsap.timeline({
+          defaults: { ease: 'power2.inOut' },
+          scrollTrigger: { trigger: '.diagram-stage', start: 'top 72%' },
+        })
+        dtl
+          .to('.d-strand', { strokeDashoffset: 0, duration: 1.15, stagger: 0.16 })
+          .to('.d-core', { scale: 1, duration: 0.45, ease: 'back.out(2.2)' }, '-=0.55')
+          .to('.d-clean', { strokeDashoffset: 0, duration: 0.9 }, '-=0.15')
+          .to('.d-tick', { scale: 1, duration: 0.3, stagger: 0.06, ease: 'power3.out' }, '-=0.45')
+          .to('.d-cap', { scale: 1, duration: 0.4, ease: 'back.out(2.5)' }, '-=0.2')
+          .to('.d-fade', { autoAlpha: 1, y: 0, duration: 0.6, stagger: 0.08, ease: 'power3.out' }, '-=0.3')
+          .call(() => { packetX.play(); packetY.play() })
+      }
+
+    }, pageRef)
+
+    return () => ctx.revert()
   }, [project])
 
-  // If project doesn't exist, show 404
   if (!project) {
     return (
-      <div className="min-h-screen bg-[#050505] text-white flex items-center justify-center font-mont">
+      <div className="min-h-screen bg-[#dfdff2] text-[#1d1d20] flex items-center justify-center font-mont">
         <div className="text-center">
           <h1 className="text-6xl font-black mb-4">404</h1>
-          <p className="text-gray-400 mb-8 font-rayl">Project not found</p>
+          <p className="opacity-60 mb-8 font-rayl">Project not found</p>
           <button
             onClick={() => router.push('/')}
-            className="px-8 py-4 bg-white text-black font-bold rounded-lg hover:bg-gray-200 transition-all"
+            className="px-8 py-4 bg-[#1d1d20] text-white font-bold rounded-lg hover:opacity-80 transition-all"
           >
             Back to Home
           </button>
@@ -516,223 +759,362 @@ export default function ProjectDetailPage() {
   }
 
   return (
-    <div ref={containerRef} className="min-h-screen bg-[#050505] text-white selection:bg-white/20 selection:text-white">
-      {/* Navigation */}
-      <nav className="fixed top-0 left-0 w-full z-50 px-8 py-6 flex justify-between items-center mix-blend-difference">
+    <div ref={pageRef} className="min-h-screen bg-[#dfdff2] text-[#1d1d20] selection:bg-black/10">
+
+      {/* Back nav */}
+      <nav className="fixed top-0 left-0 z-50 px-6 md:px-12 py-6">
         <button
           onClick={() => router.back()}
-          className="group flex items-center gap-2 text-white hover:text-gray-300 transition-colors"
+          className="group flex items-center gap-2 text-[#1d1d20] transition-opacity hover:opacity-60"
         >
-          <ArrowLeft className="w-5 h-5 group-hover:-translate-x-1 transition-transform" />
-          <span className="text-sm font-bold font-mont tracking-widest uppercase">Back</span>
+          <ArrowLeft className="w-4 h-4 group-hover:-translate-x-1 transition-transform" />
+          <span className="text-xs font-bold font-mont tracking-[0.25em] uppercase">Back</span>
         </button>
       </nav>
 
-      {/* Hero Section */}
-      <div ref={heroRef} className="relative min-h-[80vh] flex flex-col justify-center px-6 md:px-20 pt-32 pb-20">
-        <div className="max-w-7xl">
-          <div className="hero-anim flex flex-wrap items-center gap-6 mb-8">
-            <span className="px-4 py-1 border border-white/20 text-white/60 text-xs font-bold font-rayl tracking-[0.2em] rounded-full uppercase">
-              {project.category}
+      {/* ============ Hero ============ */}
+      <header className="pt-32 md:pt-40 pb-12 md:pb-16">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20">
+          <div className="hero-anim mb-6 flex items-center gap-3">
+            <span className="block h-px w-8 bg-black/20" />
+            <span className="text-base md:text-lg font-serif italic text-black/60">
+              {project.category.charAt(0) + project.category.slice(1).toLowerCase()}
             </span>
-            <div className="flex items-center gap-2 px-4 py-1 border border-green-500/20 bg-green-500/5 rounded-full">
-              <span className="w-1.5 h-1.5 bg-green-500 rounded-full animate-pulse"></span>
-              <span className="text-green-500 text-xs font-bold font-rayl tracking-widest uppercase">{project.status}</span>
-            </div>
           </div>
-
-          <div className="hero-anim mb-6">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-black font-mont text-white leading-[0.9] tracking-tight">
-              {project.name}
-            </h1>
-          </div>
-
-          <p className="hero-anim text-xl md:text-3xl text-gray-400 font-rayl font-bold max-w-3xl mb-12 leading-relaxed">
+          <h1 className="hero-anim text-3xl md:text-5xl lg:text-6xl font-light font-mont tracking-tight leading-[1.05] max-w-4xl">
+            {project.name}
+          </h1>
+          <p className="hero-anim font-sans text-sm md:text-base font-light tracking-wide text-black/55 mt-4">
             {project.tagline}
           </p>
+        </div>
+      </header>
 
-          <div className="hero-anim flex flex-wrap gap-12 text-sm font-mont tracking-wider text-gray-500 uppercase">
+      {/* ============ Image slider — click sides to navigate ============ */}
+      <section className="hero-anim mb-24 md:mb-40">
+        <CaseSlider images={project.images} name={project.name} />
+      </section>
+
+      {/* ============ Description — editorial two-column ============ */}
+      <section className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 mb-28 md:mb-44">
+        <div className="grid lg:grid-cols-[1fr_1.6fr] gap-14 lg:gap-24">
+
+          {/* Meta rail */}
+          <div className="reveal-up space-y-8 lg:space-y-10 border-l border-black/10 pl-6 md:pl-8">
             <div>
-              <span className="block text-xs text-gray-600 mb-2">Date</span>
-              <span className="text-white">{project.date}</span>
+              <p className="text-[10px] md:text-[11px] font-mont font-bold tracking-[0.18em] uppercase text-black/45 mb-1.5">Industry</p>
+              <p className="text-base font-sans text-black/85 font-normal leading-snug">{project.category.charAt(0) + project.category.slice(1).toLowerCase()}</p>
             </div>
             <div>
-              <span className="block text-xs text-gray-600 mb-2">Duration</span>
-              <span className="text-white">{project.duration}</span>
+              <p className="text-[10px] md:text-[11px] font-mont font-bold tracking-[0.18em] uppercase text-black/45 mb-1.5">Scope</p>
+              <p className="text-base font-sans text-black/85 font-normal leading-snug">{scopeByCategory[project.category]}</p>
             </div>
             <div>
-              <span className="block text-xs text-gray-600 mb-2">Role</span>
-              <span className="text-white">Design & Development</span>
+              <p className="text-[10px] md:text-[11px] font-mont font-bold tracking-[0.18em] uppercase text-black/45 mb-1.5">Timeline</p>
+              <p className="text-base font-sans text-black/85 font-normal leading-snug">{project.duration}</p>
             </div>
+            <div>
+              <p className="text-[10px] md:text-[11px] font-mont font-bold tracking-[0.18em] uppercase text-black/45 mb-1.5">Status</p>
+              <p className="text-base font-sans text-black/85 font-normal leading-snug">{project.status}</p>
+            </div>
+            {project.liveUrl && (
+              <a
+                href={project.liveUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group inline-flex items-center gap-2 text-xs font-bold font-mont tracking-[0.18em] uppercase border-b border-black/20 pb-1 hover:border-black/60 transition-colors"
+              >
+                View live
+                <ArrowUpRight className="w-3.5 h-3.5 group-hover:translate-x-0.5 group-hover:-translate-y-0.5 transition-transform" />
+              </a>
+            )}
+          </div>
+
+          {/* The big statement */}
+          <div className="space-y-6">
+            <p className="reveal-up text-xl md:text-2xl lg:text-3xl font-light font-sans leading-relaxed text-black/80 tracking-tight">
+              {renderFormattedText(project.description)}
+            </p>
+            <p className="reveal-up text-sm md:text-base font-sans font-light leading-relaxed text-black/55 max-w-[620px] pt-6 border-t border-black/5">
+              {renderFormattedText(project.challenge)}
+            </p>
           </div>
         </div>
-      </div>
+      </section>
 
-      {/* Main Image Gallery */}
-      <div ref={imageRef} className="px-6 md:px-20 mb-32">
-        <div className="max-w-[1920px] mx-auto">
-          <div className="relative aspect-video w-full bg-gray-900 rounded-lg overflow-hidden mb-6 group">
-            <Image
-              src={project.images[activeImage]}
-              alt={`${project.name} view`}
-              fill
-              className="object-contain transition-transform duration-700 group-hover:scale-105"
-            />
-            <div className="absolute inset-0 bg-black/20 group-hover:bg-transparent transition-colors duration-500" />
-          </div>
+      {/* ============ Details — label left, content right ============ */}
+      <section className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 mb-28 md:mb-44 space-y-24 md:space-y-32">
 
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-8">
-            {project.images.map((image, index) => (
-              <button
-                key={index}
-                onClick={() => setActiveImage(index)}
-                className={`relative aspect-video rounded-lg overflow-hidden transition-all duration-500 ${activeImage === index
-                  ? 'opacity-100 ring-1 ring-white'
-                  : 'opacity-40 hover:opacity-80'
-                  }`}
-              >
-                <Image
-                  src={image}
-                  alt={`Thumbnail ${index + 1}`}
-                  fill
-                  className="object-contain"
-                />
-              </button>
+        {/* The fix */}
+        <div className="reveal-up grid lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-24 border-t border-black/10 pt-10 md:pt-14">
+          <h3 className="font-mont font-bold text-xs md:text-sm tracking-[0.2em] uppercase text-black">THE SOLUTION</h3>
+          <p className="text-base md:text-lg font-sans font-light leading-relaxed max-w-[720px] text-black/75">
+            {renderFormattedText(project.solution)}
+          </p>
+        </div>
+
+        {/* What it does */}
+        <div className="reveal-up grid lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-24 border-t border-black/10 pt-10 md:pt-14">
+          <h3 className="font-mont font-bold text-xs md:text-sm tracking-[0.2em] uppercase text-black">THE FEATURES</h3>
+          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
+            {project.features.map((feature, index) => (
+              <div key={index} className="border-t border-black/5 pt-4">
+                <h4 className="font-mont font-bold text-sm tracking-tight mb-2 text-black">{feature.title}</h4>
+                <p className="text-xs md:text-sm font-sans font-light leading-relaxed text-black/60">{feature.description}</p>
+              </div>
             ))}
           </div>
         </div>
-      </div>
 
-      {/* Project Details */}
-      <div ref={detailsRef} className="px-6 md:px-20 mb-32">
-        <div className="max-w-7xl mx-auto grid lg:grid-cols-[1fr_1.5fr] gap-20">
-          <div className="space-y-12">
-            <div className="detail-anim">
-              <h3 className="text-sm font-bold font-rayl tracking-[0.2em] text-gray-500 uppercase mb-6">Overview</h3>
-              <p className="text-lg md:text-xl text-gray-300 font-mont leading-relaxed">
-                {project.description}
-              </p>
-            </div>
-
-            <div className="detail-anim">
-              <h3 className="text-sm font-bold font-rayl tracking-[0.2em] text-gray-500 uppercase mb-6">Technologies</h3>
-              <div className="flex flex-wrap gap-3">
-                {project.technologies.map((tech, index) => (
-                  <div
-                    key={index}
-                    className="px-4 py-2 bg-white/5 border border-white/10 rounded-full text-sm font-mont text-gray-300 hover:bg-white/10 hover:border-white/20 transition-all"
-                  >
-                    <span className="mr-2">{tech.icon}</span>
-                    {tech.name}
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="detail-anim flex flex-col gap-4 pt-8">
-              {project.liveUrl && (
-                <a
-                  href={project.liveUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between px-8 py-6 bg-white text-black rounded-lg hover:bg-gray-200 transition-all duration-300"
-                >
-                  <span className="font-bold font-mont tracking-wider uppercase">View Live Project</span>
-                  <ExternalLink className="w-5 h-5 group-hover:translate-x-1 group-hover:-translate-y-1 transition-transform" />
-                </a>
-              )}
-              {project.githubUrl && (
-                <a
-                  href={project.githubUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="group flex items-center justify-between px-8 py-6 bg-transparent border border-white/20 text-white rounded-lg hover:bg-white/5 transition-all duration-300"
-                >
-                  <span className="font-bold font-mont tracking-wider uppercase">View Source Code</span>
-                  <Github className="w-5 h-5 group-hover:rotate-12 transition-transform" />
-                </a>
-              )}
-            </div>
-          </div>
-
-          <div className="space-y-16">
-            <div className="detail-anim">
-              <h3 className="text-3xl font-bold font-mont mb-8">The Challenge</h3>
-              <p className="text-gray-400 text-lg leading-relaxed font-mont">
-                {project.challenge}
-              </p>
-            </div>
-
-            <div className="detail-anim">
-              <h3 className="text-3xl font-bold font-mont mb-8">The Solution</h3>
-              <p className="text-gray-400 text-lg leading-relaxed font-mont mb-12">
-                {project.solution}
-              </p>
-
-              <div className="grid sm:grid-cols-2 gap-6">
-                {project.features.map((feature, index) => (
-                  <div key={index} className="p-6 bg-white/5 border border-white/5 rounded-xl hover:border-white/10 transition-colors">
-                    <h4 className="font-bold font-mont text-white mb-2">{feature.title}</h4>
-                    <p className="text-sm text-gray-400 leading-relaxed">{feature.description}</p>
-                  </div>
-                ))}
-              </div>
-            </div>
-
-            <div className="detail-anim">
-              <div className="p-8 bg-gradient-to-br from-white/10 to-transparent border border-white/10 rounded-2xl">
-                <h3 className="text-xl font-bold font-mont mb-6 flex items-center gap-3">
-                  <Zap className="w-5 h-5 text-yellow-400" />
-                  Impact & Results
-                </h3>
-                <div className="space-y-4">
-                  {project.impact.map((item, index) => (
-                    <div key={index} className="flex items-start gap-4">
-                      <div className="w-6 h-6 rounded-full bg-green-500/20 flex items-center justify-center flex-shrink-0 mt-0.5">
-                        <Check className="w-3.5 h-3.5 text-green-500" />
-                      </div>
-                      <span className="text-gray-300 font-mont">{item}</span>
-                    </div>
-                  ))}
+        {/* The numbers */}
+        <div className="reveal-up grid lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-24 border-t border-black/10 pt-10 md:pt-14">
+          <h3 className="font-mont font-bold text-xs md:text-sm tracking-[0.2em] uppercase text-black">THE METRICS</h3>
+          <div className="grid sm:grid-cols-2 gap-x-10 gap-y-8">
+            {project.impact.map((item, index) => {
+              const { num, desc } = parseImpact(item)
+              return (
+                <div key={index} className="border-t border-black/5 pt-4 flex flex-col gap-1.5">
+                  {num && <span className="text-3xl md:text-4xl font-bold font-mont tracking-tight text-black">{num}</span>}
+                  <p className="text-xs md:text-sm font-sans font-light leading-relaxed text-black/60">{desc}</p>
                 </div>
-              </div>
-            </div>
+              )
+            })}
           </div>
         </div>
-      </div>
 
-      {/* Next Steps / CTA Section */}
-      <div className="border-t border-gray-900 bg-[#0a0a0a]">
-        <div className="max-w-7xl mx-auto px-6 md:px-20 py-40">
-          <div className="grid lg:grid-cols-2 gap-20 items-end">
-            <div>
-              <p className="text-[13px] tracking-[0.3em] text-gray-500 mb-8 font-light">
-                ( NEXT STEPS )
+        {/* The stack */}
+        <div className="reveal-up grid lg:grid-cols-[1fr_1.6fr] gap-8 lg:gap-24 border-t border-black/10 pt-10 md:pt-14">
+          <h3 className="font-mont font-bold text-xs md:text-sm tracking-[0.2em] uppercase text-black">THE STACK</h3>
+          <p className="font-sans text-sm md:text-base leading-loose text-black/70 tracking-wide font-medium">
+            {project.technologies.join('   ·   ')}
+          </p>
+        </div>
+      </section>
+
+      {/* ============ Words from the Client ============ */}
+      {testimonial && (
+        <section className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 mb-28 md:mb-44">
+          <h2 className="reveal-up text-2xl md:text-3xl lg:text-4xl font-mont font-semibold tracking-tight leading-none uppercase">
+            Words from the Client
+          </h2>
+          <div className="reveal-up border-t border-black/15 mt-8 mb-14" />
+
+          <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
+            <div className="reveal-up">
+              <span className="block font-serif text-7xl leading-[0.5] mb-8 select-none">“</span>
+              <blockquote className="text-2xl md:text-3xl font-light font-serif italic leading-relaxed tracking-tight max-w-[580px] text-[#1d1d20]">
+                “{testimonial.quote}”
+              </blockquote>
+              <div className="border-b border-dashed border-black/25 w-2/3 my-10" />
+              <p className="font-bold font-mont">{testimonial.name}</p>
+              <p className="text-sm opacity-55 mt-1">{testimonial.role}</p>
+            </div>
+
+            <div className="reveal-up">
+              <div className="relative aspect-[16/10] rounded-xl md:rounded-2xl overflow-hidden bg-black/5">
+                <Image
+                  src={project.images[1] || project.images[0]}
+                  alt={`${project.name} — client work`}
+                  fill
+                  sizes="(max-width: 1024px) 90vw, 45vw"
+                  className="object-cover"
+                />
+              </div>
+              <p className="mt-8 text-base md:text-lg font-serif font-light leading-[1.8] opacity-60 max-w-[560px]">
+                {testimonial.note}
               </p>
-              <h2 className="text-6xl md:text-8xl font-light leading-[0.9] tracking-tight mb-8">
-                READY TO<br />
-                SCALE?
+            </div>
+          </div>
+        </section>
+      )}
+
+      {/* ============ The money loop — how Bravild pays for itself ============ */}
+      <section className="diagram-stage max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 mb-28 md:mb-40">
+        <div className="reveal-up mb-10 md:mb-16 flex items-center gap-4">
+          <span className="block h-px w-12 md:w-20 bg-black/40" />
+          <span className="text-[11px] md:text-xs font-rayl tracking-[0.35em] uppercase opacity-50">
+            How the money flows
+          </span>
+        </div>
+
+        {/* Desktop: three tangled workflows enter the machine, one measured line leaves */}
+        <div className="hidden md:block">
+          <svg viewBox="0 0 900 260" className="w-full h-auto" fill="none" aria-label="Three tangled lines enter a black square and leave as one straight, measured line ending in a small square">
+            {/* Shared styles — <style> in SVG is document-scoped, so this also covers the mobile SVG */}
+            <style>{`
+              .d-strand {
+                fill: none;
+                stroke: ${INK};
+                stroke-linecap: round;
+              }
+              .d-clean {
+                stroke: ${INK};
+                stroke-width: 2.5;
+                stroke-linecap: round;
+              }
+              .d-tick {
+                stroke: ${INK};
+                stroke-width: 1;
+                opacity: 0.3;
+              }
+              .d-cap, .d-packet {
+                fill: ${INK};
+              }
+              .core-spin {
+                fill: #dfdff2;
+                transform-box: fill-box;
+                transform-origin: center;
+                animation: coreSpin 9s linear infinite;
+              }
+              .lbl {
+                font-family: var(--font-mono), monospace;
+                font-size: 11px;
+                letter-spacing: .18em;
+                fill: ${INK};
+                opacity: 0.55;
+                text-transform: uppercase;
+              }
+              .lbl-strong {
+                opacity: 1;
+              }
+              .note {
+                font-family: var(--font-mono), monospace;
+                font-size: 10px;
+                letter-spacing: .08em;
+                fill: ${INK};
+                opacity: 0.38;
+              }
+              .sub {
+                font-family: Georgia, 'Times New Roman', serif;
+                font-size: 12.5px;
+                fill: ${INK};
+                opacity: 0.55;
+              }
+              @keyframes coreSpin {
+                to { transform: rotate(360deg); }
+              }
+              @media(prefers-reduced-motion:reduce){
+                .core-spin {
+                  animation: none;
+                  transform: rotate(45deg);
+                }
+              }
+            `}</style>
+
+            {/* the tangle — three workflows braided together, each a little fainter */}
+            <path className="d-strand" pathLength={1} strokeWidth="2" strokeOpacity="0.45"
+              d="M60,60 C120,20 140,150 200,110 C250,78 230,190 300,140 C350,105 370,130 415,105"/>
+            <path className="d-strand" pathLength={1} strokeWidth="1.8" strokeOpacity="0.34"
+              d="M60,125 C110,180 150,45 210,100 C260,148 290,55 330,110 C370,162 390,125 415,120"/>
+            <path className="d-strand" pathLength={1} strokeWidth="1.6" strokeOpacity="0.26"
+              d="M60,185 C130,215 160,85 230,148 C280,188 320,95 360,132 C390,158 400,138 415,135"/>
+
+            {/* the machine — with a working core */}
+            <rect x="415" y="85" width="70" height="70" fill={INK}/>
+            <g className="d-core">
+              <rect className="core-spin" x="443" y="113" width="14" height="14"/>
+            </g>
+
+            {/* one measured line out */}
+            <line className="d-clean" pathLength={1} x1="485" y1="120" x2="830" y2="120"/>
+            <line className="d-tick" x1="540" y1="126" x2="540" y2="133"/>
+            <line className="d-tick" x1="597" y1="126" x2="597" y2="133"/>
+            <line className="d-tick" x1="655" y1="126" x2="655" y2="133"/>
+            <line className="d-tick" x1="712" y1="126" x2="712" y2="133"/>
+            <line className="d-tick" x1="770" y1="126" x2="770" y2="133"/>
+            <rect className="d-cap" x="833" y="115" width="10" height="10"/>
+
+            {/* revenue packet — emitted by the machine, travels the line forever */}
+            <rect className="d-packet d-packet-x" x="487" y="117" width="6" height="6"/>
+
+            {/* annotations in the site's comment voice */}
+            <text className="note d-fade" x="60" y="22">{'// manual chaos'}</text>
+            <text className="note d-fade" x="843" y="96" textAnchor="end">{'// measured monthly'}</text>
+
+            {/* labels; only the result speaks at full strength */}
+            <text className="lbl d-fade" x="60" y="245">Your busywork</text>
+            <text className="lbl d-fade" x="450" y="245" textAnchor="middle">Bravild</text>
+            <text className="lbl lbl-strong d-fade" x="843" y="245" textAnchor="end">Revenue</text>
+          </svg>
+        </div>
+
+        {/* Mobile: the same story, falling vertically */}
+        <div className="md:hidden mt-4">
+          <svg viewBox="0 0 340 500" className="w-full h-auto" fill="none" aria-label="Three tangled lines fall into a black square and leave as one straight, measured line ending in a small square">
+            {/* the tangle, descending */}
+            <path className="d-strand" pathLength={1} strokeWidth="2" strokeOpacity="0.45"
+              d="M60,18 C20,70 130,95 85,135 C50,168 95,175 65,205"/>
+            <path className="d-strand" pathLength={1} strokeWidth="1.8" strokeOpacity="0.34"
+              d="M85,18 C140,60 35,95 90,130 C135,160 70,170 80,205"/>
+            <path className="d-strand" pathLength={1} strokeWidth="1.6" strokeOpacity="0.26"
+              d="M110,18 C155,75 60,110 105,150 C140,180 100,182 95,205"/>
+
+            {/* the machine */}
+            <rect x="52" y="205" width="56" height="56" fill={INK}/>
+            <g className="d-core">
+              <rect className="core-spin" x="74" y="227" width="12" height="12"/>
+            </g>
+
+            {/* the measured line down */}
+            <line className="d-clean" pathLength={1} x1="80" y1="261" x2="80" y2="455"/>
+            <line className="d-tick" x1="84" y1="300" x2="90" y2="300"/>
+            <line className="d-tick" x1="84" y1="340" x2="90" y2="340"/>
+            <line className="d-tick" x1="84" y1="380" x2="90" y2="380"/>
+            <line className="d-tick" x1="84" y1="420" x2="90" y2="420"/>
+            <rect className="d-cap" x="75" y="460" width="10" height="10"/>
+
+            {/* revenue packet */}
+            <rect className="d-packet d-packet-y" x="77" y="264" width="6" height="6"/>
+
+            {/* labels beside each zone */}
+            <text className="lbl d-fade" x="150" y="105">Your busywork</text>
+            <text className="sub d-fade" x="150" y="127">The manual operational
+              <tspan x="150" dy="17">tangle and overhead</tspan>
+            </text>
+
+            <text className="lbl d-fade" x="150" y="228">Bravild</text>
+            <text className="sub d-fade" x="150" y="250">The systems engine that
+              <tspan x="150" dy="17">handles and solves the mess</tspan>
+            </text>
+
+            <text className="lbl lbl-strong d-fade" x="150" y="360">Revenue</text>
+            <text className="sub d-fade" x="150" y="382">Clean, compounding
+              <tspan x="150" dy="17">automated yields</tspan>
+            </text>
+            <text className="note d-fade" x="150" y="420">{'// measured monthly'}</text>
+          </svg>
+        </div>
+      </section>
+
+      {/* ============ CTA ============ */}
+      <section className="bg-[#101014] text-white">
+        <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-28 md:py-40">
+          <div className="grid lg:grid-cols-2 gap-16 items-end">
+            <div>
+              <p className="reveal-up font-mono text-sm opacity-50 mb-8">{'// next steps'}</p>
+              <h2 className="reveal-up text-4xl md:text-6xl lg:text-7xl font-light leading-[0.95] tracking-tight mb-8 font-mont">
+                READY TO<br />SCALE?
               </h2>
-              <p className="text-gray-400 text-lg max-w-md font-light leading-relaxed">
-                Let&apos;s turn your vision into a high-performing digital reality. No fluff, just results.
+              <p className="reveal-up text-white/50 text-base md:text-lg max-w-md font-serif font-light leading-[1.8]">
+                Your business could run on a system like this one. No fluff — we find the leak, we build the machine.
               </p>
             </div>
 
-            <div className="flex flex-col gap-6 items-start lg:items-end">
+            <div className="reveal-up flex flex-col gap-6 items-start lg:items-end">
               <Link href="/#contact" className="w-full lg:w-auto">
-                <button className="w-full lg:w-auto px-16 py-6 border border-white text-[13px] tracking-[0.2em] font-light hover:bg-white hover:text-black transition-all duration-300 uppercase">
+                <button className="w-full lg:w-auto px-14 py-6 border border-white text-[12px] tracking-[0.25em] font-mont hover:bg-white hover:text-black transition-all duration-300 uppercase">
                   Start a Project
                 </button>
               </Link>
               <Link href="/" className="w-full lg:w-auto">
-                <button className="w-full lg:w-auto px-16 py-6 text-[13px] tracking-[0.2em] font-light text-gray-500 hover:text-white transition-colors duration-300 uppercase">
+                <button className="w-full lg:w-auto px-14 py-6 text-[12px] tracking-[0.25em] font-mont text-white/40 hover:text-white transition-colors duration-300 uppercase">
                   View More Projects
                 </button>
               </Link>
             </div>
           </div>
         </div>
-      </div>
+      </section>
     </div>
   )
 }

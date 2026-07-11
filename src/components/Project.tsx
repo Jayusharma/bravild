@@ -14,7 +14,6 @@ interface Partner {
   name: string
   category: string
   isHeader?: boolean
-  hasLogo?: boolean
   description: string
   image: string
   details: string
@@ -27,9 +26,27 @@ const partners: Partner[] = [
     category: "HEADER",
     isHeader: true,
     description:
-      "A collection of innovative solutions I've built, ranging from automation tools to modern web applications. Each project showcases different aspects of full-stack development and creative problem-solving.",
+      "A collection of innovative solutions we've built, ranging from automation engines to full-scale SaaS applications. Each system is designed to remove human overhead and establish high-speed automated growth.",
     image: "/projects_cover.png",
-    details: "Building innovative digital solutions",
+    details: "Building systems that scale",
+  },
+  {
+    name: "BRAVI-AI",
+    category: "AI SAAS",
+    description:
+      "An intelligent, unified inbox connecting WhatsApp, Email, Instagram, and more. Features automated AI responses, real-time agent chats, and custom system pipelines for multi-channel communication.",
+    image: "/ai.png",
+    details: "AI Unified Inbox Platform",
+    projectUrl: "/projects/bravi-ai",
+  },
+  {
+    name: "ACCURIZON",
+    category: "WEB APP",
+    description:
+      "A premium bookkeeping and financial intelligence platform. Features expense automation, balance sheet pipelines, and real-time tax accounting strategy for modern business operations.",
+    image: "/website.png",
+    details: "Automated Bookkeeping Platform",
+    projectUrl: "/projects/accurizon",
   },
   {
     name: "WHATSAPP CHATBOT",
@@ -50,24 +67,6 @@ const partners: Partner[] = [
     projectUrl: "/projects/client-portal",
   },
   {
-    name: "SALON WEBSITE",
-    category: "WEB DESIGN",
-    description:
-      "A modern, responsive website for a premium salon featuring online booking system, service gallery, stylist profiles, and customer reviews. Built with elegant animations and mobile-first approach.",
-    image: "/sal3.png",
-    details: "Beauty & Wellness Platform",
-    projectUrl: "/projects/salon-website",
-  },
-  {
-    name: "CAR DETAILING SITE",
-    category: "WEB DESIGN",
-    description:
-      "Professional car detailing service website with before/after galleries, service packages, online booking, and pricing calculator. Features stunning visuals and smooth user experience.",
-    image: "/lux1.png",
-    details: "Automotive Care Services",
-    projectUrl: "/projects/car-detailing",
-  },
-  {
     name: "PHOTOGRAPHY STUDIO",
     category: "WEB DESIGN",
     description:
@@ -79,12 +78,20 @@ const partners: Partner[] = [
   {
     name: "FORM BUILDER",
     category: "WEB APP",
-    hasLogo: true,
     description:
       "A dynamic drag-and-drop form builder application allowing users to create custom forms without coding. Features include real-time preview, conditional logic, data validation, and export capabilities.",
     image: "/frm1.png",
     details: "No-Code Form Creation Tool",
     projectUrl: "/projects/form-builder",
+  },
+  {
+    name: "SALON WEBSITE",
+    category: "WEB DESIGN",
+    description:
+      "A modern, responsive website for a premium salon featuring online booking system, service gallery, stylist profiles, and customer reviews. Built with elegant animations and mobile-first approach.",
+    image: "/sal3.png",
+    details: "Beauty & Wellness Platform",
+    projectUrl: "/projects/salon-website",
   },
   {
     name: "EMAIL AUTOMATION",
@@ -94,6 +101,15 @@ const partners: Partner[] = [
     image: "/email.webp",
     details: "Marketing Automation Suite",
     projectUrl: "/projects/email-automation",
+  },
+  {
+    name: "CAR DETAILING SITE",
+    category: "WEB DESIGN",
+    description:
+      "Professional car detailing service website with before/after galleries, service packages, online booking, and pricing calculator. Features stunning visuals and smooth user experience.",
+    image: "/lux1.png",
+    details: "Automotive Care Services",
+    projectUrl: "/projects/car-detailing",
   },
 ]
 
@@ -120,27 +136,25 @@ export default function ProjectGallery() {
 
 
 
-  // Get theme colors
+  // Site palette — ink on lavender, or white on black; hierarchy via opacity
   const getThemeColors = () => {
     if (theme === 'dark') {
       return {
-        bg: '#000000',
         text: '#ffffff',
-        textSecondary: '#ffffff',
-        accent: '#facc15',
-        border: '#1f2937'
+        textSecondary: 'rgba(255,255,255,0.6)',
+        border: 'rgba(255,255,255,0.14)'
       };
     }
     return {
-      bg: '#ffffff',
-      text: '#000000',
-      textSecondary: '#6b7280',
-      accent: '#facc15',
-      border: '#e5e7eb'
+      text: '#1d1d20',
+      textSecondary: 'rgba(29,29,32,0.62)',
+      border: 'rgba(29,29,32,0.14)'
     };
   };
 
   const colors = getThemeColors();
+  const isDark = theme === 'dark';
+  const projectCount = String(partners.filter(p => !p.isHeader).length).padStart(2, '0');
 
   // Setup ScrollTrigger for switching back to light theme
   // DISABLED: Keep dark theme after project section
@@ -234,23 +248,10 @@ export default function ProjectGallery() {
         stagger: 0.05,
       })
 
-    partnersRef.current.forEach((ref, i) => {
-      if (ref && !partners[i].isHeader) {
-        const partnerName = ref.querySelector('.partner-name')
-        if (partnerName) {
-          const tween = gsap.to(partnerName, {
-            x: i === targetIndex ? 16 : 0,
-            color: i === targetIndex ? colors.accent : colors.text,
-            duration: 0.2,
-            ease: "power2.out",
-          })
-          partnerAnimationsRef.current.push(tween)
-        }
-      }
-    })
+
 
     currentTimelineRef.current = tl
-  }, [colors])
+  }, [])
 
   const handleHover = useCallback((index: number) => {
     if (isMobile || index === hoveredIndex) return
@@ -334,38 +335,24 @@ export default function ProjectGallery() {
         <div className="hidden sm:grid lg:grid-cols-2 gap-16 lg:gap-52 items-start">
           {/* Left Section */}
           <div className="space-y-12 sticky top-[10rem] left-20">
-            <div ref={imageRef} className="aspect-video bg-[#050505] rounded-lg overflow-hidden max-w-[35vw] relative border border-white/5">
+            <div ref={imageRef} className="aspect-video bg-[#050505] overflow-hidden max-w-[35vw] relative border border-white/5">
               {currentContent.isHeader ? (
-                <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden group">
-                  {/* Animated Background */}
-                  <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(255,255,255,0.03),transparent_70%)] animate-pulse-slow"></div>
-                  <div className="absolute top-0 right-0 w-64 h-64 bg-yellow-500/5 rounded-full blur-3xl -translate-y-1/2 translate-x-1/2"></div>
-                  <div className="absolute bottom-0 left-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl translate-y-1/2 -translate-x-1/2"></div>
+                <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden">
+                  {/* Grid overlay — quiet, instrument-like */}
+                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.03)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.03)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]"></div>
 
-                  {/* Minimalist Content */}
-                  <div className="relative z-10 text-center space-y-6">
-                    <div className="w-12 h-12 border border-white/10 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:border-yellow-500/50 transition-colors duration-500">
-                      <div className="w-1.5 h-1.5 bg-white rounded-full group-hover:bg-yellow-500 transition-colors duration-500"></div>
-                    </div>
+                  <div className="relative z-10 text-center">
+                    {/* The site's square — slowly working, like the machine core */}
+                    <div className="w-2.5 h-2.5 bg-white mx-auto mb-7 animate-slow-spin"></div>
 
-                    <div className="space-y-2">
-                      <h3 className="text-4xl md:text-5xl font-thin tracking-tighter text-white mix-blend-difference">
-                        Selected<br />
-                        <span className="font-bold text-white/10 group-hover:text-white transition-colors duration-700">Works</span>
-                      </h3>
-                    </div>
+                    <h3 className="text-4xl md:text-5xl font-black font-mont tracking-tight text-white leading-[0.95]">
+                      SELECTED<br />WORKS
+                    </h3>
 
-                    <div className="flex items-center justify-center gap-4 text-[10px] uppercase tracking-[0.3em] text-white/30">
-                      <span>Design</span>
-                      <span className="w-1 h-1 bg-white/20 rounded-full"></span>
-                      <span>Dev</span>
-                      <span className="w-1 h-1 bg-white/20 rounded-full"></span>
-                      <span>Create</span>
-                    </div>
+                    <p className="font-mono text-[10px] tracking-[0.3em] uppercase text-white/40 mt-6">
+                      {projectCount} systems — live
+                    </p>
                   </div>
-
-                  {/* Grid Overlay */}
-                  <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.02)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.02)_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_at_center,black,transparent_80%)]"></div>
                 </div>
               ) : (
                 <Image
@@ -382,13 +369,13 @@ export default function ProjectGallery() {
             <div className="space-y-6">
               <div ref={detailsRef}>
                 <h3
-                  className="text-2xl font-bold mb-2 transition-colors duration-0"
-                  style={{ color: colors.accent }}
+                  className="text-2xl font-bold font-mont tracking-tight mb-2 transition-colors duration-0"
+                  style={{ color: colors.text }}
                 >
                   {currentContent.name}
                 </h3>
                 <p
-                  className="text-sm font-medium tracking-wider transition-colors duration-0"
+                  className="font-mono text-[11px] tracking-[0.25em] uppercase transition-colors duration-0"
                   style={{ color: colors.textSecondary }}
                 >
                   {currentContent.details}
@@ -397,7 +384,7 @@ export default function ProjectGallery() {
 
               <div ref={descriptionRef}>
                 <p
-                  className="text-lg leading-relaxed transition-colors duration-0"
+                  className="text-base lg:text-lg font-serif font-light leading-[1.8] max-w-[520px] transition-colors duration-0"
                   style={{ color: colors.textSecondary }}
                 >
                   {currentContent.description}
@@ -407,11 +394,17 @@ export default function ProjectGallery() {
               <div ref={buttonRef} className="pt-4 min-h-[68px]">
                 {!currentContent.isHeader && currentContent.projectUrl && (
                   <Link href={currentContent.projectUrl}>
-                    <button className="group relative px-8 py-4 bg-yellow-400 text-black font-bold text-sm tracking-wider uppercase rounded-lg overflow-hidden transition-all duration-300 hover:bg-yellow-500 hover:shadow-xl hover:shadow-yellow-400/20 hover:scale-105 active:scale-95">
-                      <span className="relative z-10 flex items-center gap-3">
+                    <button
+                      className={`group px-10 py-4 border text-[12px] tracking-[0.25em] font-mont uppercase transition-all duration-300 ${
+                        isDark
+                          ? 'border-white text-white hover:bg-white hover:text-black'
+                          : 'border-[#1d1d20] text-[#1d1d20] hover:bg-[#1d1d20] hover:text-[#dfdff2]'
+                      }`}
+                    >
+                      <span className="flex items-center gap-3">
                         View Full Details
                         <svg
-                          className="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1"
+                          className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1"
                           fill="none"
                           stroke="currentColor"
                           viewBox="0 0 24 24"
@@ -419,7 +412,6 @@ export default function ProjectGallery() {
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17 8l4 4m0 0l-4 4m4-4H3" />
                         </svg>
                       </span>
-                      <div className="absolute inset-0 bg-gradient-to-r from-yellow-300 to-yellow-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
                     </button>
                   </Link>
                 )}
@@ -428,94 +420,92 @@ export default function ProjectGallery() {
           </div>
 
           {/* Right Section */}
-          <div className="space-y-8" onMouseLeave={handleMouseLeave}>
-            {partners.map((partner, index) => (
-              <div
-                key={`${partner.name}-${index}`}
-                className="flex items-center group cursor-pointer"
-                onMouseEnter={() => handleHover(index)}
-                ref={(el) => { partnersRef.current[index] = el }}
-              >
-                {!partner.isHeader && (
-                  <div className="w-16 flex-shrink-0">
-                    <span
-                      className="text-xs font-medium tracking-wider transition-colors duration-0"
-                      style={{ color: colors.textSecondary }}
-                    >
-                      {partner.category}
-                    </span>
-                  </div>
-                )}
+          <div className="space-y-4 lg:space-y-5 xl:space-y-5.5" onMouseLeave={handleMouseLeave}>
+            {partners.map((partner, index) => {
+              const isHeader = partner.isHeader
+              const isHovered = hoveredIndex === index
+              const hasActiveSelection = hoveredIndex > 0 // index 0 is the header
 
-                <div className="flex items-center flex-1">
-                  <h2
-                    className={`partner-name text-4xl lg:text-5xl xl:text-5xl font-black tracking-tight transition-all duration-300 ease-out ${partner.isHeader ? "" : "hover:text-yellow-400"
-                      }`}
-                    style={{
-                      color: partner.isHeader ? colors.text : (hoveredIndex === index ? colors.accent : colors.text),
-                      transitionProperty: 'transform, color',
-                      transitionDuration: '0.3s'
-                    }}
-                  >
-                    {partner.name}
-                  </h2>
-
-                  {partner.hasLogo && hoveredIndex === index && (
-                    <div className="ml-8 animate-fade-in">
-                      <div className="w-16 h-16 bg-yellow-400 rounded-lg flex items-center justify-center shadow-lg">
-                        <span className="text-black font-bold text-sm">LOGO</span>
-                      </div>
+              return (
+                <div
+                  key={`${partner.name}-${index}`}
+                  className={`flex items-center group cursor-pointer transition-all duration-300 ease-out
+                    ${isHeader ? 'opacity-100' : (hasActiveSelection ? (isHovered ? 'opacity-100 translate-x-3' : 'opacity-80') : 'opacity-85')}`}
+                  onMouseEnter={() => handleHover(index)}
+                  ref={(el) => { partnersRef.current[index] = el }}
+                >
+                  {!isHeader && (
+                    <div className="w-28 flex-shrink-0">
+                      <span
+                        className={`font-mono text-[10px] lg:text-[11px] tracking-[0.2em] uppercase transition-colors duration-300
+                          ${isHovered ? 'text-[#facc15]' : 'text-white/40'}`}
+                      >
+                        {partner.category}
+                      </span>
                     </div>
                   )}
+
+                  <div className="flex items-center flex-1">
+                    <h2
+                      className={`partner-name text-xl md:text-2.5xl lg:text-3xl xl:text-[2.15rem] font-black tracking-tight transition-colors duration-300
+                        ${isHeader ? 'text-white' : (isHovered ? 'text-[#facc15]' : 'text-white')}`}
+                    >
+                      {partner.name}
+                    </h2>
+                  </div>
                 </div>
-              </div>
-            ))}
+              )
+            })}
           </div>
         </div>
 
         {/* Mobile Layout */}
         <div className="sm:hidden space-y-1">
-          {partners.map((partner, index) => (
-            <div key={`mobile-${partner.name}-${index}`} style={{ borderBottom: `1px solid ${colors.border}` }} className="last:border-b-0">
-              <div
-                className={`flex items-center py-5 px-2 transition-all duration-200 relative z-10 ${!partner.isHeader ? "cursor-pointer active:bg-opacity-5" : "py-6"
-                  }`}
-                style={{ backgroundColor: !partner.isHeader && expandedMobileIndex === index ? `${colors.text}0D` : 'transparent' }}
-                onClick={() => handleMobileClick(index)}
-              >
-                {!partner.isHeader && (
-                  <div className="w-20 flex-shrink-0">
-                    <span
-                      className="text-[10px] font-semibold tracking-widest uppercase transition-colors duration-0"
-                      style={{ color: colors.textSecondary }}
-                    >
-                      {partner.category}
-                    </span>
-                  </div>
-                )}
+          {partners.map((partner, index) => {
+            const isExpanded = expandedMobileIndex === index
+            const isDimmed = expandedMobileIndex !== null && expandedMobileIndex !== index
 
-                <div className="flex items-center justify-between flex-1">
-                  <h2
-                    className={`text-xl sm:text-2xl font-black tracking-tight transition-colors duration-0 ${partner.isHeader ? "text-2xl" : ""
-                      }`}
-                    style={{ color: partner.isHeader ? colors.text : (expandedMobileIndex === index ? colors.accent : colors.text) }}
-                  >
-                    {partner.name}
-                  </h2>
-
+            return (
+              <div key={`mobile-${partner.name}-${index}`} style={{ borderBottom: `1px solid ${colors.border}` }} className="last:border-b-0">
+                <div
+                  className={`flex items-center py-5 px-2 transition-all duration-200 relative z-10 ${!partner.isHeader ? "cursor-pointer active:bg-opacity-5" : "py-6"
+                    }`}
+                  style={{ backgroundColor: !partner.isHeader && isExpanded ? `${colors.text}0D` : 'transparent' }}
+                  onClick={() => handleMobileClick(index)}
+                >
                   {!partner.isHeader && (
-                    <div className="ml-4 flex-shrink-0">
-                      <div
-                        className={`w-8 h-8 flex items-center justify-center transition-transform duration-300 ${expandedMobileIndex === index ? "rotate-45" : "rotate-0"
-                          }`}
+                    <div className="w-20 flex-shrink-0">
+                      <span
+                        className={`font-mono text-[10px] tracking-[0.2em] uppercase transition-colors duration-300
+                          ${isExpanded ? 'text-[#facc15]' : 'text-white/40'}`}
                       >
-                        <div className="w-5 h-0.5 bg-yellow-400 absolute rounded-full"></div>
-                        <div className="w-0.5 h-5 bg-yellow-400 absolute rounded-full"></div>
-                      </div>
+                        {partner.category}
+                      </span>
                     </div>
                   )}
+
+                  <div className="flex items-center justify-between flex-1">
+                    <h2
+                      className={`text-xl sm:text-2xl font-black font-mont tracking-tight transition-all duration-300
+                        ${!partner.isHeader && isDimmed ? "opacity-40" : "opacity-100"}`}
+                      style={{ color: !partner.isHeader && isExpanded ? '#facc15' : colors.text }}
+                    >
+                      {partner.name}
+                    </h2>
+
+                    {!partner.isHeader && (
+                      <div className="ml-4 flex-shrink-0">
+                        <div
+                          className={`w-8 h-8 flex items-center justify-center transition-transform duration-300 ${isExpanded ? "rotate-45" : "rotate-0"
+                            }`}
+                        >
+                          <div className="w-5 h-0.5 absolute transition-colors duration-300" style={{ backgroundColor: isExpanded ? '#facc15' : colors.text }}></div>
+                          <div className="w-0.5 h-5 absolute transition-colors duration-300" style={{ backgroundColor: isExpanded ? '#facc15' : colors.text }}></div>
+                        </div>
+                      </div>
+                    )}
+                  </div>
                 </div>
-              </div>
 
               {!partner.isHeader && (
                 <div
@@ -525,7 +515,7 @@ export default function ProjectGallery() {
                   style={{ height: 0, opacity: 0 }}
                 >
                   <div className="pb-6 px-2 space-y-4 pt-4">
-                    <div className="relative w-full aspect-video bg-gray-900 rounded-xl overflow-hidden shadow-lg">
+                    <div className="relative w-full aspect-video bg-[#050505] overflow-hidden">
                       <Image
                         src={partner.image || "/placeholder.svg"}
                         alt={partner.name}
@@ -538,13 +528,13 @@ export default function ProjectGallery() {
 
                     <div className="space-y-3">
                       <p
-                        className="text-sm font-bold tracking-wider uppercase transition-colors duration-0"
-                        style={{ color: colors.accent }}
+                        className="font-mono text-[11px] tracking-[0.25em] uppercase transition-colors duration-0"
+                        style={{ color: colors.textSecondary }}
                       >
                         {partner.details}
                       </p>
                       <p
-                        className="text-sm leading-relaxed transition-colors duration-0"
+                        className="text-sm font-serif font-light leading-[1.7] transition-colors duration-0"
                         style={{ color: colors.textSecondary }}
                       >
                         {partner.description}
@@ -553,8 +543,14 @@ export default function ProjectGallery() {
                       {partner.projectUrl && (
                         <div className="pt-3">
                           <Link href={partner.projectUrl}>
-                            <button className="w-full group relative px-6 py-3 bg-yellow-400 text-black font-bold text-xs tracking-wider uppercase rounded-lg overflow-hidden transition-all duration-300 active:scale-95">
-                              <span className="relative z-10 flex items-center justify-center gap-2">
+                            <button
+                              className={`w-full group px-6 py-4 border text-[11px] tracking-[0.25em] font-mont uppercase transition-all duration-300 active:scale-[0.98] ${
+                                theme === 'dark'
+                                  ? 'border-white text-white active:bg-white active:text-black'
+                                  : 'border-[#1d1d20] text-[#1d1d20] active:bg-[#1d1d20] active:text-[#dfdff2]'
+                              }`}
+                            >
+                              <span className="flex items-center justify-center gap-2">
                                 View Full Details
                                 <svg
                                   className="w-4 h-4 transition-transform duration-300 group-active:translate-x-1"
@@ -574,26 +570,29 @@ export default function ProjectGallery() {
                 </div>
               )}
             </div>
-          ))}
+          )
+        })}
 
 
         </div>
       </div>
 
       <style jsx>{`
-        @keyframes fade-in {
-          from {
-            opacity: 0;
-            transform: translateX(-10px);
-          }
+        @keyframes slow-spin {
           to {
-            opacity: 1;
-            transform: translateX(0);
+            transform: rotate(360deg);
           }
         }
-        
-        .animate-fade-in {
-          animation: fade-in 0.4s ease-out;
+
+        .animate-slow-spin {
+          animation: slow-spin 9s linear infinite;
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+          .animate-slow-spin {
+            animation: none;
+            transform: rotate(45deg);
+          }
         }
       `}</style>
     </div>

@@ -221,7 +221,7 @@ const Hero = () => {
   const initialPoints = useMemo(() => `0,0 ${dimensions.width},0 ${dimensions.width},${dimensions.height} 0,${dimensions.height}`, [dimensions.width, dimensions.height])
 
   return (
-    <div ref={containerRef} className="relative w-full h-[100vh] supports-[height:100svh]:h-[100svh]">
+    <div id="home" ref={containerRef} className="relative w-full h-[100vh] supports-[height:100svh]:h-[100svh]">
       <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
         <svg
           ref={shapeRef}
@@ -247,7 +247,7 @@ const Hero = () => {
           >
             <div className="relative w-full h-full bg-[#2D152B]">
               <img
-                src="/girl.png"
+                src="/girl.webp"
                 alt="Hero Fallback"
                 className="absolute inset-0 w-full h-full object-contain z-0 scale-115 translate-y-11"
               />

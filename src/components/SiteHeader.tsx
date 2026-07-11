@@ -11,8 +11,8 @@ gsap.registerPlugin(ScrollTrigger);
 
 const navLinks = [
     { name: "Home", href: "#home" }, // Changed to #home for consistent scrolling
-    { name: "Work", href: "#work" },
     { name: "About", href: "#about" },
+    { name: "Work", href: "#work" },
     { name: "Contact", href: "#contact" },
 ];
 
@@ -58,6 +58,10 @@ export default function SiteHeader() {
         }
 
         const handleScroll = () => {
+            if (window.scrollY < 50) {
+                setActiveSection("home");
+                return;
+            }
             const scrollPosition = window.scrollY + window.innerHeight / 3;
 
             for (const link of navLinks) {

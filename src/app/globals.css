@@ -6,19 +6,23 @@
 }
 @font-face {
   font-family: 'rayl';
-  src: url("/fonts/rayl.ttf") format("truetype");   
+  src: url("/fonts/rayl.ttf") format("truetype");
+  font-display: swap;
 }
 @font-face {
   font-family: 'nort';
-  src: url("/fonts/nort.ttf") format("truetype");   
+  src: url("/fonts/nort.ttf") format("truetype");
+  font-display: swap;
 }
 @font-face {
   font-family: 'mont';
-  src: url("/fonts/mont.ttf") format("truetype");   
+  src: url("/fonts/mont.ttf") format("truetype");
+  font-display: swap;
 }
 @font-face {
   font-family: 'mont-ex';
-  src: url("/fonts/mont-ex.ttf") format("truetype");   
+  src: url("/fonts/mont-ex.ttf") format("truetype");
+  font-display: swap;
 }
 @theme{
   --font-rayl: 'rayl', sans-serif;
