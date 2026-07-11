@@ -237,7 +237,7 @@ const Hero = () => {
               />
             </clipPath>
           </defs>
-
+            
           <foreignObject
             x="0"
             y="0"
@@ -323,6 +323,7 @@ const Hero = () => {
         <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-black leading-tight">
           BEYOND LOGIC
         </h1>
+        
       </div>
     </div>
   )
