@@ -299,7 +299,7 @@ export default function Process() {
             {/* The desktop stage rotated 90° — hairline, ticks, fill, and the
                 rotating cube riding the leading edge downward while pinned */}
             <div ref={vertRef} className="xl:hidden relative h-svh flex flex-col overflow-hidden">
-                <div className="w-full h-full px-6 md:px-12 flex flex-col pt-16 md:pt-20 pb-8 md:pb-12">
+                <div className="w-full h-full px-6 md:px-12 flex flex-col pt-10 md:pt-14 pb-8 md:pb-12">
 
                     {/* Header */}
                     <div>
@@ -315,7 +315,7 @@ export default function Process() {
                                 The Process
                             </span>
                         </div>
-                        <h2 className="text-3xl md:text-5xl font-black font-mont tracking-tight" style={{ color: textColor }}>
+                        <h2 className="text-2xl md:text-4xl font-black font-mont tracking-tight" style={{ color: textColor }}>
                             HOW WE WORK
                         </h2>
                     </div>

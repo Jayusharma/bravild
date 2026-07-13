@@ -175,7 +175,7 @@ export default function ProjectGallery() {
     const checkMobile = () => {
       clearTimeout(resizeTimer)
       resizeTimer = setTimeout(() => {
-        setIsMobile(window.innerWidth < 640)
+        setIsMobile(window.innerWidth < 1024)
       }, 100)
     }
 
@@ -328,11 +328,11 @@ export default function ProjectGallery() {
     <div
       id="work"
       ref={sectionRef}
-      className=" pt-24 md:pt-[25vh] sm:p-8 px-4 md:px-8"
+      className=" pt-24 md:pt-16 lg:pt-[25vh] sm:p-8 px-4 md:px-8"
     >
       <div className="max-w-9xl mx-auto">
         {/* Desktop Layout */}
-        <div className="hidden sm:grid lg:grid-cols-2 gap-16 lg:gap-52 items-start">
+        <div className="hidden lg:grid lg:grid-cols-2 gap-16 lg:gap-52 items-start">
           {/* Left Section */}
           {/* Sticky and the 35vw cap only make sense in the two-column layout (lg+);
               on tablet the grid is single-column and the preview should span it */}
@@ -462,7 +462,7 @@ export default function ProjectGallery() {
         </div>
 
         {/* Mobile Layout */}
-        <div className="sm:hidden space-y-1">
+        <div className="lg:hidden space-y-1">
           {partners.map((partner, index) => {
             const isExpanded = expandedMobileIndex === index
             const isDimmed = expandedMobileIndex !== null && expandedMobileIndex !== index
@@ -522,7 +522,7 @@ export default function ProjectGallery() {
                         src={partner.image || "/placeholder.svg"}
                         alt={partner.name}
                         fill
-                        sizes="(max-width: 768px) 100vw, 50vw"
+                        sizes="(max-width: 1024px) 100vw, 50vw"
                         className="object-cover"
                         loading="lazy"
                       />
