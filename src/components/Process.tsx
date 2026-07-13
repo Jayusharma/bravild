@@ -36,11 +36,15 @@ const steps = [
 
 export default function Process() {
     const containerRef = useRef<HTMLDivElement>(null);
-    const desktopRef = useRef<HTMLDivElement>(null);
+    const stageRef = useRef<HTMLDivElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
     const headRef = useRef<HTMLDivElement>(null);
-    const mobileProgressRef = useRef<HTMLDivElement>(null);
     const counterRef = useRef<HTMLSpanElement>(null);
+    // Vertical stage (mobile + tablet) — same language, rotated 90°
+    const vertRef = useRef<HTMLDivElement>(null);
+    const vProgressRef = useRef<HTMLDivElement>(null);
+    const vHeadRef = useRef<HTMLDivElement>(null);
+    const vCounterRef = useRef<HTMLSpanElement>(null);
     const { theme, setTheme } = useTheme();
 
     const isDark = theme === 'dark';
@@ -52,21 +56,21 @@ export default function Process() {
     useEffect(() => {
         const ctx = gsap.context(() => {
             const mm = gsap.matchMedia();
+            const TAIL = 0.6; // hold after the last step before the pin releases
+            const total = steps.length + TAIL;
 
-            // Desktop: screen pins, the rail fills point to point,
-            // each step pops above its diamond as the fill arrives
-            mm.add("(min-width: 768px)", () => {
-                const cols = gsap.utils.toArray<HTMLElement>('.process-step', desktopRef.current);
-                const ticks = gsap.utils.toArray<HTMLElement>('.process-tick', desktopRef.current);
+            // Desktop/laptop: horizontal rail — the screen pins, the rail fills
+            // point to point, the cube rides the leading edge. 1280 cutoff so
+            // iPad Pro portrait (1024w) still gets the vertical rail.
+            mm.add("(min-width: 1280px)", () => {
+                const cols = gsap.utils.toArray<HTMLElement>('.process-step', stageRef.current);
+                const ticks = gsap.utils.toArray<HTMLElement>('.process-tick', stageRef.current);
                 if (!cols.length) return;
-
-                const TAIL = 0.6; // hold after the last step before the pin releases
-                const total = steps.length + TAIL;
 
                 const tl = gsap.timeline({
                     defaults: { ease: "power3.out" },
                     scrollTrigger: {
-                        trigger: desktopRef.current,
+                        trigger: stageRef.current,
                         start: 'top top',
                         end: '+=160%',
                         scrub: 0.7,
@@ -122,49 +126,63 @@ export default function Process() {
                 tl.to({}, { duration: TAIL }, steps.length);
             });
 
-            // Mobile: vertical timeline (no pinning)
-            mm.add("(max-width: 767px)", () => {
-                gsap.fromTo(mobileProgressRef.current,
+            // Mobile + tablet (incl. iPad Pro portrait): the same rail rotated
+            // vertical — the fill runs downward and the cube rides it
+            mm.add("(max-width: 1279px)", () => {
+                const cols = gsap.utils.toArray<HTMLElement>('.v-step', vertRef.current);
+                const ticks = gsap.utils.toArray<HTMLElement>('.v-tick', vertRef.current);
+                if (!cols.length) return;
+
+                const tl = gsap.timeline({
+                    defaults: { ease: "power3.out" },
+                    scrollTrigger: {
+                        trigger: vertRef.current,
+                        start: 'top top',
+                        end: '+=160%',
+                        scrub: 0.7,
+                        pin: true,
+                        onUpdate: (self) => {
+                            const t = self.progress * total;
+                            setTheme(t >= steps.length - 1 ? 'dark' : 'light');
+                            const idx = Math.min(steps.length - 1, Math.floor(t));
+                            if (vCounterRef.current) vCounterRef.current.textContent = steps[idx].number;
+                        },
+                    },
+                });
+
+                tl.fromTo(vProgressRef.current,
                     { scaleY: 0 },
-                    {
-                        scaleY: 1,
-                        ease: "none",
-                        scrollTrigger: {
-                            trigger: containerRef.current,
-                            start: "top center",
-                            end: "bottom center",
-                            scrub: 1,
-                        }
-                    }
+                    { scaleY: 1, duration: steps.length, ease: "none" },
+                    0
                 );
 
-                steps.forEach((_, index) => {
-                    const stepEl = document.getElementById(`step-mobile-${index}`);
-                    if (stepEl) {
-                        gsap.fromTo(stepEl,
-                            { opacity: 0.2, x: -20 },
-                            {
-                                opacity: 1,
-                                x: 0,
-                                duration: 0.5,
-                                scrollTrigger: {
-                                    trigger: stepEl,
-                                    start: "top 80%",
-                                    end: "top 50%",
-                                    scrub: 0.5,
-                                }
-                            }
+                if (vHeadRef.current) {
+                    tl.fromTo(vHeadRef.current,
+                        { top: '0%', rotation: 45 },
+                        { top: '100%', rotation: 225, duration: steps.length, ease: "none" },
+                        0
+                    );
+                }
+
+                cols.forEach((col, i) => {
+                    const els = col.querySelectorAll('.step-el');
+                    const at = i === 0 ? 0.08 : i;
+
+                    tl.fromTo(els,
+                        { yPercent: 140 },
+                        { yPercent: 0, duration: 0.5, stagger: 0.08 },
+                        at
+                    );
+                    // Vertical ticks stretch sideways as the cube passes
+                    if (ticks[i]) {
+                        tl.to(ticks[i],
+                            { opacity: 0.9, scaleX: 1.8, duration: 0.2 },
+                            at
                         );
                     }
                 });
 
-                // Mobile theme switch
-                ScrollTrigger.create({
-                    trigger: containerRef.current,
-                    start: "bottom 80%",
-                    onEnter: () => setTheme('dark'),
-                    onLeaveBack: () => setTheme('light')
-                });
+                tl.to({}, { duration: TAIL }, steps.length);
             });
 
         }, containerRef);
@@ -175,8 +193,9 @@ export default function Process() {
     return (
         <section ref={containerRef} className="relative w-full">
 
-            {/* ============ Desktop: pinned rail sequence ============ */}
-            <div ref={desktopRef} className="hidden md:flex relative h-screen flex-col overflow-hidden">
+            {/* ============ Desktop: pinned horizontal rail — unchanged ============ */}
+            {/* svh, not vh — browser chrome must not cut off the rail */}
+            <div ref={stageRef} className="hidden xl:flex relative h-svh flex-col overflow-hidden">
                 <div className="w-full max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 flex flex-col h-full pt-14 lg:pt-20 pb-14 lg:pb-16">
 
                     {/* Header */}
@@ -196,7 +215,7 @@ export default function Process() {
                         <h2 className="text-4xl lg:text-6xl font-black font-mont tracking-tight" style={{ color: textColor }}>
                             HOW WE WORK
                         </h2>
-                       
+
                     </div>
 
                     {/* Steps — pushed down toward the rail */}
@@ -222,11 +241,6 @@ export default function Process() {
                                             {step.title}
                                         </h3>
                                     </div>
-                                    {/* <div className="overflow-hidden">
-                                        <p className="step-el font-mono text-[11px] lg:text-xs mt-1.5 mb-4" style={{ color: textColor, opacity: 0.5 }}>
-                                            {step.tag}
-                                        </p>
-                                    </div> */}
                                     <div className="overflow-hidden">
                                         <p
                                             className="step-el font-serif font-light text-sm lg:text-[15px] leading-[1.7] max-w-[210px]"
@@ -273,7 +287,7 @@ export default function Process() {
                             className="flex items-center justify-end mt-5 font-mono text-xs"
                             style={{ color: textColor, opacity: 0.5 }}
                         >
-                            
+
                             <span><span ref={counterRef}>01</span> / 04</span>
                         </div>
                     </div>
@@ -281,70 +295,104 @@ export default function Process() {
                 </div>
             </div>
 
-            {/* ============ Mobile: vertical timeline ============ */}
-            <div className="md:hidden py-10">
-                <div className="px-6">
+            {/* ============ Mobile + tablet: the same rail, vertical ============ */}
+            {/* The desktop stage rotated 90° — hairline, ticks, fill, and the
+                rotating cube riding the leading edge downward while pinned */}
+            <div ref={vertRef} className="xl:hidden relative h-svh flex flex-col overflow-hidden">
+                <div className="w-full h-full px-6 md:px-12 flex flex-col pt-16 md:pt-20 pb-8 md:pb-12">
 
-                    <div className="mb-16">
-                        <div className="mb-5 flex items-center gap-4">
+                    {/* Header */}
+                    <div>
+                        <div className="mb-4 md:mb-5 flex items-center gap-4">
                             <span
-                                className="block h-px w-12"
+                                className="block h-px w-12 md:w-20"
                                 style={{ backgroundColor: textColor, opacity: 0.4 }}
                             />
                             <span
-                                className="text-[11px] font-rayl tracking-[0.35em] uppercase"
+                                className="text-[11px] md:text-xs font-rayl tracking-[0.35em] uppercase"
                                 style={{ color: textColor, opacity: 0.5 }}
                             >
                                 The Process
                             </span>
                         </div>
-                        <h2 className="text-4xl font-black font-mont tracking-tight" style={{ color: textColor }}>
+                        <h2 className="text-3xl md:text-5xl font-black font-mont tracking-tight" style={{ color: textColor }}>
                             HOW WE WORK
                         </h2>
-                        <p className="font-mono text-sm mt-3" style={{ color: textColor, opacity: 0.55 }}>
-                            {'// every leak costs money.'}
-                        </p>
                     </div>
 
-                    <div className="space-y-12 relative">
-                        {/* Vertical rail */}
-                        <div className="absolute top-0 left-[19px] w-[2px] h-full" style={{ backgroundColor: `${textColor}1a` }} />
-                        <div
-                            ref={mobileProgressRef}
-                            className="absolute top-0 left-[19px] w-[2px] h-full origin-top transform scale-y-0"
-                            style={{ backgroundColor: textColor }}
-                        />
+                    {/* Rail + steps fill the remaining height */}
+                    <div className="flex-1 flex mt-8 md:mt-12 min-h-0">
 
-                        {steps.map((step, index) => (
+                        {/* Progress rail — hairline, ruler ticks, and the traveling box */}
+                        <div className="relative w-px" style={{ backgroundColor: `${textColor}20` }}>
+                            {/* Fill */}
                             <div
-                                key={index}
-                                id={`step-mobile-${index}`}
-                                className="relative pl-16 opacity-20"
-                            >
-                                {/* Solid square marker on the rail */}
+                                ref={vProgressRef}
+                                className="absolute inset-0 origin-top"
+                                style={{ backgroundColor: textColor, transform: 'scaleY(0)' }}
+                            />
+                            {/* Ticks at each point */}
+                            {steps.map((_, i) => (
                                 <div
-                                    className="absolute top-2.5 left-[15px] w-2.5 h-2.5 z-10"
-                                    style={{ backgroundColor: textColor }}
+                                    key={i}
+                                    className="v-tick absolute left-1/2 -translate-x-1/2 h-px w-3.5"
+                                    style={{ top: `${(i / steps.length) * 100}%`, backgroundColor: textColor, opacity: 0.3 }}
                                 />
+                            ))}
+                            {/* End cap */}
+                            <div
+                                className="absolute left-1/2 -translate-x-1/2 bottom-0 h-px w-2"
+                                style={{ backgroundColor: textColor, opacity: 0.3 }}
+                            />
+                            {/* Traveling box — the site's square, riding the leading edge */}
+                            <div
+                                ref={vHeadRef}
+                                className="absolute left-1/2 w-2.5 h-2.5 -translate-x-1/2 -translate-y-1/2 z-10"
+                                style={{ top: '0%', backgroundColor: textColor }}
+                            />
+                        </div>
 
-                                <span
-                                    className="block text-4xl font-black font-mont mb-3 leading-none"
-                                    style={{ color: numberColor }}
-                                >
-                                    {step.number}
-                                </span>
-                                <h3 className="text-xl font-bold font-mont tracking-tight mb-1" style={{ color: textColor }}>
-                                    {step.title}
-                                </h3>
-                                {/* <p className="font-mono text-xs mb-3" style={{ color: textColor, opacity: 0.5 }}>
-                                    {step.tag}
-                                </p> */}
-                                <p className="font-serif font-light text-sm leading-[1.7] max-w-[300px]" style={{ color: textColor, opacity: 0.65 }}>
-                                    {step.description}
-                                </p>
-                            </div>
-                        ))}
+                        {/* Steps — one row per rail segment, so tick i sits beside step i */}
+                        <div className="flex-1 grid grid-rows-4 pl-7 md:pl-12">
+                            {steps.map((step) => (
+                                <div key={step.number} className="v-step flex flex-col justify-start -mt-1.5">
+                                    <div className="overflow-hidden">
+                                        <span
+                                            className="step-el block font-black font-mont leading-none text-3xl md:text-5xl lg:text-6xl mb-2 md:mb-4"
+                                            style={{ color: numberColor }}
+                                        >
+                                            {step.number}
+                                        </span>
+                                    </div>
+                                    <div className="overflow-hidden py-0.5">
+                                        <h3
+                                            className="step-el text-sm md:text-lg lg:text-2xl font-bold font-mont tracking-tight"
+                                            style={{ color: textColor }}
+                                        >
+                                            {step.title}
+                                        </h3>
+                                    </div>
+                                    <div className="overflow-hidden">
+                                        <p
+                                            className="step-el font-serif font-light text-xs md:text-[15px] lg:text-[17px] leading-[1.6] md:leading-[1.7] max-w-[300px] md:max-w-[440px] lg:max-w-[520px]"
+                                            style={{ color: textColor, opacity: 0.65 }}
+                                        >
+                                            {step.description}
+                                        </p>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
                     </div>
+
+                    {/* Counter under the rail */}
+                    <div
+                        className="flex items-center justify-end mt-4 md:mt-6 font-mono text-xs"
+                        style={{ color: textColor, opacity: 0.5 }}
+                    >
+                        <span><span ref={vCounterRef}>01</span> / 04</span>
+                    </div>
+
                 </div>
             </div>
 

@@ -191,7 +191,7 @@ export default function SiteHeader() {
                 <div className="max-w-[1800px] mx-auto flex justify-between items-center">
                     {/* Logo */}
                     <Link href="/" className="relative z-50 group">
-                        <span className="text-2xl font-black tracking-widest text-white mix-blend-difference font-mont">
+                        <span className="text-2xl md:text-xl lg:text-3xl xl:text-2xl font-black tracking-widest text-white mix-blend-difference font-mont">
                             BRAVILD
                         </span>
                         <span className="absolute -bottom-1 left-0 w-0 h-[2px] bg-white transition-all duration-300 group-hover:w-full mix-blend-difference" />
@@ -208,7 +208,7 @@ export default function SiteHeader() {
                                         key={link.name}
                                         href={link.href}
                                         onClick={(e) => handleNavClick(e, link.href)}
-                                        className={`relative px-5 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${isActive
+                                        className={`relative px-5 py-2 md:px-3 md:py-1.5 lg:px-6 lg:py-2.5 xl:px-5 xl:py-2 rounded-full text-xs md:text-[0.7rem] lg:text-[0.85rem] xl:text-xs font-bold uppercase tracking-wider transition-all duration-300 cursor-pointer ${isActive
                                             ? "bg-white text-black shadow-lg shadow-white/10"
                                             : "text-white/80 hover:text-white hover:bg-white/10"
                                             }`}
@@ -224,7 +224,7 @@ export default function SiteHeader() {
                             href="#contact"
                             onClick={(e) => handleNavClick(e, "#contact")}
                         >
-                            <button className="group relative px-6 py-2.5 overflow-hidden rounded-full bg-white text-black font-bold text-xs tracking-widest uppercase transition-transform hover:scale-105">
+                            <button className="group relative px-6 py-2.5 md:px-4 md:py-2 lg:px-7 lg:py-3 xl:px-6 xl:py-2.5 overflow-hidden rounded-full bg-white text-black font-bold text-xs md:text-[0.7rem] lg:text-[0.85rem] xl:text-xs tracking-widest uppercase transition-transform hover:scale-105">
                                 <span className="relative z-10 group-hover:text-white transition-colors duration-300">
                                     Let&apos;s Talk
                                 </span>

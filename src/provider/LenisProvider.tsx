@@ -46,6 +46,16 @@ function LenisInner({ children }: { children: React.ReactNode }) {
     gsap.ticker.add(tickerCallback);
     gsap.ticker.lagSmoothing(0);
 
+    // Pinned sections (Process) compute their start position from layout
+    // measurements. Late-arriving fonts and images re-wrap text and shift
+    // heights — without a refresh the pin fires too late, worst on narrow
+    // screens where wrapping changes the most.
+    const refresh = () => ScrollTrigger.refresh();
+    window.addEventListener('load', refresh);
+    if (document.fonts?.ready) {
+      document.fonts.ready.then(refresh);
+    }
+
     // Save scroll position on scroll
     // We use the current window.location.pathname to ensure we save for the correct page
     const handleScroll = ({ scroll }: { scroll: number }) => {
@@ -55,6 +65,7 @@ function LenisInner({ children }: { children: React.ReactNode }) {
     lenis.on('scroll', handleScroll);
 
     return () => {
+      window.removeEventListener('load', refresh);
       gsap.ticker.remove(tickerCallback);
       lenis.destroy();
     };

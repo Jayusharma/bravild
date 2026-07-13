@@ -36,16 +36,16 @@ const projectsData = {
     date: "January 2025",
     duration: "10 weeks",
     status: "Production Live",
-    description: "An **intelligent, unified communications inbox** connecting WhatsApp, Email, Instagram, and more, equipped with automated AI responses, chat, and smart data infrastructure.",
+    description: "An **intelligent, unified communications inbox** connecting WhatsApp, Email, Instagram, and more, equipped with automated AI responses, real-time agent chat, and smart data infrastructure.",
     challenge: "Businesses struggled to manage customer messages across multiple platforms, causing delays and lost sales. They needed a **single unified dashboard** that could automate basic conversations while organizing multi-channel client inquiries.",
-    solution: "Built a **robust Next.js and Node.js central inbox** platform integrating OpenAI agents, Twilio APIs, and Meta Messenger APIs. The system features real-time agent routing, AI-generated suggestion replies, and visual messaging analytics.",
+    solution: "Built a **full-stack CRM platform** using Next.js, Python microservices, and RAG-powered AI agents. Integrated WhatsApp Business API, Twilio, and Meta APIs with real-time agent routing, AI-generated reply suggestions, and a visual analytics layer.",
     impact: [
-      "99% multi-channel message sync",
-      "70% automated AI answer rate",
-      "5x faster response execution",
-      "24/7 autonomous operations"
+      "Messages across 4 channels in one inbox",
+      "AI handles 7 out of 10 queries on its own",
+      "Response time dropped from hours to seconds",
+      "Runs 24/7 without a single person online"
     ],
-    technologies: ["Next.js", "Node.js", "OpenAI API", "Twilio Business", "PostgreSQL", "Socket.io"],
+    technologies: ["Next.js", "Python", "WhatsApp Business API", "RAG", "OpenAI", "PostgreSQL", "Socket.io", "Twilio"],
     features: [
       {
         title: "Multi-channel Inbox",
@@ -53,7 +53,7 @@ const projectsData = {
       },
       {
         title: "AI Response Agents",
-        description: "Autonomous agents that suggest and send replies"
+        description: "RAG-powered agents that suggest and send context-aware replies"
       },
       {
         title: "Real-time Routing",
@@ -78,42 +78,42 @@ const projectsData = {
     ],
     imageBg: "#ffffff",
     imageFit: "contain",
-    liveUrl: "https://bravi-ai.com",
+    liveUrl: null,
     githubUrl: null
   },
   "accurizon": {
     name: "Accurizon",
-    tagline: "Automated Bookkeeping Platform",
-    category: "WEB APP",
+    tagline: "Financial Services Website",
+    category: "WEB DESIGN",
     date: "November 2024",
-    duration: "6 weeks",
+    duration: "4 weeks",
     status: "Live",
-    description: "A **premium bookkeeping and financial intelligence** platform designed for modern business operations. Features include automated expense tracking, balance sheets, and real-time tax accounting.",
-    challenge: "Traditional bookkeeping was slow, manual, and prone to error, leaving businesses without **real-time financial clarity**. Managing receipts, invoices, and ledgers required constant manual input.",
-    solution: "Designed a **secure financial app using Next.js** with Plaid and Stripe integrations. Implemented automated transaction categorization, real-time balance sheets, and automated receipt recognition.",
+    description: "A **premium financial services website** designed for a modern bookkeeping firm. Built with smooth scroll-driven animations, interactive service breakdowns, and a polished brand identity that builds trust on first visit.",
+    challenge: "The client had no digital presence and needed a website that would **instantly establish credibility** with potential business clients. The design had to feel institutional-grade while remaining approachable and easy to navigate.",
+    solution: "Designed and built a **high-end marketing website using Next.js** with GSAP scroll animations and Splide carousels. Every section was crafted to guide visitors through the firm's services, team, and client success stories with cinematic transitions.",
     impact: [
-      "80% reduction in bookkeeping time",
-      "100% tax filing readiness",
-      "Real-time expense insights",
-      "Zero manual data entries"
+      "3x more enquiries in the first month",
+      "Average visitor spends over 2 minutes on site",
+      "Bounce rate dropped below 30%",
+      "Clients say the site sold them before the first call"
     ],
-    technologies: ["Next.js", "Plaid API", "Stripe API", "Supabase", "Tesseract.js", "Tailwind CSS"],
+    technologies: ["Next.js", "GSAP", "Splide", "Tailwind CSS", "TypeScript", "Vercel"],
     features: [
       {
-        title: "Automated Categorization",
-        description: "Transactions auto-sorted using trained models"
+        title: "Scroll-driven Animations",
+        description: "Cinematic GSAP transitions triggered on scroll"
       },
       {
-        title: "Plaid Connection",
-        description: "Real-time bank feed sync with enterprise security"
+        title: "Service Breakdowns",
+        description: "Interactive cards with detailed service architecture"
       },
       {
-        title: "Dynamic Invoicing",
-        description: "Billing and reconciliation in one interface"
+        title: "Client Testimonials",
+        description: "Rotating carousel with partner logos and quotes"
       },
       {
-        title: "Tax Dashboard",
-        description: "Instantly export tax-ready financial sheets"
+        title: "Contact Integration",
+        description: "Inline enquiry forms with instant email delivery"
       }
     ],
     images: [
@@ -126,7 +126,7 @@ const projectsData = {
     ],
     imageBg: "#ffffff",
     imageFit: "contain",
-    imagePositions: { 0: "center 55%", 1: "center 55%", 3: "center 40%" },
+    imagePositions: { 0: "center 65%", 1: "center 65%", 3: "center 30%" },
     liveUrl: "https://accurizon.com",
     githubUrl: null
   },
@@ -137,51 +137,52 @@ const projectsData = {
     date: "October 2024",
     duration: "3 weeks",
     status: "Active",
-    description: "An **intelligent WhatsApp chatbot** built with n8n automation platform that **revolutionizes customer communication**. This solution provides **24/7 automated responses**, smart appointment scheduling, and **seamless integration** with business tools.",
-    challenge: "Businesses struggled with **manual customer support** on WhatsApp, leading to **delayed responses and missed opportunities**. The challenge was to create an intelligent system that could handle multiple conversations simultaneously while **maintaining a personal touch**.",
-    solution: "Developed a **sophisticated n8n automation workflow** that integrates with WhatsApp Business API, natural language processing, and a custom database. The bot **intelligently routes queries**, provides instant responses, and **escalates complex issues** to human agents.",
+    description: "An **intelligent WhatsApp chatbot** powered by n8n automation workflows, AI agents, and RAG retrieval. Handles customer queries, books appointments, and syncs every conversation to a CRM — all without human intervention.",
+    challenge: "The client's team was buried in WhatsApp messages — **manually replying to hundreds of enquiries daily**, missing follow-ups, and losing leads. They needed a system that could handle volume without losing the personal touch.",
+    solution: "Built an **n8n automation pipeline** connecting WhatsApp Business API with an AI agent powered by RAG. Conversations are logged to Google Sheets and synced with CRM. The bot intelligently routes complex queries to humans only when needed.",
     impact: [
-      "95% reduction in response time",
-      "300+ conversations handled daily",
-      "85% customer satisfaction rate",
-      "60% decrease in support costs"
+      "Replies go out in under 5 seconds, not 5 hours",
+      "Handles 300+ conversations a day without breaking",
+      "Clients can't tell it's a bot — that's the point",
+      "Support costs cut by more than half"
     ],
-    technologies: ["n8n", "WhatsApp API", "Node.js", "PostgreSQL", "OpenAI", "Webhooks"],
+    technologies: ["n8n", "WhatsApp Business API", "OpenAI", "RAG", "Google Sheets", "CRM", "AI Agents"],
     features: [
       {
-        title: "Intelligent Response System",
-        description: "AI-powered responses that understand context and intent"
+        title: "AI Agent with RAG",
+        description: "Context-aware responses using retrieval-augmented generation"
       },
       {
         title: "Appointment Scheduling",
         description: "Automated booking system with calendar integration"
       },
       {
-        title: "Multi-language Support",
-        description: "Communicate in 10+ languages automatically"
+        title: "CRM Sync",
+        description: "Every conversation logged and synced to CRM automatically"
       },
       {
-        title: "Analytics Dashboard",
-        description: "Real-time insights into conversations and performance"
-      },
-      {
-        title: "CRM Integration",
-        description: "Seamless sync with popular CRM platforms"
+        title: "Spreadsheet Logging",
+        description: "All enquiries captured in Google Sheets for reporting"
       },
       {
         title: "Smart Escalation",
-        description: "Automatically route complex queries to human agents"
+        description: "Routes complex queries to human agents seamlessly"
+      },
+      {
+        title: "Multi-language Support",
+        description: "Communicate in multiple languages automatically"
       }
     ],
     images: [
-      "/whatsapp-chatbot/wa.png",
-      "/whatsapp-chatbot/wa1.png",
-      "/whatsapp-chatbot/wa2.png"
+      "/whatsapp-chatbot/sss.png",
+      "/whatsapp-chatbot/sss4.png",
+      "/whatsapp-chatbot/sss2.png",
+      "/whatsapp-chatbot/sss3.png"
     ],
-    imageBg: "#efeae2",
+    imageBg: "#0a0a0c",
     imageFit: "contain",
-    liveUrl: "https://example.com",
-    githubUrl: "https://github.com/yourusername/whatsapp-chatbot"
+    liveUrl: null,
+    githubUrl: null
   },
   "client-portal": {
     name: "Client Portal",
@@ -194,10 +195,10 @@ const projectsData = {
     challenge: "Managing client interactions via email and disparate tools led to **communication gaps, lost files, and payment delays**. The agency needed a **centralized hub** to manage the entire client lifecycle from onboarding to offboarding.",
     solution: "Built a **robust Next.js application** with role-based access control. Implemented a secure file management system using AWS S3, **automated invoicing with Stripe integration**, and a real-time activity feed using WebSockets.",
     impact: [
-      "40% reduction in admin time",
-      "Zero lost files or missed invoices",
-      "100% client onboarding satisfaction",
-      "Faster payment processing"
+      "Admin time cut nearly in half",
+      "Not a single file lost since launch",
+      "Every client onboarded without a hitch",
+      "Payments come in faster than ever"
     ],
     technologies: ["Next.js", "Supabase", "Tailwind", "Stripe", "AWS S3", "Resend"],
     features: [
@@ -227,10 +228,10 @@ const projectsData = {
       }
     ],
     images: [
-      "/client-portal/port2.png",
-      "/client-portal/port.png",
-      "/client-portal/port4.png",
-      "/client-portal/port5.png"
+      "/client-portal/cli1.png",
+      "/client-portal/cli2.png",
+      "/client-portal/cli4.png",
+      "/client-portal/cli5.png"
     ],
     imageBg: "#0f0f11",
     imageFit: "contain",
@@ -242,42 +243,42 @@ const projectsData = {
     tagline: "Beauty & Wellness Platform",
     category: "WEB DESIGN",
     date: "September 2024",
-    duration: "4 weeks",
+    duration: "3 weeks",
     status: "Live & Active",
-    description: "A **modern, responsive website** for a premium salon featuring an online booking system, service gallery, stylist profiles, and customer reviews. Built with **elegant animations** and a **mobile-first approach** for the best user experience.",
-    challenge: "The salon needed a **digital presence** that matched their premium brand while providing an **easy booking experience**. Traditional appointment systems were cumbersome and didn't showcase their services effectively.",
-    solution: "Created a **stunning website with Next.js** featuring real-time appointment booking, interactive service galleries, stylist profiles with expertise areas, and an integrated review system. The design emphasizes **visual appeal** while maintaining functionality.",
+    description: "A **modern, responsive website** for a premium salon featuring elegant scroll animations, service showcases, stylist profiles, and a mobile-first design that reflects the brand's identity.",
+    challenge: "The salon had no website and was relying entirely on word of mouth and Instagram. They needed a **digital presence that felt as premium as their salon**, with clear service information and easy contact options.",
+    solution: "Designed a **visually rich website with Next.js**, GSAP scroll animations, and Splide galleries. Each section was crafted to guide visitors through the salon's story, team, and services with smooth, cinema-like transitions.",
     impact: [
-      "200% increase in online bookings",
-      "50% reduction in phone inquiries",
-      "90% positive customer feedback",
-      "300+ new clients in first month"
+      "Online enquiries doubled in the first month",
+      "Clients stopped calling — they book through the site",
+      "The brand finally feels as premium online as in person",
+      "Google search visibility went from zero to page one"
     ],
-    technologies: ["Next.js", "Tailwind CSS", "TypeScript", "Framer Motion", "Stripe", "Vercel"],
+    technologies: ["Next.js", "GSAP", "Splide", "Tailwind CSS", "TypeScript", "Vercel"],
     features: [
       {
-        title: "Online Booking System",
-        description: "Real-time appointment scheduling with calendar integration"
-      },
-      {
-        title: "Service Gallery",
-        description: "Beautiful showcase of treatments with before/after photos"
+        title: "Service Showcase",
+        description: "Beautiful galleries with treatment details and pricing"
       },
       {
         title: "Stylist Profiles",
         description: "Meet the team with detailed bios and specializations"
       },
       {
-        title: "Customer Reviews",
-        description: "Integrated review system with star ratings"
+        title: "Scroll Animations",
+        description: "Smooth GSAP transitions for a premium feel"
       },
       {
-        title: "Mobile Responsive",
-        description: "Perfect experience on all devices"
+        title: "Mobile-first Design",
+        description: "Perfect experience on phones and tablets"
       },
       {
-        title: "Payment Integration",
-        description: "Secure online deposits and payments"
+        title: "Contact Integration",
+        description: "WhatsApp and email enquiry buttons throughout"
+      },
+      {
+        title: "Image Galleries",
+        description: "Splide carousels showcasing salon work"
       }
     ],
     images: [
@@ -288,7 +289,7 @@ const projectsData = {
     ],
     imageBg: "#fdf8f5",
     imageFit: "contain",
-    liveUrl: "https://example-salon.com",
+    liveUrl: null,
     githubUrl: null
   },
   "car-detailing": {
@@ -298,16 +299,16 @@ const projectsData = {
     date: "November 2024",
     duration: "3 weeks",
     status: "Live & Active",
-    description: "Professional car detailing service website with **stunning before/after galleries**, service packages, online booking, and pricing calculator. Features **high-quality visuals** and smooth user experience that converts visitors into customers.",
-    challenge: "Car detailing services needed to **visually demonstrate their quality** and make it easy for customers to understand packages and pricing. Most competitors had **outdated websites** that didn't showcase their work effectively.",
-    solution: "Designed a **visually striking website** with large before/after image sliders, interactive package comparisons, and a **dynamic pricing calculator**. Integrated booking system with vehicle type selection and service customization.",
+    description: "A **professional car detailing website** with stunning service galleries, package breakdowns, and smooth scroll animations. Designed to convert visitors into customers with a premium look that matches the quality of the detailing work.",
+    challenge: "The detailing business had no online presence and was losing potential clients to competitors with better websites. They needed something that **visually showcased their work quality** and made it easy to understand pricing.",
+    solution: "Built a **visually striking website with Next.js** and GSAP animations. Designed large before/after galleries, interactive service package cards, and clear CTAs. The site loads fast and looks premium on every screen size.",
     impact: [
-      "150% increase in quote requests",
-      "80% of visitors view gallery",
-      "45% conversion rate improvement",
-      "40% higher average booking value"
+      "Quote requests went up 150% in the first quarter",
+      "Most visitors check the gallery before anything else",
+      "Average booking value went up by 40%",
+      "The site pays for itself every single month"
     ],
-    technologies: ["React", "GSAP", "Tailwind", "Cloudinary", "Calendly", "Netlify"],
+    technologies: ["Next.js", "GSAP", "Splide", "Tailwind CSS", "TypeScript", "Vercel"],
     features: [
       {
         title: "Before/After Gallery",
@@ -318,20 +319,20 @@ const projectsData = {
         description: "Side-by-side service package comparisons"
       },
       {
-        title: "Pricing Calculator",
-        description: "Dynamic pricing based on vehicle type and services"
+        title: "Scroll Animations",
+        description: "Smooth GSAP transitions for a premium feel"
       },
       {
-        title: "Online Booking",
-        description: "Integrated scheduling with availability display"
+        title: "Mobile Responsive",
+        description: "Pixel-perfect on every device"
       },
       {
-        title: "Mobile App",
-        description: "Progressive web app for on-the-go access"
+        title: "Contact CTAs",
+        description: "WhatsApp and call buttons on every section"
       },
       {
-        title: "Customer Portal",
-        description: "Track service history and appointments"
+        title: "Image Galleries",
+        description: "Splide carousels for service showcases"
       }
     ],
     images: [
@@ -342,50 +343,50 @@ const projectsData = {
     ],
     imageBg: "#121216",
     imageFit: "contain",
-    liveUrl: "https://example-detailing.com",
-    githubUrl: "https://github.com/yourusername/car-detailing"
+    liveUrl: null,
+    githubUrl: null
   },
   "photography-studio": {
-    name: "Photography Studio Website",
-    tagline: "Visual Arts Portfolio",
+    name: "CineStories",
+    tagline: "Photography & Cinematic Portfolio",
     category: "WEB DESIGN",
     date: "August 2024",
-    duration: "5 weeks",
+    duration: "4 weeks",
     status: "Live & Active",
-    description: "Portfolio website for a photography studio showcasing **high-resolution galleries**, client testimonials, package options, and contact forms. Optimized for **visual storytelling** with lazy-loading images and immersive viewing experience.",
-    challenge: "Photographers needed a platform that would showcase their work in the **best possible quality** while maintaining fast load times. The site needed to handle hundreds of high-resolution images **without performance issues**.",
-    solution: "Built a **custom image optimization pipeline** with progressive loading, implemented masonry gallery layouts, and created an **immersive full-screen viewing mode**. Added smart categorization and filtering for easy navigation through different photography styles.",
+    description: "A **cinematic portfolio website** for a photography studio showcasing high-resolution galleries, client stories, and booking options. Built with smooth scroll-driven animations and optimized for fast loading despite hundreds of images.",
+    challenge: "The photographer needed a website that did justice to their work — **fast, beautiful, and immersive**. Most portfolio templates felt generic and couldn't handle large image libraries without becoming painfully slow.",
+    solution: "Designed a **custom Next.js portfolio** with GSAP scroll animations, Splide galleries, and lazy-loaded high-res images. Every section was crafted to tell a visual story, from the hero to the contact form.",
     impact: [
-      "500+ high-res images optimized",
-      "2 second average page load",
-      "70% increase in inquiries",
-      "Featured in design awards"
+      "Enquiries went up 70% in the first quarter",
+      "Site loads in under 2 seconds with 500+ images",
+      "Clients share the portfolio link more than the Instagram",
+      "The photographer says it finally does their work justice"
     ],
-    technologies: ["Next.js", "Sharp", "Lightbox", "Sanity CMS", "AWS S3", "Vercel"],
+    technologies: ["Next.js", "GSAP", "Splide", "Tailwind CSS", "TypeScript", "Vercel"],
     features: [
       {
-        title: "Masonry Gallery",
-        description: "Pinterest-style layout with smooth animations"
+        title: "Cinematic Galleries",
+        description: "Full-bleed image layouts with smooth transitions"
       },
       {
-        title: "Lightbox Viewer",
-        description: "Full-screen image viewing with zoom and navigation"
+        title: "Scroll Animations",
+        description: "GSAP-powered reveal effects throughout"
       },
       {
-        title: "Smart Filtering",
-        description: "Filter by event type, style, or date"
+        title: "Lazy Loading",
+        description: "Images load progressively without blocking the page"
       },
       {
-        title: "Client Portal",
-        description: "Private galleries for client photo delivery"
+        title: "Category Filtering",
+        description: "Browse by wedding, portrait, commercial, or event"
       },
       {
-        title: "Booking System",
-        description: "Schedule consultations and photo sessions"
+        title: "Booking Section",
+        description: "Schedule consultations directly from the site"
       },
       {
-        title: "Blog Integration",
-        description: "Photography tips and recent projects"
+        title: "Mobile Optimized",
+        description: "Full gallery experience on every screen size"
       }
     ],
     images: [
@@ -398,7 +399,7 @@ const projectsData = {
     ],
     imageBg: "#17171c",
     imageFit: "contain",
-    liveUrl: "https://example-photo.com",
+    liveUrl: "https://cinestories.vercel.app/",
     githubUrl: null
   },
   "form-builder": {
@@ -412,10 +413,10 @@ const projectsData = {
     challenge: "Non-technical users needed a way to create **complex forms with conditional logic** and validation rules without hiring developers. Existing solutions were either too simple or too complex with **steep learning curves**.",
     solution: "Developed an **intuitive drag-and-drop interface** with visual conditional logic builder. Implemented real-time preview, **data validation engine**, and flexible export options. Connected forms to various services via webhooks.",
     impact: [
-      "1000+ forms created by users",
-      "15-minute average build time",
-      "95% user satisfaction score",
-      "Zero coding knowledge required"
+      "Over a thousand forms built by users so far",
+      "Most people finish a form in under 15 minutes",
+      "95% satisfaction — almost zero support tickets",
+      "Zero coding knowledge needed to use it"
     ],
     technologies: ["React", "DnD Kit", "Zustand", "PostgreSQL", "Webhooks", "Docker"],
     features: [
@@ -453,8 +454,8 @@ const projectsData = {
     ],
     imageBg: "#f4f6f8",
     imageFit: "contain",
-    liveUrl: "https://example-forms.com",
-    githubUrl: "https://github.com/yourusername/form-builder"
+    liveUrl: null,
+    githubUrl: null
   },
   "email-automation": {
     name: "Email Automation System",
@@ -463,50 +464,52 @@ const projectsData = {
     date: "June 2024",
     duration: "4 weeks",
     status: "Live & Active",
-    description: "Sophisticated **email marketing automation system** built with n8n. Includes drip campaigns, personalized templates, A/B testing, analytics dashboard, and CRM integration for **targeted outreach** and customer engagement.",
-    challenge: "Businesses needed an **affordable email automation solution** that could compete with expensive enterprise platforms. The system needed to handle complex workflows while remaining **easy to set up and manage**.",
-    solution: "Created a comprehensive n8n workflow system with visual campaign builders, template engines, and advanced segmentation. Integrated with popular email providers and CRMs. Built **custom analytics dashboards** for tracking performance metrics.",
+    description: "A **sophisticated email automation system** built with n8n workflows, AI agents, and CRM integration. Automates drip campaigns, follow-ups, and lead nurturing — sending the right email to the right person at the right time.",
+    challenge: "The client was sending emails manually — **copy-pasting templates, forgetting follow-ups, and losing track of leads**. They needed a system that could run campaigns on autopilot without the cost of enterprise platforms.",
+    solution: "Built an **n8n automation pipeline** with AI-powered email composition, smart segmentation, and CRM sync. Connected Google Sheets for lead tracking and integrated with email providers for reliable delivery at scale.",
     impact: [
-      "10,000+ emails sent daily",
-      "42% average open rate",
-      "18% click-through rate",
-      "80% cost savings vs alternatives"
+      "Sends 10,000+ emails daily without lifting a finger",
+      "Open rates consistently above 40%",
+      "Saved more than 80% vs enterprise platform pricing",
+      "The system paid for itself in the first month"
     ],
-    technologies: ["n8n", "SendGrid", "Redis", "PostgreSQL", "Chart.js", "Docker"],
+    technologies: ["n8n", "AI Agents", "RAG", "Google Sheets", "CRM", "SendGrid", "Webhooks"],
     features: [
       {
         title: "Drip Campaigns",
-        description: "Automated email sequences with timing control"
+        description: "Automated email sequences with smart timing"
       },
       {
-        title: "A/B Testing",
-        description: "Test subject lines and content variations"
+        title: "AI Composition",
+        description: "AI agents that draft personalized email content"
       },
       {
-        title: "Segmentation",
-        description: "Target specific audience groups"
-      },
-      {
-        title: "Template Builder",
-        description: "Visual email template designer"
+        title: "Lead Segmentation",
+        description: "Target specific audience groups automatically"
       },
       {
         title: "CRM Sync",
-        description: "Two-way integration with popular CRMs"
+        description: "Two-way integration keeping contacts in sync"
       },
       {
-        title: "Analytics Dashboard",
-        description: "Real-time campaign performance metrics"
+        title: "Spreadsheet Logging",
+        description: "Every send, open, and click tracked in Google Sheets"
+      },
+      {
+        title: "Smart Follow-ups",
+        description: "Automatic follow-ups based on recipient behaviour"
       }
     ],
     images: [
-      "/email-automation/email.webp",
-      "/email-automation/emaaa.jpg"
+      "/email-automation/em1.png",
+      "/email-automation/em2.png",
+      "/email-automation/em3.png",
+      "/email-automation/em4.png"
     ],
     imageBg: "#1a1a1a",
     imageFit: "contain",
-    liveUrl: "https://example-email.com",
-    githubUrl: "https://github.com/yourusername/email-automation"
+    liveUrl: null,
+    githubUrl: null
   }
 }
 
@@ -550,8 +553,8 @@ const testimonials: Record<string, { quote: string; name: string; role: string; 
   },
   "photography-studio": {
     quote: "Bravild understood that for us, speed and quality can't be a trade-off. They delivered both.",
-    name: "Kabir Nair",
-    role: "Studio Principal",
+    name: "Himanshu Chopra",
+    role: "Founder, CineStories",
     note: "Every photographer I know struggles with slow portfolios. Bravild solved it without compromising a single pixel of image quality. The site feels as premium as the work it shows."
   },
   "form-builder": {

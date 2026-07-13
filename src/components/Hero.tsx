@@ -281,12 +281,12 @@ const Hero = () => {
             <div className="w-full h-full z-0">
               <div
                 ref={ringRef1}
-                className="hidden md:block absolute top-1/2 md:top-[60%] left-1/2 w-[60vw] h-[60vw] md:w-[30vw] md:h-[30vw] border-x border-white/30 rounded-full pointer-events-none opacity-0"
+                className="hidden lg:block absolute top-1/2 md:top-[60%] left-1/2 w-[60vw] h-[60vw] lg:w-[30vw] lg:h-[30vw] border-x border-white/30 rounded-full pointer-events-none opacity-0"
                 style={{ transform: "translate(-50%, -50%)" }}
               />
               <div
                 ref={ringRef2}
-                className="hidden md:block absolute top-1/2 md:top-[60%] left-1/2 w-[85vw] h-[85vw] md:w-[50vw] md:h-[50vw] border-x border-x-white/50 rounded-full pointer-events-none opacity-0"
+                className="hidden md:block absolute top-1/2 md:top-[60%] left-[46%] w-[85vw] h-[85vw] md:w-[62vw] md:h-[62vw] lg:w-[50vw] lg:h-[50vw] lg:left-1/2 border-x border-x-white/50 rounded-full pointer-events-none opacity-0"
                 style={{ transform: "translate(-50%, -50%)" }}
               />
 
@@ -305,16 +305,16 @@ const Hero = () => {
         </svg>
       </div>
 
-      <div className="absolute left-6 top-24 md:left-[12%] md:top-[30%] tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
-        <h1 ref={DisRef1} className="text-sm md:text-2xl">Disrupting the familiar</h1>
-        <VisualMixText key={isLoading ? 'loading' : 'loaded'} ref={DisRef2} className="text-[1.3rem] md:text-4xl font-mont">Forward-Thinker</VisualMixText>
+      <div className="absolute left-6 top-24 md:left-8 md:top-30 lg:left-[4%] lg:top-[32%] xl:left-[12%] xl:top-[30%] tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
+        <h1 ref={DisRef1} className="text-sm md:text-xl lg:text-2xl">Disrupting the familiar</h1>
+        <VisualMixText key={isLoading ? 'loading' : 'loaded'} ref={DisRef2} className="text-[1.3rem] md:text-3xl lg:text-4xl font-mont">Forward-Thinker</VisualMixText>
       </div>
 
-      <div ref={BudRef} className="absolute left-[73%] top-[41%] md:left-[68.5%] md:top-[45%] text-right md:text-left text-sm md:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
+      <div ref={BudRef} className="absolute left-[73%] top-[41%] md:left-[81.5%] md:top-[44%] lg:left-[68.5%] lg:top-[45%] lg:text-2xl text-right md:text-left text-sm md:text-xl lg:text-2xl tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
         Building the <br /> unseen
       </div>
 
-      <div ref={circleRef} className="size-4 md:size-6 bg-white/70 absolute top-[41%] right-[28%] md:top-[46%] md:left-[66.3%] rounded-full z-20" />
+      <div ref={circleRef} className="size-4 md:size-6 bg-white/70 absolute top-[41%] right-[28%] md:top-[46%] md:left-[77%] lg:top-[46%] lg:left-[66.3%] rounded-full z-20" />
 
       <div className="absolute right-4 bottom-5  md:right-7 md:bottom-2 z-0 font-mont text-right md:text-right">
         <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-black leading-tight md:leading-[0.8]">

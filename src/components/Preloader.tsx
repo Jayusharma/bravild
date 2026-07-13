@@ -2,7 +2,10 @@
 
 import { useEffect, useRef, useState } from "react"
 import gsap from "gsap"
+import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { useLoader } from "@/provider/LoaderContext"
+
+gsap.registerPlugin(ScrollTrigger)
 
 export default function Preloader() {
     const containerRef = useRef<HTMLDivElement>(null)
@@ -24,6 +27,9 @@ export default function Preloader() {
                 setIsComplete(true)
                 // Restore body scroll
                 document.body.style.overflow = ''
+                // The returning scrollbar changes layout width — remeasure
+                // pinned sections so their start positions aren't stale
+                requestAnimationFrame(() => ScrollTrigger.refresh())
             }
         })
 

@@ -41,19 +41,19 @@ const partners: Partner[] = [
   },
   {
     name: "ACCURIZON",
-    category: "WEB APP",
+    category: "WEB DESIGN",
     description:
-      "A premium bookkeeping and financial intelligence platform. Features expense automation, balance sheet pipelines, and real-time tax accounting strategy for modern business operations.",
+      "A premium financial services website designed for a modern bookkeeping firm. Features smooth scroll-driven animations, interactive service breakdowns, and a polished brand identity.",
     image: "/accurizon/acu1.png",
-    details: "Automated Bookkeeping Platform",
+    details: "Financial Services Website",
     projectUrl: "/projects/accurizon",
   },
   {
     name: "WHATSAPP CHATBOT",
     category: "AUTOMATION",
     description:
-      "An intelligent WhatsApp chatbot built with n8n automation platform. Features include automated responses, customer support, appointment scheduling, and integration with various business tools for seamless communication.",
-    image: "/whatsapp-chatbot/wa.png",
+      "An intelligent WhatsApp chatbot powered by n8n automation workflows, AI agents, and RAG retrieval. Handles customer queries, books appointments, and syncs every conversation to a CRM.",
+    image: "/whatsapp-chatbot/sss.png",
     details: "AI-Powered Customer Engagement",
     projectUrl: "/projects/whatsapp-chatbot",
   },
@@ -62,17 +62,17 @@ const partners: Partner[] = [
     category: "WEB APP",
     description:
       "A comprehensive client onboarding and management portal. Features include secure file uploads, automated invoice generation, real-time project status updates, and centralized communication.",
-    image: "/client-portal/port2.png",
+    image: "/client-portal/cli5.png",
     details: "Client Management System",
     projectUrl: "/projects/client-portal",
   },
   {
-    name: "PHOTOGRAPHY STUDIO",
+    name: "CINESTORIES",
     category: "WEB DESIGN",
     description:
-      "Portfolio website for a photography studio showcasing high-resolution galleries, client testimonials, package options, and contact forms. Optimized for visual storytelling with lazy-loading images.",
+      "A cinematic portfolio website for a photography studio showcasing high-resolution galleries, client stories, and booking options. Optimized for visual storytelling and fast loading.",
     image: "/photography-studio/cine4.png",
-    details: "Visual Arts Portfolio",
+    details: "Photography & Cinematic Portfolio",
     projectUrl: "/projects/photography-studio",
   },
   {
@@ -88,7 +88,7 @@ const partners: Partner[] = [
     name: "SALON WEBSITE",
     category: "WEB DESIGN",
     description:
-      "A modern, responsive website for a premium salon featuring online booking system, service gallery, stylist profiles, and customer reviews. Built with elegant animations and mobile-first approach.",
+      "A modern, responsive website for a premium salon featuring elegant scroll animations, service showcases, stylist profiles, and a mobile-first design that reflects the brand's identity.",
     image: "/salon-website/sal3.png",
     details: "Beauty & Wellness Platform",
     projectUrl: "/projects/salon-website",
@@ -97,8 +97,8 @@ const partners: Partner[] = [
     name: "EMAIL AUTOMATION",
     category: "AUTOMATION",
     description:
-      "Sophisticated email marketing automation system built with n8n. Includes drip campaigns, personalized templates, A/B testing, analytics dashboard, and CRM integration for targeted outreach.",
-    image: "/email-automation/email.webp",
+      "A sophisticated email automation system built with n8n workflows, AI agents, and CRM integration. Automates drip campaigns, follow-ups, and lead nurturing dynamically.",
+    image: "/email-automation/em1.png",
     details: "Marketing Automation Suite",
     projectUrl: "/projects/email-automation",
   },
@@ -106,7 +106,7 @@ const partners: Partner[] = [
     name: "CAR DETAILING SITE",
     category: "WEB DESIGN",
     description:
-      "Professional car detailing service website with before/after galleries, service packages, online booking, and pricing calculator. Features stunning visuals and smooth user experience.",
+      "Professional car detailing website with stunning service galleries, package breakdowns, and smooth scroll animations. Designed to convert visitors into customers with a premium look.",
     image: "/car-detailing/lux1.png",
     details: "Automotive Care Services",
     projectUrl: "/projects/car-detailing",
@@ -334,8 +334,10 @@ export default function ProjectGallery() {
         {/* Desktop Layout */}
         <div className="hidden sm:grid lg:grid-cols-2 gap-16 lg:gap-52 items-start">
           {/* Left Section */}
-          <div className="space-y-12 sticky top-[10rem] left-20">
-            <div ref={imageRef} className="aspect-video bg-[#050505] overflow-hidden max-w-[35vw] relative border border-white/5">
+          {/* Sticky and the 35vw cap only make sense in the two-column layout (lg+);
+              on tablet the grid is single-column and the preview should span it */}
+          <div className="space-y-12 lg:sticky lg:top-[10rem]">
+            <div ref={imageRef} className="aspect-video bg-[#050505] overflow-hidden max-w-full lg:max-w-[35vw] relative border border-white/5">
               {currentContent.isHeader ? (
                 <div className="w-full h-full flex flex-col items-center justify-center relative overflow-hidden">
                   {/* Grid overlay — quiet, instrument-like */}
@@ -359,7 +361,7 @@ export default function ProjectGallery() {
                   src={currentContent.image || "/placeholder.svg"}
                   alt={currentContent.name}
                   fill
-                  sizes="(max-width: 768px) 100vw, 35vw"
+                  sizes="(max-width: 1024px) 100vw, 35vw"
                   className="object-contain bg-black/50 transition-transform duration-300 hover:scale-105"
                   priority={hoveredIndex === 0}
                 />
