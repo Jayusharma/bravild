@@ -97,7 +97,7 @@ export default function Contact() {
                     <span className="text-base font-serif italic text-gray-500">Contact</span>
                   </div>
                   <h1 className="text-3xl md:text-6xl lg:text-7xl font-bold font-mont text-white leading-none">
-                    LET&apos;S TALK
+                    GOT AN IDEA?
                   </h1>
                 </div>
 
@@ -161,7 +161,7 @@ export default function Contact() {
                 <div ref={infoRef} className="space-y-16">
                   <div className="info-anim">
                     <p className="text-xl md:text-2xl text-gray-400 font-serif italic leading-relaxed mb-12">
-                      We&apos;re here to help you with your next project. If you have a project that needs some creative injection, then that&apos;s where I come in!
+                      Every great project started with a simple conversation. Whether it&apos;s a half-formed thought or a full vision &mdash; we&apos;d love to hear it. No pitches, no pressure, just a genuine chat about what excites you.
                     </p>
                   </div>
 

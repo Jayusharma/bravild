@@ -65,10 +65,19 @@ const projectsData = {
       }
     ],
     images: [
-      "/ai.png",
-      "/wa1.png",
-      "/port.png"
+      "/bravi-ai/dashboard.png",
+      "/bravi-ai/messaging page.png",
+      "/bravi-ai/analytics.png",
+      "/bravi-ai/channel page.png",
+      "/bravi-ai/contacts page.png",
+      "/bravi-ai/template page.png",
+      "/bravi-ai/ai chat.png",
+      "/bravi-ai/admin panel.png",
+      "/bravi-ai/ai reply.png",
+      "/bravi-ai/enquiry.png"
     ],
+    imageBg: "#ffffff",
+    imageFit: "contain",
     liveUrl: "https://bravi-ai.com",
     githubUrl: null
   },
@@ -108,10 +117,16 @@ const projectsData = {
       }
     ],
     images: [
-      "/website.png",
-      "/port2.png",
-      "/port5.png"
+      "/accurizon/acu1.png",
+      "/accurizon/acu2.png",
+      "/accurizon/acu3.png",
+      "/accurizon/acu4.png",
+      "/accurizon/acu5.png",
+      "/accurizon/acu6.png"
     ],
+    imageBg: "#ffffff",
+    imageFit: "contain",
+    imagePositions: { 0: "center 55%", 1: "center 55%", 3: "center 40%" },
     liveUrl: "https://accurizon.com",
     githubUrl: null
   },
@@ -159,10 +174,12 @@ const projectsData = {
       }
     ],
     images: [
-      "/wa.png",
-      "/wa1.png",
-      "/wa2.png",
+      "/whatsapp-chatbot/wa.png",
+      "/whatsapp-chatbot/wa1.png",
+      "/whatsapp-chatbot/wa2.png"
     ],
+    imageBg: "#efeae2",
+    imageFit: "contain",
     liveUrl: "https://example.com",
     githubUrl: "https://github.com/yourusername/whatsapp-chatbot"
   },
@@ -210,11 +227,13 @@ const projectsData = {
       }
     ],
     images: [
-      "/port2.png",
-      "/port.png",
-      "/port4.png",
-      "/port5.png"
+      "/client-portal/port2.png",
+      "/client-portal/port.png",
+      "/client-portal/port4.png",
+      "/client-portal/port5.png"
     ],
+    imageBg: "#0f0f11",
+    imageFit: "contain",
     liveUrl: "https://portal.bravild.com",
     githubUrl: null
   },
@@ -262,11 +281,13 @@ const projectsData = {
       }
     ],
     images: [
-      "/sal4.png",
-      "/sal2.png",
-      "/sal3.png",
-      "/salon1.png"
+      "/salon-website/sal4.png",
+      "/salon-website/sal2.png",
+      "/salon-website/sal3.png",
+      "/salon-website/salon1.png"
     ],
+    imageBg: "#fdf8f5",
+    imageFit: "contain",
     liveUrl: "https://example-salon.com",
     githubUrl: null
   },
@@ -314,11 +335,13 @@ const projectsData = {
       }
     ],
     images: [
-      "/lux2.png",
-      "/lux3.png",
-      "/lux4.png",
-      "/lux5.png"
+      "/car-detailing/lux2.png",
+      "/car-detailing/lux3.png",
+      "/car-detailing/lux4.png",
+      "/car-detailing/lux5.png"
     ],
+    imageBg: "#121216",
+    imageFit: "contain",
     liveUrl: "https://example-detailing.com",
     githubUrl: "https://github.com/yourusername/car-detailing"
   },
@@ -366,13 +389,15 @@ const projectsData = {
       }
     ],
     images: [
-      "/cine1.png",
-      "/cine2.png",
-      "/cine3.png",
-      "/cine4.png",
-      "/cine5.png",
-      "/cine6.png",
+      "/photography-studio/cine1.png",
+      "/photography-studio/cine2.png",
+      "/photography-studio/cine3.png",
+      "/photography-studio/cine4.png",
+      "/photography-studio/cine5.png",
+      "/photography-studio/cine6.png"
     ],
+    imageBg: "#17171c",
+    imageFit: "contain",
     liveUrl: "https://example-photo.com",
     githubUrl: null
   },
@@ -420,12 +445,14 @@ const projectsData = {
       }
     ],
     images: [
-      "/frm1.png",
-      "/frm2.png",
-      "/frm3.png",
-      "/frm4.png",
-      "/form1.png",
+      "/form-builder/frm1.png",
+      "/form-builder/frm2.png",
+      "/form-builder/frm3.png",
+      "/form-builder/frm4.png",
+      "/form-builder/form1.png"
     ],
+    imageBg: "#f4f6f8",
+    imageFit: "contain",
     liveUrl: "https://example-forms.com",
     githubUrl: "https://github.com/yourusername/form-builder"
   },
@@ -473,9 +500,11 @@ const projectsData = {
       }
     ],
     images: [
-      "/email.webp",
-      "/emaaa.jpg",
+      "/email-automation/email.webp",
+      "/email-automation/emaaa.jpg"
     ],
+    imageBg: "#1a1a1a",
+    imageFit: "contain",
     liveUrl: "https://example-email.com",
     githubUrl: "https://github.com/yourusername/email-automation"
   }
@@ -484,58 +513,58 @@ const projectsData = {
 // Words from each client — swap names/roles for the real ones anytime
 const testimonials: Record<string, { quote: string; name: string; role: string; note: string }> = {
   "bravi-ai": {
-    quote: "Our support agents now manage three channels in a single browser tab, with AI handling 70% of the load.",
+    quote: "Bravild didn't just build us a platform — they understood the chaos we were drowning in and turned it into something elegant.",
     name: "Viktor Petrov",
     role: "CEO, InboxFlow",
-    note: "Bravi-AI has completely solved our fragmented support lines. Customer response times dropped below two minutes on average, and the AI agent behaves perfectly within our brand voice."
+    note: "From the very first call, they listened more than they pitched. The team moved fast, communicated clearly, and delivered something that genuinely changed how we operate day to day."
   },
   "accurizon": {
-    quote: "Accurizon gave us real-time financial clarity that used to take our accounting team weeks to prepare.",
+    quote: "They took our messy spreadsheets and turned them into a system we actually trust. Bravild gets how real businesses work.",
     name: "Sarah Chen",
     role: "CFO, ScaleGroup",
-    note: "The Plaid sync is seamless and tax season is no longer a stress. Having automatic categorization on every transaction keeps our balance sheets current 24/7."
+    note: "What stood out was how deeply they understood our pain points before writing a single line of code. The result feels like it was built by someone who sat in our office for months."
   },
   "whatsapp-chatbot": {
-    quote: "It answers before customers finish typing. Bookings come in while we sleep.",
+    quote: "Bravild built us a bot that talks like us. Our customers don't even realise it's automated — that's how good it is.",
     name: "Rohan Mehta",
     role: "Owner, ServiceFirst",
-    note: "From mapping the response flows to going live, the bot was handling real conversations within three weeks — and it hasn't missed one since. Escalations reach a human only when they should."
+    note: "They mapped our entire customer flow, asked the right questions, and delivered a working system in three weeks. Honest, fast, and zero hand-holding needed after launch."
   },
   "client-portal": {
-    quote: "Onboarding went from a week of emails to a single login link.",
+    quote: "Bravild sat with our actual onboarding mess before writing any code. That's rare — and it shows in the final product.",
     name: "Priya Sharma",
     role: "Operations Lead",
-    note: "Bravild sat with our actual onboarding mess before writing any code. The portal now runs the client lifecycle end to end — files, invoices, and updates in one place, nothing lost."
+    note: "They treated our problem like their own. No unnecessary features, no bloat — just a clean system that does exactly what we need, built by people who clearly care about the craft."
   },
   "salon-website": {
-    quote: "The site sells the experience before we say a single word.",
+    quote: "They designed something that feels like us — not a template, not generic. Bravild captured our vibe perfectly.",
     name: "Sana Kapoor",
     role: "Founder",
-    note: "Bookings doubled in the first month. The design carries our brand, and the booking flow is so simple our clients stopped calling to make appointments."
+    note: "Working with Bravild felt personal. They took the time to understand our brand, our clients, and what makes our space special. The website now does the selling for us."
   },
   "car-detailing": {
-    quote: "The before/after gallery closes customers for us.",
+    quote: "Bravild gave us a website that actually converts. People book before they even call us now.",
     name: "Arjun Patel",
     role: "Owner",
-    note: "Quote requests are up 150% and the average booking is bigger — the pricing calculator lets people build their own package before they ever talk to us."
+    note: "They didn't just make it look good — they thought about how our customers think. The gallery, the pricing flow, everything was designed to move people from browsing to booking."
   },
   "photography-studio": {
-    quote: "Hundreds of high-res images, and it still loads in two seconds.",
+    quote: "Bravild understood that for us, speed and quality can't be a trade-off. They delivered both.",
     name: "Kabir Nair",
     role: "Studio Principal",
-    note: "The gallery finally does the work justice. Client delivery moved into private portals, and inquiries went up 70% within the first quarter."
+    note: "Every photographer I know struggles with slow portfolios. Bravild solved it without compromising a single pixel of image quality. The site feels as premium as the work it shows."
   },
   "form-builder": {
-    quote: "Our team builds in minutes what we used to brief developers for.",
+    quote: "Bravild built us a tool that our entire team adopted in a day. No training, no support tickets — it just works.",
     name: "Neha Gupta",
     role: "Product Manager",
-    note: "Conditional logic without code was the unlock. A thousand forms in, the tool has paid for itself many times over — and nobody has filed a support ticket to use it."
+    note: "What impressed me most was their product thinking. They didn't just code what we asked — they challenged our assumptions and built something better than what we imagined."
   },
   "email-automation": {
-    quote: "42% open rates, and I haven't touched a campaign by hand since.",
+    quote: "Bravild gave us enterprise-level automation without the enterprise price tag. The ROI was immediate.",
     name: "Vikram Rao",
     role: "Head of Marketing",
-    note: "The system runs drip campaigns, testing, and segmentation on its own. We got enterprise-level automation at a fraction of the platform pricing we were quoted elsewhere."
+    note: "They understood our budget constraints and still delivered something powerful. The system runs itself now, and we've saved more in the first month than the entire project cost."
   }
 }
 
@@ -550,7 +579,7 @@ const INK = '#1d1d20'
 // Near-fullscreen slider: click the right half to advance, left half to go
 // back. The cursor becomes a directional arrow box over the images.
 // Three clone sets make the loop endless in both directions.
-function CaseSlider({ images, name }: { images: string[]; name: string }) {
+function CaseSlider({ images, name, bg, imageFit = "contain", imagePositions = {} }: { images: string[]; name: string; bg?: string; imageFit?: "cover" | "contain"; imagePositions?: Record<number, string> }) {
   const viewportRef = useRef<HTMLDivElement>(null)
   const trackRef = useRef<HTMLDivElement>(null)
   const cursorRef = useRef<HTMLDivElement>(null)
@@ -629,16 +658,22 @@ function CaseSlider({ images, name }: { images: string[]; name: string }) {
       >
         <div ref={trackRef} className="flex w-max">
           {slides.map((src, i) => (
-            <div key={i} className="pr-3 md:pr-5 shrink-0">
-              <div className="relative w-[92vw] md:w-[70vw] h-[62vh] md:h-[calc(100vh-6.5rem)] rounded-xl md:rounded-2xl overflow-hidden bg-black/5">
-                <Image
-                  src={src}
-                  alt={`${name} — view ${(i % images.length) + 1}`}
-                  fill
-                  sizes="(max-width: 768px) 92vw, 70vw"
-                  className="object-cover"
-                  priority={i >= images.length && i < images.length + 2}
-                />
+            <div key={i} className="pr-3 md:pr-5 shrink-0 flex items-center">
+              <div 
+                className="relative w-[92vw] md:w-[70vw] aspect-[16/10] max-h-[70vh] md:max-h-[calc(100vh-10rem)] rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center"
+                style={{ backgroundColor: bg || 'rgba(0,0,0,0.03)' }}
+              >
+                <div className="relative w-full h-full">
+                  <Image
+                    src={src}
+                    alt={`${name} — view ${(i % images.length) + 1}`}
+                    fill
+                    sizes="(max-width: 768px) 92vw, 70vw"
+                    className={`${imageFit === "contain" ? "object-contain" : "object-cover"} select-none pointer-events-none`}
+                    style={imagePositions[i % images.length] ? { objectPosition: imagePositions[i % images.length] } : undefined}
+                    priority={i >= images.length && i < images.length + 2}
+                  />
+                </div>
               </div>
             </div>
           ))}
@@ -792,7 +827,7 @@ export default function ProjectDetailPage() {
 
       {/* ============ Image slider — click sides to navigate ============ */}
       <section className="hero-anim mb-24 md:mb-40">
-        <CaseSlider images={project.images} name={project.name} />
+        <CaseSlider images={project.images} name={project.name} bg={project.imageBg} imageFit={(project as any).imageFit} imagePositions={(project as any).imagePositions} />
       </section>
 
       {/* ============ Description — editorial two-column ============ */}
@@ -874,7 +909,7 @@ export default function ProjectDetailPage() {
               const { num, desc } = parseImpact(item)
               return (
                 <div key={index} className="border-t border-black/5 pt-4 flex flex-col gap-1.5">
-                  {num && <span className="text-3xl md:text-4xl font-bold font-mont tracking-tight text-black">{num}</span>}
+                  {num && <span className="text-xl md:text-4xl font-bold font-mont tracking-tight text-black">{num}</span>}
                   <p className="text-xs md:text-sm font-sans font-light leading-relaxed text-black/60">{desc}</p>
                 </div>
               )
@@ -894,33 +929,24 @@ export default function ProjectDetailPage() {
       {/* ============ Words from the Client ============ */}
       {testimonial && (
         <section className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 mb-28 md:mb-44">
-          <h2 className="reveal-up text-2xl md:text-3xl lg:text-4xl font-mont font-semibold tracking-tight leading-none uppercase">
+          <h2 className="reveal-up text-xl md:text-3xl lg:text-4xl font-mont font-semibold tracking-tight leading-none uppercase">
             Words from the Client
           </h2>
           <div className="reveal-up border-t border-black/15 mt-8 mb-14" />
 
           <div className="grid lg:grid-cols-2 gap-14 lg:gap-24 items-start">
             <div className="reveal-up">
-              <span className="block font-serif text-7xl leading-[0.5] mb-8 select-none">“</span>
-              <blockquote className="text-2xl md:text-3xl font-light font-serif italic leading-relaxed tracking-tight max-w-[580px] text-[#1d1d20]">
+              <span className="block font-serif text-5xl md:text-7xl leading-[0.5] mb-6 md:mb-8 select-none">“</span>
+              <blockquote className="text-lg md:text-3xl font-light font-serif italic leading-relaxed tracking-tight max-w-[580px] text-[#1d1d20]">
                 “{testimonial.quote}”
               </blockquote>
-              <div className="border-b border-dashed border-black/25 w-2/3 my-10" />
-              <p className="font-bold font-mont">{testimonial.name}</p>
-              <p className="text-sm opacity-55 mt-1">{testimonial.role}</p>
+              <div className="border-b border-dashed border-black/25 w-2/3 my-8 md:my-10" />
+              <p className="font-bold font-mont text-sm md:text-base">{testimonial.name}</p>
+              <p className="text-xs md:text-sm opacity-55 mt-1">{testimonial.role}</p>
             </div>
 
             <div className="reveal-up">
-              <div className="relative aspect-[16/10] rounded-xl md:rounded-2xl overflow-hidden bg-black/5">
-                <Image
-                  src={project.images[1] || project.images[0]}
-                  alt={`${project.name} — client work`}
-                  fill
-                  sizes="(max-width: 1024px) 90vw, 45vw"
-                  className="object-cover"
-                />
-              </div>
-              <p className="mt-8 text-base md:text-lg font-serif font-light leading-[1.8] opacity-60 max-w-[560px]">
+              <p className="text-sm md:text-lg font-serif font-light leading-[1.8] opacity-60 max-w-[560px]">
                 {testimonial.note}
               </p>
             </div>
@@ -1038,50 +1064,42 @@ export default function ProjectDetailPage() {
           </svg>
         </div>
 
-        {/* Mobile: the same story, falling vertically */}
-        <div className="md:hidden mt-4">
-          <svg viewBox="0 0 340 500" className="w-full h-auto" fill="none" aria-label="Three tangled lines fall into a black square and leave as one straight, measured line ending in a small square">
-            {/* the tangle, descending */}
-            <path className="d-strand" pathLength={1} strokeWidth="2" strokeOpacity="0.45"
-              d="M60,18 C20,70 130,95 85,135 C50,168 95,175 65,205"/>
-            <path className="d-strand" pathLength={1} strokeWidth="1.8" strokeOpacity="0.34"
-              d="M85,18 C140,60 35,95 90,130 C135,160 70,170 80,205"/>
-            <path className="d-strand" pathLength={1} strokeWidth="1.6" strokeOpacity="0.26"
-              d="M110,18 C155,75 60,110 105,150 C140,180 100,182 95,205"/>
+        {/* Mobile: same horizontal layout, just smaller */}
+        <div className="md:hidden mt-4 overflow-x-auto">
+          <svg viewBox="0 0 900 260" className="w-full h-auto min-w-[320px]" fill="none" aria-label="Three tangled lines enter a black square and leave as one straight, measured line ending in a small square">
+            {/* the tangle */}
+            <path className="d-strand" pathLength={1} strokeWidth="2.5" strokeOpacity="0.45"
+              d="M18,70 C75,15 95,135 165,80 C225,30 205,105 245,80 C270,65 280,100 310,100"/>
+            <path className="d-strand" pathLength={1} strokeWidth="2" strokeOpacity="0.34"
+              d="M18,120 C55,170 100,60 155,120 C195,165 215,70 255,110 C275,130 285,115 310,115"/>
+            <path className="d-strand" pathLength={1} strokeWidth="1.8" strokeOpacity="0.26"
+              d="M18,170 C60,95 120,185 185,140 C240,105 225,150 270,130 C290,120 295,125 310,125"/>
 
             {/* the machine */}
-            <rect x="52" y="205" width="56" height="56" fill={INK}/>
+            <rect x="310" y="80" width="70" height="70" fill={INK}/>
             <g className="d-core">
-              <rect className="core-spin" x="74" y="227" width="12" height="12"/>
+              <rect className="core-spin" x="337" y="107" width="16" height="16"/>
             </g>
 
-            {/* the measured line down */}
-            <line className="d-clean" pathLength={1} x1="80" y1="261" x2="80" y2="455"/>
-            <line className="d-tick" x1="84" y1="300" x2="90" y2="300"/>
-            <line className="d-tick" x1="84" y1="340" x2="90" y2="340"/>
-            <line className="d-tick" x1="84" y1="380" x2="90" y2="380"/>
-            <line className="d-tick" x1="84" y1="420" x2="90" y2="420"/>
-            <rect className="d-cap" x="75" y="460" width="10" height="10"/>
+            {/* the measured line */}
+            <line className="d-clean" pathLength={1} x1="380" y1="118" x2="833" y2="118"/>
+            <line className="d-tick" x1="480" y1="122" x2="480" y2="130"/>
+            <line className="d-tick" x1="570" y1="122" x2="570" y2="130"/>
+            <line className="d-tick" x1="660" y1="122" x2="660" y2="130"/>
+            <line className="d-tick" x1="750" y1="122" x2="750" y2="130"/>
+            <rect className="d-cap" x="833" y="115" width="10" height="10"/>
 
             {/* revenue packet */}
-            <rect className="d-packet d-packet-y" x="77" y="264" width="6" height="6"/>
+            <rect className="d-packet d-packet-x" x="487" y="117" width="6" height="6"/>
 
-            {/* labels beside each zone */}
-            <text className="lbl d-fade" x="150" y="105">Your busywork</text>
-            <text className="sub d-fade" x="150" y="127">The manual operational
-              <tspan x="150" dy="17">tangle and overhead</tspan>
-            </text>
+            {/* annotations */}
+            <text className="note d-fade" x="60" y="22">{'// manual chaos'}</text>
+            <text className="note d-fade" x="843" y="96" textAnchor="end">{'// measured monthly'}</text>
 
-            <text className="lbl d-fade" x="150" y="228">Bravild</text>
-            <text className="sub d-fade" x="150" y="250">The systems engine that
-              <tspan x="150" dy="17">handles and solves the mess</tspan>
-            </text>
-
-            <text className="lbl lbl-strong d-fade" x="150" y="360">Revenue</text>
-            <text className="sub d-fade" x="150" y="382">Clean, compounding
-              <tspan x="150" dy="17">automated yields</tspan>
-            </text>
-            <text className="note d-fade" x="150" y="420">{'// measured monthly'}</text>
+            {/* labels */}
+            <text className="lbl d-fade" x="60" y="245">Your busywork</text>
+            <text className="lbl d-fade" x="450" y="245" textAnchor="middle">Bravild</text>
+            <text className="lbl lbl-strong d-fade" x="843" y="245" textAnchor="end">Revenue</text>
           </svg>
         </div>
       </section>

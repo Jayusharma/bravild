@@ -35,7 +35,7 @@ const partners: Partner[] = [
     category: "AI SAAS",
     description:
       "An intelligent, unified inbox connecting WhatsApp, Email, Instagram, and more. Features automated AI responses, real-time agent chats, and custom system pipelines for multi-channel communication.",
-    image: "/ai.png",
+    image: "/bravi-ai/dashboard.png",
     details: "AI Unified Inbox Platform",
     projectUrl: "/projects/bravi-ai",
   },
@@ -44,7 +44,7 @@ const partners: Partner[] = [
     category: "WEB APP",
     description:
       "A premium bookkeeping and financial intelligence platform. Features expense automation, balance sheet pipelines, and real-time tax accounting strategy for modern business operations.",
-    image: "/website.png",
+    image: "/accurizon/acu1.png",
     details: "Automated Bookkeeping Platform",
     projectUrl: "/projects/accurizon",
   },
@@ -53,7 +53,7 @@ const partners: Partner[] = [
     category: "AUTOMATION",
     description:
       "An intelligent WhatsApp chatbot built with n8n automation platform. Features include automated responses, customer support, appointment scheduling, and integration with various business tools for seamless communication.",
-    image: "/wa.png",
+    image: "/whatsapp-chatbot/wa.png",
     details: "AI-Powered Customer Engagement",
     projectUrl: "/projects/whatsapp-chatbot",
   },
@@ -62,7 +62,7 @@ const partners: Partner[] = [
     category: "WEB APP",
     description:
       "A comprehensive client onboarding and management portal. Features include secure file uploads, automated invoice generation, real-time project status updates, and centralized communication.",
-    image: "/port2.png",
+    image: "/client-portal/port2.png",
     details: "Client Management System",
     projectUrl: "/projects/client-portal",
   },
@@ -71,7 +71,7 @@ const partners: Partner[] = [
     category: "WEB DESIGN",
     description:
       "Portfolio website for a photography studio showcasing high-resolution galleries, client testimonials, package options, and contact forms. Optimized for visual storytelling with lazy-loading images.",
-    image: "/cine4.png",
+    image: "/photography-studio/cine4.png",
     details: "Visual Arts Portfolio",
     projectUrl: "/projects/photography-studio",
   },
@@ -80,7 +80,7 @@ const partners: Partner[] = [
     category: "WEB APP",
     description:
       "A dynamic drag-and-drop form builder application allowing users to create custom forms without coding. Features include real-time preview, conditional logic, data validation, and export capabilities.",
-    image: "/frm1.png",
+    image: "/form-builder/frm1.png",
     details: "No-Code Form Creation Tool",
     projectUrl: "/projects/form-builder",
   },
@@ -89,7 +89,7 @@ const partners: Partner[] = [
     category: "WEB DESIGN",
     description:
       "A modern, responsive website for a premium salon featuring online booking system, service gallery, stylist profiles, and customer reviews. Built with elegant animations and mobile-first approach.",
-    image: "/sal3.png",
+    image: "/salon-website/sal3.png",
     details: "Beauty & Wellness Platform",
     projectUrl: "/projects/salon-website",
   },
@@ -98,7 +98,7 @@ const partners: Partner[] = [
     category: "AUTOMATION",
     description:
       "Sophisticated email marketing automation system built with n8n. Includes drip campaigns, personalized templates, A/B testing, analytics dashboard, and CRM integration for targeted outreach.",
-    image: "/email.webp",
+    image: "/email-automation/email.webp",
     details: "Marketing Automation Suite",
     projectUrl: "/projects/email-automation",
   },
@@ -107,7 +107,7 @@ const partners: Partner[] = [
     category: "WEB DESIGN",
     description:
       "Professional car detailing service website with before/after galleries, service packages, online booking, and pricing calculator. Features stunning visuals and smooth user experience.",
-    image: "/lux1.png",
+    image: "/car-detailing/lux1.png",
     details: "Automotive Care Services",
     projectUrl: "/projects/car-detailing",
   },
