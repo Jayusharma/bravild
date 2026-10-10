@@ -65,16 +65,18 @@ const projectsData = {
       }
     ],
     images: [
-      "/bravi-ai/dashboard.png",
-      "/bravi-ai/messaging page.png",
-      "/bravi-ai/analytics.png",
-      "/bravi-ai/channel page.png",
-      "/bravi-ai/contacts page.png",
-      "/bravi-ai/template page.png",
-      "/bravi-ai/ai chat.png",
-      "/bravi-ai/admin panel.png",
-      "/bravi-ai/ai reply.png",
-      "/bravi-ai/enquiry.png"
+      "/bravi-ai/image1.png",
+      "/bravi-ai/image2.png",
+      "/bravi-ai/image3.png",
+      "/bravi-ai/image4.png",
+      "/bravi-ai/image5.png",
+      "/bravi-ai/image6.png",
+      "/bravi-ai/image7.png",
+      "/bravi-ai/image8.png",
+      "/bravi-ai/image9.png",
+      "/bravi-ai/image10.png",
+      "/bravi-ai/image11.png",
+      "/bravi-ai/image12.png"
     ],
     imageBg: "#ffffff",
     imageFit: "contain",

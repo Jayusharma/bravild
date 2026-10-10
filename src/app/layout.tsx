@@ -36,6 +36,8 @@ import Preloader from "@/components/Preloader";
 import { LoaderProvider } from "@/provider/LoaderContext";
 import { ThemeProvider } from "@/provider/ThemeContext";
 import CustomCursor from "@/components/ui/CustomCursor";
+import ParallaxFooter from "@/components/ParallaxFooter";
+import PageTransition from "@/components/PageTransition";
 
 export default function RootLayout({
   children,
@@ -48,12 +50,14 @@ export default function RootLayout({
         <ThemeProvider>
           <LoaderProvider>
             <Preloader />
+            <PageTransition />
             <LenisProvider>
               <CustomCursor />
               <Header />
               <main>
                 {children}
               </main>
+              <ParallaxFooter />
             </LenisProvider>
           </LoaderProvider>
         </ThemeProvider>

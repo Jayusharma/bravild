@@ -35,7 +35,7 @@ const partners: Partner[] = [
     category: "AI SAAS",
     description:
       "An intelligent, unified inbox connecting WhatsApp, Email, Instagram, and more. Features automated AI responses, real-time agent chats, and custom system pipelines for multi-channel communication.",
-    image: "/bravi-ai/dashboard.png",
+    image: "/bravi-ai/image1.png",
     details: "AI Unified Inbox Platform",
     projectUrl: "/projects/bravi-ai",
   },
@@ -83,15 +83,6 @@ const partners: Partner[] = [
     image: "/form-builder/frm1.png",
     details: "No-Code Form Creation Tool",
     projectUrl: "/projects/form-builder",
-  },
-  {
-    name: "SALON WEBSITE",
-    category: "WEB DESIGN",
-    description:
-      "A modern, responsive website for a premium salon featuring elegant scroll animations, service showcases, stylist profiles, and a mobile-first design that reflects the brand's identity.",
-    image: "/salon-website/sal3.png",
-    details: "Beauty & Wellness Platform",
-    projectUrl: "/projects/salon-website",
   },
   {
     name: "EMAIL AUTOMATION",

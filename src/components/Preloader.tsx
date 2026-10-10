@@ -7,9 +7,13 @@ import { useLoader } from "@/provider/LoaderContext"
 
 gsap.registerPlugin(ScrollTrigger)
 
+const TOTAL_TILES = 60
+
 export default function Preloader() {
     const containerRef = useRef<HTMLDivElement>(null)
+    const gridRef = useRef<HTMLDivElement>(null)
     const counterRef = useRef<HTMLDivElement>(null)
+    const counterNumberRef = useRef<HTMLSpanElement>(null)
     const topTextRef = useRef<HTMLDivElement>(null)
     const bottomTextRef = useRef<HTMLDivElement>(null)
     const textWrapperRef = useRef<HTMLDivElement>(null)
@@ -18,7 +22,7 @@ export default function Preloader() {
     const [isComplete, setIsComplete] = useState(false)
 
     useEffect(() => {
-        // Lock body scroll to prevent scrollbars
+        // Lock body scroll to prevent scrollbars during preloader
         document.body.style.overflow = 'hidden'
 
         const tl = gsap.timeline({
@@ -27,8 +31,7 @@ export default function Preloader() {
                 setIsComplete(true)
                 // Restore body scroll
                 document.body.style.overflow = ''
-                // The returning scrollbar changes layout width — remeasure
-                // pinned sections so their start positions aren't stale
+                // Remeasure pinned sections for Lenis & ScrollTrigger
                 requestAnimationFrame(() => ScrollTrigger.refresh())
             }
         })
@@ -42,15 +45,13 @@ export default function Preloader() {
         // Entrance Animation for Text
         tl.fromTo(textWrapperRef.current,
             {
-                y: 50,
-                x: 50,
+                y: 45,
                 opacity: 0
             },
             {
                 y: 0,
-                x: 0,
                 opacity: 1,
-                duration: 1,
+                duration: 0.7,
                 ease: "power3.out"
             }
         )
@@ -58,40 +59,67 @@ export default function Preloader() {
             // 1. Count to 100
             .to(progress, {
                 value: 100,
-                duration: 2.5,
+                duration: 1.6,
                 ease: "power2.inOut",
                 onUpdate: () => {
-                    if (counterRef.current) {
-                        counterRef.current.textContent = Math.round(progress.value).toString()
+                    if (counterNumberRef.current) {
+                        counterNumberRef.current.textContent = Math.round(progress.value).toString()
                     }
                 }
-            }, "-=0.5") // Start counting while text is entering
+            }, "-=0.4")
 
-            // 2. The "Deconstruction" Animation
-            // Move the bottom half of the text down
+            // 2. The "Deconstruction" & Break Animation
+            .addLabel("breakStart")
+
+            // Bottom Half fractures and drops away
             .to(bottomTextRef.current, {
-                y: 100,
+                y: 80,
+                x: 6,
                 opacity: 0,
-                duration: 0.8,
+                duration: 0.5,
                 ease: "power3.in",
-            }, "-=0.5")
+            }, "breakStart")
 
-            // 3. Fade out top text and counter
-            .to([topTextRef.current, counterRef.current], {
+            // Top Half lifts away
+            .to(topTextRef.current, {
+                y: -25,
+                x: -6,
                 opacity: 0,
-                y: -20,
                 duration: 0.5,
                 ease: "power2.in",
-                delay: 0.1
-            })
+            }, "breakStart")
 
-            // 4. Slide up the curtain
-            .to(containerRef.current, {
-                yPercent: -100,
-                duration: 1.2,
-                ease: "power4.inOut"
-            })
-            .set(containerRef.current, { display: "none" })
+            // Fade out the counter
+            .to(counterRef.current, {
+                opacity: 0,
+                y: -15,
+                duration: 0.35,
+                ease: "power2.in",
+            }, "breakStart")
+
+            // Wake up underlying page animations (Hero video & rings) right as break triggers
+            .call(() => {
+                setIsLoading(false)
+            }, [], "breakStart")
+
+            // Let clicks pass through as soon as break begins
+            .set(containerRef.current, {
+                pointerEvents: "none"
+            }, "breakStart")
+
+        // 3. Grid dissolve: every tile vanishes on its own random delay and speed,
+        // spread over ~1s so the page appears in scattered patches, not a wave.
+        const tiles = gridRef.current
+            ? (Array.from(gridRef.current.children) as HTMLElement[])
+            : []
+
+        tiles.forEach((tile) => {
+            tl.to(tile, {
+                opacity: 0,
+                duration: gsap.utils.random(0.3, 0.7),
+                ease: "power1.inOut",
+            }, `breakStart+=${0.3 + gsap.utils.random(0, 1)}`)
+        })
 
         return () => {
             tl.kill()
@@ -104,20 +132,39 @@ export default function Preloader() {
     return (
         <div
             ref={containerRef}
-            className="fixed inset-0 z-[9999] bg-[#050505] flex flex-col items-center justify-center text-white overflow-hidden h-[100dvh] w-screen"
+            className="fixed inset-0 z-[9999] bg-transparent flex flex-col items-center justify-center text-white overflow-hidden h-[100dvh] w-screen pointer-events-auto"
         >
+            {/* The Grid of Boxes */}
+            <div
+                ref={gridRef}
+                className="absolute inset-0 grid grid-cols-6 md:grid-cols-10 w-full h-full pointer-events-none select-none z-0"
+                style={{ gridAutoRows: "1fr" }}
+            >
+                {Array.from({ length: TOTAL_TILES }).map((_, i) => (
+                    <div
+                        key={i}
+                        className="bg-[#050505] w-full h-full relative"
+                        style={{
+                            margin: "-0.5px",
+                            width: "calc(100% + 1px)",
+                            height: "calc(100% + 1px)",
+                        }}
+                    />
+                ))}
+            </div>
+
             {/* Main Text Wrapper */}
-            <div ref={textWrapperRef} className="relative">
-                {/* Top Half - Stays longer */}
+            <div ref={textWrapperRef} className="relative z-10 pointer-events-none select-none">
+                {/* Top Half */}
                 <div
                     ref={topTextRef}
-                    className="text-4xl sm:text-6xl md:text-9xl font-black font-mont tracking-widest relative z-10"
+                    className="text-4xl sm:text-6xl md:text-9xl font-black font-mont tracking-widest relative z-10 text-white"
                     style={{ clipPath: "polygon(0 0, 100% 0, 100% 50%, 0 50%)" }}
                 >
                     BRAVILD
                 </div>
 
-                {/* Bottom Half - Falls away */}
+                {/* Bottom Half */}
                 <div
                     ref={bottomTextRef}
                     className="text-4xl sm:text-6xl md:text-9xl font-black font-mont tracking-widest absolute top-0 left-0 w-full h-full text-white/90"
@@ -127,19 +174,19 @@ export default function Preloader() {
                 </div>
             </div>
 
-            {/* Counter at Bottom Right - Smaller and Cleaner */}
-            <div className="absolute bottom-8 right-8 md:bottom-12 md:right-12 flex items-end gap-2 overflow-hidden">
+            {/* Counter at Bottom Right */}
+            <div
+                ref={counterRef}
+                className="absolute bottom-8 right-8 md:bottom-12 md:right-12 z-10 flex items-end gap-2 overflow-hidden pointer-events-none select-none"
+            >
                 <span
-                    ref={counterRef}
+                    ref={counterNumberRef}
                     className="text-4xl md:text-6xl font-bold font-mont tracking-tighter leading-none text-white"
                 >
                     0
                 </span>
                 <span className="text-sm md:text-lg font-medium text-white/50 mb-1 md:mb-2">%</span>
             </div>
-
-            {/* Background Grid Effect */}
-            <div className="absolute inset-0 z-[-1] opacity-20 bg-[linear-gradient(rgba(255,255,255,0.05)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.05)_1px,transparent_1px)] bg-[size:4rem_4rem]"></div>
         </div>
     )
 }

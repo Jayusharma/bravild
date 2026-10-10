@@ -1,5 +1,5 @@
 "use client"
-import { useEffect, useRef, useState , useMemo } from "react"
+import { useEffect, useRef, useState  } from "react"
 import gsap from "gsap"
 import { ScrollTrigger } from "gsap/ScrollTrigger"
 import { VisualMixText } from "./ui/blur"
@@ -11,10 +11,9 @@ import { useLoader } from "@/provider/LoaderContext"
 
 const Hero = () => {
   const { isLoading } = useLoader()
-  const shapeRef = useRef<SVGSVGElement>(null)
+  const clipRef = useRef<HTMLDivElement>(null)
   const containerRef = useRef<HTMLDivElement>(null)
   const textRef = useRef<HTMLDivElement>(null)
-  const polygonRef = useRef<SVGForeignObjectElement>(null)
   const [dimensions, setDimensions] = useState({ width: 1920, height: 1080 })
   const sideRef = useRef<HTMLVideoElement>(null)
   const ringRef1 = useRef<HTMLDivElement>(null)
@@ -54,15 +53,43 @@ const Hero = () => {
 
   // Control Video Playback
   useEffect(() => {
-    if (sideRef.current) {
-      if (isLoading) {
-        sideRef.current.pause()
-        sideRef.current.currentTime = 0
-      } else {
-        sideRef.current.play().catch(() => {
-          // Handle autoplay restrictions if needed
-        })
-      }
+    const video = sideRef.current
+    if (!video) return
+
+    // iOS Safari only autoplays when "muted" exists as an attribute; React sets
+    // it as a property only.
+    video.muted = true
+    video.defaultMuted = true
+    video.setAttribute("muted", "")
+    video.setAttribute("playsinline", "")
+    video.setAttribute("webkit-playsinline", "")
+
+    if (isLoading) {
+      video.pause()
+      video.currentTime = 0
+      return
+    }
+
+    const tryPlay = () => {
+      const p = video.play()
+      if (p && typeof p.catch === "function") p.catch(() => {})
+    }
+    tryPlay()
+    video.addEventListener("canplay", tryPlay, { once: true })
+
+    // Low Power Mode / data saver can block autoplay: retry on first touch
+    const onGesture = () => {
+      tryPlay()
+      window.removeEventListener("touchstart", onGesture)
+      window.removeEventListener("pointerdown", onGesture)
+    }
+    window.addEventListener("touchstart", onGesture, { passive: true })
+    window.addEventListener("pointerdown", onGesture, { passive: true })
+
+    return () => {
+      video.removeEventListener("canplay", tryPlay)
+      window.removeEventListener("touchstart", onGesture)
+      window.removeEventListener("pointerdown", onGesture)
     }
   }, [isLoading])
 
@@ -140,169 +167,114 @@ const Hero = () => {
     animationsInitialized.current = true
   }, [isLoading])
 
-  // Separate effect for dimension-dependent animations
+  // Separate effect for dimension-dependent animations.
+  // The mask is a CSS polygon() clip-path on a regular element: WebKit/iOS does not
+  // render video or apply clip-path inside SVG <foreignObject>.
   useEffect(() => {
-    const shape = shapeRef.current
     const container = containerRef.current
-    const foreign = polygonRef.current
-    const side = sideRef.current
+    const clipEl = clipRef.current
+    if (!container || !clipEl) return
 
-    if (!shape || !container || !foreign || !side) return
-
-    const clipPolygon = shape.querySelector("#clipPolygon") as SVGPolygonElement | null
-    if (!clipPolygon) return
-
-    // Set viewBox to actual pixel dimensions
     const { width, height } = dimensions
-    shape.setAttribute('viewBox', `0 0 ${width} ${height}`)
-
-    // Update foreignObject to use pixel dimensions
-    foreign.setAttribute('width', width.toString())
-    foreign.setAttribute('height', height.toString())
-
-    // Set initial polygon points using pixel coordinates
-    gsap.set(clipPolygon, {
-      attr: { points: `0,0 ${width},0 ${width},${height} 0,${height}` },
-    })
-
-    // Clear previous interval
-    if (intervalRef.current) {
-      clearInterval(intervalRef.current)
+    const setClip = (points: string) => {
+      const value = `polygon(${points})`
+      clipEl.style.clipPath = value
+      clipEl.style.setProperty("-webkit-clip-path", value)
     }
+    const px = (x: number, y: number) => `${x.toFixed(1)}px ${y.toFixed(1)}px`
 
-    // Optimize image scaling animation using requestAnimationFrame instead of setInterval
+    setClip([px(0, 0), px(width, 0), px(width, height), px(0, height)].join(","))
 
-
-    // Cache scale calculations
     const scaleX = width / 100
     const scaleY = height / 100
+    const ease = gsap.parseEase("power1.inOut")
 
-    // Animate with pixel-based coordinates
     const ctx = gsap.context(() => {
-      gsap.to(clipPolygon, {
+      gsap.to(clipEl, {
         scrollTrigger: {
-          id: 'hero-polygon',
+          id: "hero-polygon",
           trigger: container,
           start: "top top",
           end: "+=600",
           scrub: 1,
           onUpdate: (self) => {
             const progress = self.progress
-
             if (progress < 0.5) {
-              const p = gsap.parseEase("power1.inOut")(progress / 0.5)
-              const points = `${p * 15 * scaleX},0 ${width - p * 20 * scaleX},0 ${width - p * 5 * scaleX},${height - p * 10 * scaleY} ${p * 0 * scaleX},${height - p * 5 * scaleY}`
-              clipPolygon.setAttribute("points", points)
+              const p = ease(progress / 0.5)
+              setClip([
+                px(p * 15 * scaleX, 0),
+                px(width - p * 20 * scaleX, 0),
+                px(width - p * 5 * scaleX, height - p * 10 * scaleY),
+                px(0, height - p * 5 * scaleY),
+              ].join(","))
             } else {
               const p = (progress - 0.5) / 0.5
-              const points = `${(15 + p * 5) * scaleX},0 ${(80 - p * 5) * scaleX},0 ${(95 - p * 5) * scaleX},${(90 + p * 10) * scaleY} ${p * 5 * scaleX},${(95 - p * 10) * scaleY}`
-              clipPolygon.setAttribute("points", points)
+              setClip([
+                px((15 + p * 5) * scaleX, 0),
+                px((80 - p * 5) * scaleX, 0),
+                px((95 - p * 5) * scaleX, (90 + p * 10) * scaleY),
+                px(p * 5 * scaleX, (95 - p * 10) * scaleY),
+              ].join(","))
             }
           },
         },
       })
     }, container)
-    return () => {
-      // Clean up interval and scroll triggers
-      if (intervalRef.current) {
-        if (typeof intervalRef.current === 'number') {
-          cancelAnimationFrame(intervalRef.current)
-        } else {
-          clearInterval(intervalRef.current)
-        }
-        intervalRef.current = null
-      }
-      ctx.revert()
-    }
-  }, [dimensions])
 
-  // Memoized viewBox string to prevent unnecessary re-renders
-  const viewBox = useMemo(() => `0 0 ${dimensions.width} ${dimensions.height}`, [dimensions.width, dimensions.height])
-  const initialPoints = useMemo(() => `0,0 ${dimensions.width},0 ${dimensions.width},${dimensions.height} 0,${dimensions.height}`, [dimensions.width, dimensions.height])
+    return () => ctx.revert()
+  }, [dimensions])
 
   return (
     <div id="home" ref={containerRef} className="relative w-full h-[100vh] supports-[height:100svh]:h-[100svh]">
       <div className={`absolute inset-0 w-full h-full z-10 transition-opacity duration-700 ${mounted ? 'opacity-100' : 'opacity-0'}`}>
-        <svg
-          ref={shapeRef}
-          className="w-full h-full"
-          viewBox={viewBox}
-          preserveAspectRatio="none"
-        >
-          <defs>
-            <clipPath id="heroClip">
-              <polygon
-                id="clipPolygon"
-                points={initialPoints}
-              />
-            </clipPath>
-          </defs>
-            
-          <foreignObject
-            x="0"
-            y="0"
-            width={dimensions.width}
-            height={dimensions.height}
-            clipPath="url(#heroClip)"
-          >
-            <div className="relative w-full h-full bg-[#2D152B]">
-              <img
-                src="/girl.webp"
-                alt="Hero Fallback"
-                className="absolute inset-0 w-full h-full object-contain z-0 scale-115 translate-y-11"
-              />
-              <video
-                ref={sideRef}
-                src="/last.mp4"
-                autoPlay={false}
-                preload="auto"
-                playsInline
-                muted
-                className="relative z-10"
-                style={{
-                  width: '100%',
-                  height: dimensions.width < 768 ? '110%' : '120%',
-                  objectFit: "cover",
-                  willChange: "transform",
-                  filter: "brightness(1.1) contrast(1.1) saturate(1)",
-                }}
-              />
+        <div ref={clipRef} className="relative w-full h-full overflow-hidden [will-change:clip-path]">
+          <div className="absolute inset-0 w-full h-full isolate bg-[#2D152B]">
+            <img
+              src="/girl.webp"
+              alt="Hero Fallback"
+              className="absolute inset-0 w-full h-full object-contain z-0 scale-115 translate-y-11"
+            />
+            <video
+              ref={sideRef}
+              src="/last.mp4"
+              autoPlay={false}
+              preload="auto"
+              playsInline
+              muted
+              loop={false}
+              disablePictureInPicture
+              className="relative z-10"
+              style={{
+                width: '100%',
+                height: dimensions.width < 768 ? '110%' : '120%',
+                objectFit: "cover",
+                filter: "brightness(1.1) contrast(1.1) saturate(1)",
+              }}
+            />
+          </div>
+
+          <div className="absolute inset-0 w-full h-full">
+            <div
+              ref={ringRef1}
+              className="hidden lg:block absolute top-1/2 md:top-[60%] left-1/2 w-[60vw] h-[60vw] lg:w-[30vw] lg:h-[30vw] border-x border-white/30 rounded-full pointer-events-none opacity-0"
+              style={{ transform: "translate(-50%, -50%)" }}
+            />
+            <div
+              ref={ringRef2}
+              className="hidden md:block absolute top-1/2 md:top-[60%] left-[46%] w-[85vw] h-[85vw] md:w-[62vw] md:h-[62vw] lg:w-[50vw] lg:h-[50vw] lg:left-1/2 border-x border-x-white/50 rounded-full pointer-events-none opacity-0"
+              style={{ transform: "translate(-50%, -50%)" }}
+            />
+
+            <div ref={textRef} className="absolute right-4 bottom-5  md:right-7 md:bottom-2 z-20 font-mont text-right md:text-right">
+              <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-white leading-tight md:leading-[0.8]">
+                BEYOND DESIGN
+              </h1>
+              <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-white leading-tight ">
+                BEYOND LOGIC
+              </h1>
             </div>
-          </foreignObject>
-
-          <foreignObject
-            ref={polygonRef}
-            x="0"
-            y="0"
-            width={dimensions.width}
-            height={dimensions.height}
-            clipPath="url(#heroClip)"
-          >
-            <div className="w-full h-full z-0">
-              <div
-                ref={ringRef1}
-                className="hidden lg:block absolute top-1/2 md:top-[60%] left-1/2 w-[60vw] h-[60vw] lg:w-[30vw] lg:h-[30vw] border-x border-white/30 rounded-full pointer-events-none opacity-0"
-                style={{ transform: "translate(-50%, -50%)" }}
-              />
-              <div
-                ref={ringRef2}
-                className="hidden md:block absolute top-1/2 md:top-[60%] left-[46%] w-[85vw] h-[85vw] md:w-[62vw] md:h-[62vw] lg:w-[50vw] lg:h-[50vw] lg:left-1/2 border-x border-x-white/50 rounded-full pointer-events-none opacity-0"
-                style={{ transform: "translate(-50%, -50%)" }}
-              />
-
-              <div ref={textRef} className="absolute right-4 bottom-5  md:right-7 md:bottom-2 z-20 font-mont text-right md:text-right">
-                <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-white leading-tight md:leading-[0.8]">
-                  BEYOND DESIGN
-                </h1>
-                <h1 className="text-3xl md:text-2xl lg:text-[2.5rem] font-bold text-white leading-tight ">
-                  BEYOND LOGIC
-                </h1>
-              </div>
-
-
-            </div>
-          </foreignObject>
-        </svg>
+          </div>
+        </div>
       </div>
 
       <div className="absolute left-6 top-24 md:left-8 md:top-30 lg:left-[4%] lg:top-[32%] xl:left-[12%] xl:top-[30%] tracking-widest text-[#c9c9c9] font-bold font-rayl uppercase z-30">
