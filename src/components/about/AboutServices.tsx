@@ -5,19 +5,9 @@ import Image from "next/image";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { ChevronLeft, ChevronRight } from "lucide-react";
+import { services, type Service } from "@/data/services";
 
 gsap.registerPlugin(ScrollTrigger);
-
-type Service = { title: string; description: string; image?: string };
-
-// Drop real artwork into `image` (e.g. "/about/ai.png") later; frames fall back to a placeholder.
-const services: Service[] = [
-  { title: "AI Systems & Agents", description: "Agents that answer, qualify and act on your real data, around the clock." },
-  { title: "Workflow Automation", description: "The repetitive work between your tools, wired up once and left running." },
-  { title: "Full-Stack Web Platforms", description: "Fast, considered websites and products built end to end." },
-  { title: "CRM & Unified Inbox", description: "Every lead and conversation in one place, so nothing slips." },
-  { title: "Enterprise Architecture", description: "Systems designed to scale cleanly as the business grows." },
-];
 
 const pad = (n: number) => String(n).padStart(2, "0");
 

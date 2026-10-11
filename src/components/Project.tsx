@@ -94,7 +94,7 @@ const partners: Partner[] = [
     projectUrl: "/projects/email-automation",
   },
   {
-    name: "CAR DETAILING SITE",
+    name: "CAR DETAILING",
     category: "WEB DESIGN",
     description:
       "Professional car detailing website with stunning service galleries, package breakdowns, and smooth scroll animations. Designed to convert visitors into customers with a premium look.",

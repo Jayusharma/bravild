@@ -37,9 +37,9 @@ const AboutAndSkills = () => {
   }[] = [
     { left: 'AI', right: 'SYSTEMS', boxIndex: 0, alt: 'AI' },
     { left: 'REVENUE', right: 'ENGINES', outline: true },
-    { left: 'WORKFLOW', right: 'AUTOMATION', boxIndex: 1, alt: 'Workflow' },
-    { left: 'CRM', right: 'PIPELINES', outline: true },
-    { left: 'DATA', right: 'INTELLIGENCE', boxIndex: 2, alt: 'Intelligence' },
+    { left: 'BUSINESS', right: 'AUTOMATION', boxIndex: 1, alt: 'Workflow' },
+    { left: 'SOFTWARE', right: 'DEVELOPMENT', outline: true },
+    { left: 'IT', right: 'CONSULTING', boxIndex: 2, alt: 'IT CONSULTING' },
   ];
 
   const boxRefs = useRef<(HTMLDivElement | null)[]>([]);

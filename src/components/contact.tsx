@@ -25,7 +25,13 @@ export default function Contact() {
         try {
             const res = await fetch("/api/send", {
                 method: "POST",
-                body: JSON.stringify(formData),
+                body: JSON.stringify({
+                    ...formData,
+                    name: formData.name.trim(),
+                    email: formData.email.trim(),
+                    message: formData.message.trim(),
+                    website: String(new FormData(e.currentTarget as HTMLFormElement).get("website") ?? ""),
+                }),
                 headers: { "Content-Type": "application/json" },
             })
 
@@ -95,6 +101,15 @@ export default function Contact() {
                     {/* Right Column: Form (same size and right-aligned as before) */}
                     <div className="w-full px-2">
                       <form ref={formRef} onSubmit={handleSubmit} className="space-y-12">
+                        {/* Honeypot: hidden from people, bots fill it */}
+                        <input
+                          type="text"
+                          name="website"
+                          tabIndex={-1}
+                          autoComplete="off"
+                          aria-hidden="true"
+                          className="absolute left-[-9999px] h-0 w-0 opacity-0"
+                        />
                         <div className="contact-anim group relative">
                           <input
                             type="text"

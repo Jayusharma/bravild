@@ -8,6 +8,7 @@ import { ArrowUpRight, ArrowUp } from "lucide-react";
 import gsap from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useLoader } from "@/provider/LoaderContext";
+import { services as serviceList } from "@/data/services";
 
 gsap.registerPlugin(ScrollTrigger);
 
@@ -15,19 +16,13 @@ const EMAIL = "connect@bravild.in";
 // TODO: add the business phone number (e.g. "+91 98765 43210") to show it in the footer.
 const PHONE: string = "";
 
-const services = [
-  "AI Systems & Agents",
-  "Workflow Automation",
-  "Full-Stack Web Platforms",
-  "CRM & Unified Inbox",
-  "Enterprise Architecture",
-];
 
 const pages = [
   { label: "About", href: "/about" },
   { label: "Services", href: "/about#services" },
   { label: "FAQ", href: "/contact#faq" },
   { label: "Contact", href: "/contact" },
+  { label: "Creative ↗", href: "https://creative.bravild.in/#work", external: true },
 ];
 
 const socials = [
@@ -300,7 +295,7 @@ export default function ParallaxFooter() {
                 SERVICES
               </h4>
               <ul className="space-y-2.5 text-sm sm:text-base font-normal text-white/80">
-                {services.map((svc) => (
+                {serviceList.map(({ title: svc }) => (
                   <li key={svc}>
                     <Link href="/about#services" className="hover:text-white transition-colors">
                       {svc}
@@ -319,9 +314,20 @@ export default function ParallaxFooter() {
                 <ul className="space-y-2.5 text-sm sm:text-base font-normal text-white/80">
                   {pages.map((pg) => (
                     <li key={pg.label}>
-                      <Link href={pg.href} className="hover:text-white transition-colors">
-                        {pg.label}
-                      </Link>
+                      {"external" in pg && pg.external ? (
+                        <a
+                          href={pg.href}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="hover:text-white transition-colors"
+                        >
+                          {pg.label}
+                        </a>
+                      ) : (
+                        <Link href={pg.href} className="hover:text-white transition-colors">
+                          {pg.label}
+                        </Link>
+                      )}
                     </li>
                   ))}
                 </ul>

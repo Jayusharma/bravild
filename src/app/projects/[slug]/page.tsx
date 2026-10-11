@@ -664,21 +664,32 @@ function CaseSlider({ images, name, bg, imageFit = "contain", imagePositions = {
         <div ref={trackRef} className="flex w-max">
           {slides.map((src, i) => (
             <div key={i} className="pr-3 md:pr-5 shrink-0 flex items-center">
-              <div 
-                className="relative w-[92vw] md:w-[70vw] aspect-[16/10] max-h-[70vh] md:max-h-[calc(100vh-10rem)] rounded-xl md:rounded-2xl overflow-hidden flex items-center justify-center"
-                style={{ backgroundColor: bg || 'rgba(0,0,0,0.03)' }}
-              >
-                <div className="relative w-full h-full">
+              {/* Uniform stage: every slide is the same frame; the screenshot sits centred inside it,
+                  at its own aspect ratio, so letterboxing always looks intentional. */}
+              <div className="relative w-[92vw] md:w-[70vw] aspect-[16/10] max-h-[70vh] md:max-h-[calc(100vh-10rem)] rounded-xl md:rounded-2xl overflow-hidden bg-[#26262b] ring-1 ring-white/10">
+                {imageFit === "cover" ? (
                   <Image
                     src={src}
                     alt={`${name} — view ${(i % images.length) + 1}`}
                     fill
                     sizes="(max-width: 768px) 92vw, 70vw"
-                    className={`${imageFit === "contain" ? "object-contain" : "object-cover"} select-none pointer-events-none`}
+                    className="object-cover select-none pointer-events-none"
                     style={imagePositions[i % images.length] ? { objectPosition: imagePositions[i % images.length] } : undefined}
                     priority={i >= images.length && i < images.length + 2}
                   />
-                </div>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center p-3 md:p-7">
+                    <Image
+                      src={src}
+                      alt={`${name} — view ${(i % images.length) + 1}`}
+                      width={1600}
+                      height={1000}
+                      sizes="(max-width: 768px) 92vw, 70vw"
+                      className="h-auto w-auto max-h-full max-w-full rounded-md md:rounded-lg shadow-[0_12px_40px_rgba(0,0,0,0.45)] ring-1 ring-white/10 select-none pointer-events-none"
+                      priority={i >= images.length && i < images.length + 2}
+                    />
+                  </div>
+                )}
               </div>
             </div>
           ))}
@@ -1110,7 +1121,7 @@ export default function ProjectDetailPage() {
       </section>
 
       {/* ============ CTA ============ */}
-      <section className="bg-[#101014] text-white">
+      {/* <section className="bg-[#101014] text-white">
         <div className="max-w-[1600px] mx-auto px-6 md:px-12 lg:px-20 py-28 md:py-40">
           <div className="grid lg:grid-cols-2 gap-16 items-end">
             <div>
@@ -1137,7 +1148,7 @@ export default function ProjectDetailPage() {
             </div>
           </div>
         </div>
-      </section>
+      </section> */}
     </div>
   )
 }

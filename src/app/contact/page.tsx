@@ -92,7 +92,8 @@ ${message}
         body: JSON.stringify({
           name: `${firstName} ${lastName}`.trim(),
           email,
-          message: fullMessage
+          message: fullMessage,
+          website: String(new FormData(e.currentTarget as HTMLFormElement).get("website") ?? "")
         })
       });
 
@@ -136,6 +137,15 @@ ${message}
       <section className="border-b border-dashed border-black/20">
         <div className="max-w-[1500px] mx-auto px-6 md:px-12 lg:px-20 py-16 md:py-24">
           <form onSubmit={handleSubmit} className="w-full max-w-4xl">
+            {/* Honeypot: hidden from people, bots fill it */}
+            <input
+              type="text"
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute left-[-9999px] h-0 w-0 opacity-0"
+            />
             
             {/* Field: FIRST NAME */}
             <div className="border-b border-dashed border-black/20 py-6 md:py-8 group focus-within:border-black/50 transition-colors">

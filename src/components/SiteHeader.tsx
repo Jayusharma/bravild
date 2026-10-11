@@ -17,6 +17,8 @@ const navLinks = [
     { name: "Contact", href: "/contact" },
 ];
 
+const CREATIVE_URL = "https://creative.bravild.in/#work";
+
 export default function SiteHeader() {
     const headerRef = useRef<HTMLDivElement>(null);
     const menuRef = useRef<HTMLDivElement>(null);
@@ -303,6 +305,25 @@ export default function SiteHeader() {
                             })}
                         </nav>
 
+                        {/* Sister studio: external, opens creative.bravild.in projects */}
+                        <a
+                            href={CREATIVE_URL}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            aria-label="Bravild Creative (opens in a new tab)"
+                            className="group relative hidden md:inline-flex items-center gap-2 rounded-full border border-white/15 hover:border-white/50 bg-white/[0.03] px-3.5 py-2 md:px-3 md:py-1.5 lg:px-4 lg:py-2.5 xl:px-4 xl:py-2 text-xs md:text-[0.7rem] lg:text-[0.85rem] xl:text-xs font-bold uppercase tracking-wider text-white/80 hover:text-white transition-colors duration-300"
+                        >
+                            <span className="relative flex h-1.5 w-1.5">
+                                <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-400/70 animate-ping motion-reduce:animate-none" />
+                                <span className="relative inline-flex h-1.5 w-1.5 rounded-full bg-emerald-400" />
+                            </span>
+                            <span className="relative block h-[1.2em] overflow-hidden leading-[1.2em]">
+                                <span className="block transition-transform duration-300 ease-out group-hover:-translate-y-full">Creative</span>
+                                <span className="absolute left-0 top-full block whitespace-nowrap transition-transform duration-300 ease-out group-hover:-translate-y-full">Bravild Creative</span>
+                            </span>
+                            <span className="inline-block transition-transform duration-300 group-hover:translate-x-0.5 group-hover:-translate-y-0.5">↗</span>
+                        </a>
+
                         {/* CTA Button */}
                         <Link
                             href="/contact"
@@ -368,6 +389,18 @@ export default function SiteHeader() {
                             </a>
                         );
                     })}
+                    <a
+                        href={CREATIVE_URL}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setIsMenuOpen(false)}
+                        className="mobile-link flex flex-col items-center gap-1 text-white/90 hover:text-white transition-colors"
+                    >
+                        <span className="flex items-center gap-3 text-5xl font-black tracking-tight font-mont">
+                            Creative <span className="text-3xl font-light">↗</span>
+                        </span>
+                        <span className="text-xs font-mono uppercase tracking-[0.25em] text-white/45">Our creative studio</span>
+                    </a>
                     <div className="mobile-link mt-8">
                         <Link
                             href="/contact"
